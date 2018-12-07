@@ -38,10 +38,11 @@ Authorization is built into all Command related methods via MediatR
 
 ## CosmosDB Document Partitioning Strategy
 Our strategy is to use **'_docType'** as our partition.
+
  * Account documents are named **"Account"**
  * Platform documents are named **"Platform"**
- * Documents belonging to accounts are named **"Account-\<AccountID\>"**
- * _docType for a specific Entity type are named **"\<EntityName\>"**
+ * Documents belonging to an Account are named **"Account\<AccountId\>"**
+ * Documents for a specific entity type are named **"\<EntityName\>"**
  * Documents belonging to an entity are named **"EntityName-\<EntityId\>"**
- * Documents of a particular entity type belonging to a specific account are named **"EntityName-Account-\<AccountId\>"**
- * Documents belonging to particular entity type for a specific account are named **"EntityName-\<EntityId\>-Account-<AccountId\>"**
+ * Documents of a particular entity type belonging to a spcific account are named **"EntityName-Account-\<AccountId\>"**
+ * Documents belonging to particular entity type for a specific account are named **"EntityName-\<EntityId\>-Account-\<AccountId\>"**

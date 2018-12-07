@@ -14,7 +14,7 @@ xxxx
 xxxx
 
 ## Cross Cutting Concerns
-Cross cutting concerns such as logging, authorization, etc... are handled by:
+Cross cutting concerns such as logging, caching, authorization, etc... are handled by:
 
 ## ViewModels
 View models that are returned from Query methods will include UI related values such as "canDelete" and "canEdit"

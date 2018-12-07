@@ -43,3 +43,5 @@ Our strategy is to use **'_docType'** as our partition.
  * Documents belonging to accounts are labeled **"Account-\<AccountID\>"**
  * _docType for a specific Entity type are labeled **"\<EntityName\>"**
  * Documents belonging to an entity are named **"EntityName-\<EntityId\>"**
+ * Documents of a particular entity type belonging to a specific account are named **"EntityName-Account-\<AccountId\>"**
+ * Documents belonging to particular entity type for a specific account are named **"EntityName-\<EntityId\>-Account-<AccountId\>>"**

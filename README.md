@@ -18,5 +18,10 @@ Cross cutting concerns such as logging, authorization, etc... are handled by:
 ## Service COmmunication
 gRPC/API/nSwag
 
-## CosmosDb/DocumentDB Partitioning
-Our strategy id oto use _docType. Account documents are lableled "Account" Platform documents "Platform", documents belonging to accounts are labeled "Account-<AccountID>" _docType for a specific Entity type are labeled "<EntityName>" and documents belonging to that entity are named "EntityName-<EntityId>"
+## CosmosDB Document Partitioning Strategy
+Our strategy is to use **'_docType'** as our partition.
+ * Account documents are lableled **"Account"**
+ * Platform documents **"Platform"**
+ * Documents belonging to accounts are labeled **"Account-<AccountID>"**
+ * _docType for a specific Entity type are labeled **"<EntityName>"**
+ * Documents belonging to an entity are named **"EntityName-<EntityId>"**

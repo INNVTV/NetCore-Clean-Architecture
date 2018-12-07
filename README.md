@@ -40,6 +40,6 @@ Authorization is built into all Command related methods via MediatR
 Our strategy is to use **'_docType'** as our partition.
  * Account documents are lableled **"Account"**
  * Platform documents **"Platform"**
- * Documents belonging to accounts are labeled **"Account-<AccountID>"**
- * _docType for a specific Entity type are labeled **"<EntityName>"**
- * Documents belonging to an entity are named **"EntityName-<EntityId>"**
+ * Documents belonging to accounts are labeled **"Account-\<AccountID\>"**
+ * _docType for a specific Entity type are labeled **"\<EntityName\>"**
+ * Documents belonging to an entity are named **"EntityName-\<EntityId\>"**

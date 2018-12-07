@@ -18,7 +18,7 @@ Cross cutting concerns such as logging, authorization, etc... are handled by:
 View models that are returned from Query methods will include UI related values such as "canDelete" and "canEdit"
 
 ## Service-to-service Communication
-gRPC/API/nSwag
+Examples of clients accessing the service layer are shown in both REST and gRPC flavors.
 
 ## Containerization
 Docker and Docker Compose is used to help manage local builds and multi-enviornment configuration.

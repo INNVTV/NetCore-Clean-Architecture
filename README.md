@@ -36,7 +36,7 @@ Logging is handled by Table Storage. We log by Time, Activity, Account and this 
 Logging is built into all Command related methods via MediatR
 
 ## Authorization
-.Net Core Identity is used. Users are assigned to a Account object.
+.Net Core Identity is used. (...or ADB2C) Users are assigned to a Account object.
 
 Authorization is built into all Command related methods via MediatR
 

@@ -5,6 +5,8 @@ Based on Jason Taylors talk on "Clean Architecture": https://www.youtube.com/wat
 
 ![Architecture](https://github.com/INNVTV/NetCore-CQRS/blob/master/_docs/imgs/clean-architecture.png)
 
+# Domain layer
+
 ## CQRS
 
 Command Query Responsibility Segregation is handled by...
@@ -50,3 +52,18 @@ Our strategy is to use **'_docType'** as our partition.
  * Documents belonging to an entity are named **"EntityName-\<EntityId\>"**
  * Documents of a particular entity type belonging to a spcific account are named **"EntityName-Account-\<AccountId\>"**
  * Documents belonging to particular entity type for a specific account are named **"EntityName-\<EntityId\>-Account-\<AccountId\>"**
+ 
+ # Application Layer
+ 
+ # Services Layer
+ Core.Services Project
+ 
+ ## REST APIs
+ Located within "Controllers" folder
+ 
+ ## RPC
+gRPC implementation. Used by background workers and custodians. Custodial and Platform calls are initited through here.
+
+## WebHooks
+APIs for integration with 3rd party systems such as Stripe or Event Grid.
+ 

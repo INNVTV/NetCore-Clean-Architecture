@@ -63,9 +63,15 @@ Our strategy is to use **'_docType'** as our partition.
  ## REST APIs
  Located within "Controllers" folder
  
+     REST Endpoints: /api
+ 
  ## RPC
 gRPC implementation. Used by background workers and custodians. Custodial and Platform calls are initited through here.
 
+    gRPC Endpoints: /rpc
+
 ## WebHooks
 APIs for integration with 3rd party systems such as Stripe or Event Grid.
+
+    Webhoo Endpoints: /webhooks
  

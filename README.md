@@ -31,14 +31,7 @@ For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 ![CQRS](https://github.com/INNVTV/NetCore-CQRS/blob/master/_docs/imgs/cqrs.png)
 
 
-## Event Sourcing
-xxxx
 
-## MediatR
-xxxx
-
-## Cross Cutting Concerns
-Cross cutting concerns such as logging, caching, authorization, etc... are handled by:
 
 ## ViewModels
 View models that are returned from Query methods will include UI related values such as "canDelete" and "canEdit"
@@ -47,15 +40,12 @@ View models that are returned from Query methods will include UI related values 
 Examples of clients accessing the service layer are shown in both REST and gRPC flavors.
 
 ## Containerization
-Docker and Docker Compose is used to help manage local builds and multi-enviornment configuration.
+Docker is used on all projects/solutions to manage local builds and deploy to multi-enviornment configurations.
 
 ## Configuratin
 We use .Net Cores built in with Docker and Docker compose helping to manage builds for specific enviornments
 
-## Logging
-Logging is handled by Table Storage. We log by Time, Activity, Account and this can be used as an example for adding additional dimensions.
 
-Logging is built into all Command related methods via MediatR
 
 ## Authorization
 .Net Core Identity is used. (...or ADB2C) Users are assigned to a Account object.
@@ -73,26 +63,7 @@ Our strategy is to use **'_docType'** as our partition.
  * Documents of a particular entity type belonging to a spcific account are named **"EntityName-Account-\<AccountId\>"**
  * Documents belonging to particular entity type for a specific account are named **"EntityName-\<EntityId\>-Account-\<AccountId\>"**
  
- # The Application Layer
- Core.Application Project
- 
- # The Services Layer
- Core.Services Project
- 
- ## REST APIs
- Located within "Controllers" folder
- 
-     REST Endpoints: /api
- 
- ## RPC
-gRPC implementation. Used by background workers and custodians. Custodial and Platform calls are initited through here.
 
-    gRPC Endpoints: /rpc
-
-## WebHooks
-APIs for integration with 3rd party systems such as Stripe or Event Grid.
-
-    Webhoo Endpoints: /webhooks
- 
+## Recommended Deployment Scenario
 
 ![Deploy](https://github.com/INNVTV/NetCore-CQRS/blob/master/_docs/imgs/typical-setup.png)

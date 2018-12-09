@@ -1,5 +1,5 @@
 # NetCore-Clean-Architecture
-Example set of projects showcasing the use of CQRS pattern, MediatR for cross-cutting concerns, micro-service communications with NSwag and CosmosDB for data with .Net Core
+.Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, micro-service communications with both REST and gRPC endpoints, CosmosDB for data and Table Storage for logging.
 
 Based on Jason Taylors talk on "Clean Architecture": https://www.youtube.com/watch?v=_lwCVE_XgqI
 

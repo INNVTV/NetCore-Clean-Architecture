@@ -1,9 +1,23 @@
 # NetCore-Clean-Architecture
-.Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, micro-service communications with both REST and gRPC endpoints, CosmosDB for data and Table Storage for logging.
+.Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, micro-service communications with both REST and gRPC endpoints, FluentValidation, CosmosDB for data and Table Storage for logging.
 
 Based on Jason Taylors talk on "Clean Architecture": https://www.youtube.com/watch?v=_lwCVE_XgqI
 
 ![Architecture](https://github.com/INNVTV/NetCore-CQRS/blob/master/_docs/imgs/clean-architecture.png)
+
+# CoreServices
+Centralized business logic. Visual Studio Solution Project. Deployable as a Docker contianer to a variety of platforms including:
+ * Azure Web Apps
+ * Service Fabric
+ * Service Fabric Mesh
+ * Kubernetes
+ * Or any container orchastrator of your choice.
+
+# Clients
+UI client(s) that connect to CoreServices via REST API. Visual Studio Code projects.
+
+# Workers
+Background tasks hosted as workers that connect to CoreServices via gRPC. Visual Studio Code projects.
 
 # The Domain layer
  Core.Domain Project

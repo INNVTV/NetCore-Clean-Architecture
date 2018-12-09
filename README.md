@@ -75,3 +75,5 @@ APIs for integration with 3rd party systems such as Stripe or Event Grid.
 
     Webhoo Endpoints: /webhooks
  
+
+![Deploy](https://github.com/INNVTV/NetCore-CQRS/blob/master/_docs/imgs/typical-setup.png)

@@ -24,8 +24,12 @@ Background tasks hosted as workers that connect to CoreServices via gRPC. Visual
  Core.Domain Project
  
 ### CQRS
+The Command Query Responsibility Segregation pattern is used for all access to Core.Domain through the Core.Application project as a gateway.
 
-Command Query Responsibility Segregation is handled by...
+For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
+
+![CQRS](https://github.com/INNVTV/NetCore-CQRS/blob/master/_docs/imgs/cqrs.png)
+
 
 ## Event Sourcing
 xxxx

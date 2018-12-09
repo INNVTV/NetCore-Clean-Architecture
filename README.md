@@ -1,4 +1,4 @@
-# NetCore-Clean-Architecture
+# .Net Core Clean Architecture
 .Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, micro-service communications with both REST and gRPC endpoints, FluentValidation, CosmosDB for data and Table Storage for logging.
 
 Based on Jason Taylors talk on "Clean Architecture": https://www.youtube.com/watch?v=_lwCVE_XgqI
@@ -7,10 +7,11 @@ Based on Jason Taylors talk on "Clean Architecture": https://www.youtube.com/wat
 
 # CoreServices
 Centralized business logic. Visual Studio Solution Project. Deployable to Linux or Windows as a Docker contianer to a variety of platforms including:
+ * Azure, AWS, Google or any major cloud provider
  * Virtual machines or clusters
- * Azure Web Apps
- * Service Fabric
- * Service Fabric Mesh
+ * Azure Web Apps, Amazon EC2 or Google AppEngine
+ * Azure Service Fabric
+ * Azure Service Fabric Mesh
  * Kubernetes
 ...or any container orchastrator of your choice.
 

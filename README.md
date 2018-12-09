@@ -14,10 +14,10 @@ Centralized business logic. Visual Studio Solution Project. Deployable to Linux 
  * Kubernetes
 ...or any container orchastrator of your choice.
 
-# Clients
+# WebClients
 UI client(s) that connect to CoreServices via REST API. Visual Studio Code projects.
 
-# Workers
+# TaskClients
 Background tasks hosted as workers that connect to CoreServices via gRPC. Visual Studio Code projects.
 
 # The Domain layer

@@ -6,12 +6,13 @@ Based on Jason Taylors talk on "Clean Architecture": https://www.youtube.com/wat
 ![Architecture](https://github.com/INNVTV/NetCore-CQRS/blob/master/_docs/imgs/clean-architecture.png)
 
 # CoreServices
-Centralized business logic. Visual Studio Solution Project. Deployable as a Docker contianer to a variety of platforms including:
+Centralized business logic. Visual Studio Solution Project. Deployable to Linux or Windows as a Docker contianer to a variety of platforms including:
+ * Virtual machines or clusters
  * Azure Web Apps
  * Service Fabric
  * Service Fabric Mesh
  * Kubernetes
- * Or any container orchastrator of your choice.
+...or any container orchastrator of your choice.
 
 # Clients
 UI client(s) that connect to CoreServices via REST API. Visual Studio Code projects.

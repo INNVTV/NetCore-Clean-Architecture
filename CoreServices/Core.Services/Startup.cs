@@ -18,6 +18,8 @@ namespace Core.Services
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            Settings.InitializeApplicationSettings();
         }
 
         public IConfiguration Configuration { get; }

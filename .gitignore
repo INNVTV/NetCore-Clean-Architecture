@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Keep my appsettings out of GitHub:
+CoreServices/Core.Services/appsettings.json
+
 # User-specific files
 *.suo
 *.user

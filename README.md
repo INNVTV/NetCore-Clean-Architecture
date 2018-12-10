@@ -5,7 +5,7 @@ Based on Jason Taylors talk on "Clean Architecture": https://www.youtube.com/wat
 
 ![Architecture](https://github.com/INNVTV/NetCore-CQRS/blob/master/_docs/imgs/clean-architecture.png)
 
-# CoreServices
+## CoreServices
 Centralized business logic. Visual Studio Solution Project. Deployable to Linux or Windows as a Docker contianer to a variety of platforms including:
  * Azure, AWS, Google or any major cloud provider
  * Virtual machines or clusters
@@ -15,10 +15,10 @@ Centralized business logic. Visual Studio Solution Project. Deployable to Linux 
  * Kubernetes
 ...or any container orchastrator of your choice.
 
-# WebClients
+## WebClients
 UI client(s) that connect to CoreServices via REST API. Visual Studio Code projects.
 
-# TaskClients
+## TaskClients
 Background tasks hosted as workers that connect to CoreServices via gRPC. Visual Studio Code projects.
 
 # The Domain layer
@@ -54,15 +54,16 @@ We use .Net Cores built in with Docker and Docker compose helping to manage buil
 Authorization is built into all Command related methods via MediatR
 
 ## CosmosDB Document Partitioning Strategy
-Our strategy is to use **'_docType'** as our partition.
+Our strategy is to use **'_docType'** as our partition on an "Unlimited" CosmosDB collection. This project uses the SQL API for document management.
 
- * Account documents are named **"Account"**
- * Platform documents are named **"Platform"**
- * Documents belonging to an Account are named **"Account\<AccountId\>"**
- * Documents for a specific entity type are named **"\<EntityName\>"**
- * Documents belonging to an entity are named **"EntityName-\<EntityId\>"**
- * Documents of a particular entity type belonging to a spcific account are named **"EntityName-Account-\<AccountId\>"**
- * Documents belonging to particular entity type for a specific account are named **"EntityName-\<EntityId\>-Account-\<AccountId\>"**
+ * Account document _docTypes are named: **"Account"**
+ * Platform document _docTypes are named: **"Platform"**
+ * Documents belonging to an Account are named: **"Account\<AccountId\>"**
+ * Documents for a specific entity type are named: **"\<EntityName\>"**
+ * Documents belonging to an entity are named: **"EntityName-\<EntityId\>"**
+ * Documents of a particular entity type belonging to a spcific account are named: **"EntityName-Account-\<AccountId\>"**
+ * Documents belonging to particular entity type for a specific account are named: **"EntityName-\<EntityId\>-Account-\<AccountId\>"**
+ * Partitions that may exceed the 10gb limit should append a date key at the end: **"\<_docType\>-\<YYYYMM\>"**
  
 
 ## Recommended Deployment Scenario

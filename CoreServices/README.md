@@ -1,8 +1,13 @@
-# CoreServices
+# Core.Services
 Main entry point is the Core.Services API project. Set this as the "Startup Project" in Visual Studio. VS should detect that it is configured for Docker and give you the ability to debug with Docker. If not you may need to right click on the Core.Services project and choose **Add > Docker Support**.
 
 Core.Services is is the gateway to the application and domain business logic within the Core.Application and Core.Domain projects as well as the other shared libraries that make up the core business logic.
 
+# Utilities/Console
+During local debugging you may want to change your main entry point to be the Console app within Utilities. This way you can easily interact with the application layer without having to use an API or RPC client.
+
+# Utilities/Tests
+Your testing project(s) should go into Utilites/Tests. There is no predefined project included with this template.
 
 
 ## CQRS

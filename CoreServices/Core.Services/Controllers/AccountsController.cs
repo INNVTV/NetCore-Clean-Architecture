@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Application.Account.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Core.Services.Controllers
 {
@@ -11,6 +13,15 @@ namespace Core.Services.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
+        readonly IConfiguration _configuration;
+
+        // Constructor automatically pulls in configuration via build in dependancy injection
+        public AccountsController(IConfiguration configuration)
+        {
+            //We add a constructor for Dependancy Injection of confirguration into the controller
+            _configuration = configuration;
+        }
+
         // GET: api/Accounts
         [HttpGet]
         public IEnumerable<string> Get()
@@ -22,7 +33,10 @@ namespace Core.Services.Controllers
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {
-            return "value";
+            //return Settings.
+            //return _configuration["Application:Name"];
+            var accountsListQuery = new GetAccountsListQuery(_configuration);
+            return accountsListQuery.GetAccountsListQueryName();
         }
 
         // POST: api/Accounts

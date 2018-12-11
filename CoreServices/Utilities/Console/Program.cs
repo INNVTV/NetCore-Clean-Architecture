@@ -1,18 +1,29 @@
-﻿using System;
+﻿using Core.Application.Account.Queries;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.EnvironmentVariables;
+using System;
+using System.IO;
 
-namespace Console
+namespace ConsoleApp
 {
     class Program
     {
         static void Main(string[] args)
         {
-            //var entityManager = new EntityManager();
-            //var entityInsertModel = new EntityInsertModel();
+            #region Build our configuration
 
-            //var result = entityManager.InsertEntity(entityInsertModel);
+            var configuration = new ConfigurationBuilder()
+              .SetBasePath(Directory.GetCurrentDirectory())
+              .AddJsonFile("appsettings.json", false) //<-- Copy from Core.Services project and set to 'CopyAlways' in file/solution properties
+              .Build();
 
-            //Console.WriteLine(result.IsValid);
-           // Console.ReadLine();
+            #endregion
+
+            var accountsListQuery = new GetAccountsListQuery(configuration);
+            var appName =  accountsListQuery.GetAccountsListQueryName();
+
+            Console.WriteLine(appName);
+            Console.ReadLine();
         }
     }
 }

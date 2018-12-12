@@ -15,19 +15,20 @@ namespace ConsoleApp
 
             var configuration = new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile("appsettings.json", false) //<-- Copy from Core.Services project and set to 'CopyAlways' in file/solution properties
+              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true) //<-- Copy from Core.Services project and set to 'CopyAlways' in file/solution properties
+               //.AddEnvironmentVariables() // (Optional) <-- Allows for Docker Env Variables
               .Build();
 
             #endregion
 
-            #region Build our ICoreConfiguration 
+            #region Initialize our ICoreConfiguration object
 
             ICoreConfiguration _coreConfiguration;
             _coreConfiguration = Core.Common.Configuration.Initialize.InitializeCoreConfiguration(configuration);
 
             #endregion
 
-            var accountsListQuery = new GetAccountsListQuery(configuration);
+            var accountsListQuery = new GetAccountsListQuery(_coreConfiguration);
             var appName =  accountsListQuery.GetAccountsListQueryName();
 
             Console.WriteLine(appName);

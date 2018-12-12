@@ -23,9 +23,10 @@ namespace Core.Common.Configuration
         {
             var coreConfiguration = new CoreConfiguration();
 
+
             #region Map appsettings.json to ICoreConfiguration class properties (Showing multiple formats)
 
-            //settings.Application.Name = configuration["Application:Name"]; //<-- Alternative Format
+            //coreConfiguration.Application.Name = configuration["Application:Name"]; //<-- Alternative Format
             coreConfiguration.Application.Name = configuration.GetSection("Application").GetSection("Name").Value;
 
 
@@ -34,19 +35,52 @@ namespace Core.Common.Configuration
             #region Settings/Keys
 
             // CosmosDB
-            coreConfiguration.Azure.CosmosDb.Settings.Url = configuration.GetSection("CosmosDb").GetSection("Url").Value;
-            coreConfiguration.Azure.CosmosDb.Settings.Key = configuration.GetSection("CosmosDb").GetSection("Key").Value;
-            coreConfiguration.Azure.CosmosDb.Settings.ReadOnlyKey = configuration.GetSection("CosmosDb").GetSection("ReadOnlyKey").Value;
-            coreConfiguration.Azure.CosmosDb.Settings.Database = configuration.GetSection("CosmosDb").GetSection("Database").Value;     
-            coreConfiguration.Azure.CosmosDb.Settings.Collection = configuration.GetSection("CosmosDb").GetSection("Collection").Value;
+            coreConfiguration.Azure.CosmosDb.Settings.Url = configuration
+                .GetSection("Azure")
+                .GetSection("CosmosDb")
+                .GetSection("Url").Value;
+
+            coreConfiguration.Azure.CosmosDb.Settings.Key = configuration
+                .GetSection("Azure")
+                .GetSection("CosmosDb")
+                .GetSection("Key").Value;
+
+            coreConfiguration.Azure.CosmosDb.Settings.ReadOnlyKey = configuration
+                .GetSection("Azure")
+                .GetSection("CosmosDb")
+                .GetSection("ReadOnlyKey").Value;
+
+            coreConfiguration.Azure.CosmosDb.Settings.Database = configuration
+                .GetSection("Azure")
+                .GetSection("CosmosDb")
+                .GetSection("Database").Value;  
+            
+            coreConfiguration.Azure.CosmosDb.Settings.Collection = configuration
+                .GetSection("Azure")
+                .GetSection("CosmosDb")
+                .GetSection("Collection").Value;
 
             // Storage
-            coreConfiguration.Azure.Storage.Settings.Name = configuration.GetSection("Storage").GetSection("Name").Value;
-            coreConfiguration.Azure.Storage.Settings.Key = configuration.GetSection("Storage").GetSection("Key").Value;
+            coreConfiguration.Azure.Storage.Settings.Name = configuration
+                .GetSection("Azure")
+                .GetSection("Storage")
+                .GetSection("Name").Value;
+
+            coreConfiguration.Azure.Storage.Settings.Key = configuration
+                .GetSection("Azure")
+                .GetSection("Storage")
+                .GetSection("Key").Value;
 
             // Redis
-            coreConfiguration.Azure.Redis.Settings.Url = configuration.GetSection("Redis").GetSection("Url").Value;
-            coreConfiguration.Azure.Redis.Settings.Key = configuration.GetSection("Redis").GetSection("Key").Value;
+            coreConfiguration.Azure.Redis.Settings.Url = configuration
+                .GetSection("Azure")
+                .GetSection("Redis")
+                .GetSection("Url").Value;
+
+            coreConfiguration.Azure.Redis.Settings.Key = configuration
+                .GetSection("Azure")
+                .GetSection("Redis")
+                .GetSection("Key").Value;
 
             #endregion
 

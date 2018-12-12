@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Core.Common.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,16 +7,16 @@ namespace Core.Application.Account.Queries
 {
     public class GetAccountsListQuery
     {
-        readonly IConfiguration _configuration;
+        readonly ICoreConfiguration _coreConfiguration;
 
-        public GetAccountsListQuery(IConfiguration configuration)
+        public GetAccountsListQuery(ICoreConfiguration coreConfiguration)
         {
-            _configuration = configuration;
+            _coreConfiguration = coreConfiguration;
         }
 
         public string GetAccountsListQueryName()
         {
-            return _configuration.GetSection("Application").GetSection("Name").Value;
+            return _coreConfiguration.Application.Name;
         }
     }
 }

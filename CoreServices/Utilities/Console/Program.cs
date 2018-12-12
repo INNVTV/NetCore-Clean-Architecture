@@ -19,7 +19,7 @@ namespace ConsoleApp
 
             var configuration = new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())
-              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true) //<-- Copy from Core.Services project and set to 'CopyAlways' in file/solution properties
+              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true) //<-- Copy from Core.Services project (or create one specific to this entry point) and set to 'CopyAlways' in file/solution properties
                //.AddEnvironmentVariables() // (Optional) <-- Allows for Docker Env Variables
               .Build();
 

@@ -28,4 +28,10 @@
     <ProjectReference Include="..\Core\Core.Common\Core.Common\Core.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

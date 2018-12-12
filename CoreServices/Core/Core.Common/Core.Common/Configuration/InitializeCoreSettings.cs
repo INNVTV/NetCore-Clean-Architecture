@@ -23,7 +23,6 @@ namespace Core.Common.Configuration
         {
             var coreConfiguration = new CoreConfiguration();
 
-
             #region Map appsettings.json to ICoreConfiguration class properties (Showing multiple formats)
 
             //coreConfiguration.Application.Name = configuration["Application:Name"]; //<-- Alternative Format
@@ -148,6 +147,19 @@ namespace Core.Common.Configuration
             #endregion
 
             #endregion
+
+            #endregion
+
+            #region Hosting configuration details (if available)
+
+            try
+            {
+                coreConfiguration.Hosting.InstanceId = configuration["WEBSITE_INSTANCE_ID"]; //<-- Azure WebApp provides this setting
+            }
+            catch
+            {
+                coreConfiguration.Hosting.InstanceId = String.Empty;
+            }
 
             #endregion
 

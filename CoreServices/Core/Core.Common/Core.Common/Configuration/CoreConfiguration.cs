@@ -31,6 +31,7 @@ namespace Core.Common.Configuration
         }
 
         public ApplicationConfiguration Application { get; set; }
+        public HostingConfiguration Hosting { get; set; }
         public AzureConfiguration Azure { get; set; }
     }
 }

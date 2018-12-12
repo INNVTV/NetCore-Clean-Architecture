@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Application.Account.Queries;
+using Core.Common.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,13 +14,15 @@ namespace Core.Services.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        readonly IConfiguration _configuration;
+        //readonly ICoreConfiguration _coreConfiguration;
+        readonly IServiceProvider _serviceProvider;
 
         // Constructor automatically pulls in configuration via build in dependancy injection
-        public AccountsController(IConfiguration configuration)
+        public AccountsController(IServiceProvider serviceProvider)//ICoreConfiguration coreConfiguration)
         {
             //We add a constructor for Dependancy Injection of confirguration into the controller
-            _configuration = configuration;
+            //_coreConfiguration = coreConfiguration;
+            _serviceProvider = serviceProvider;
         }
 
         // GET: api/Accounts
@@ -35,7 +38,7 @@ namespace Core.Services.Controllers
         {
             //return Settings.
             //return _configuration["Application:Name"];
-            var accountsListQuery = new GetAccountsListQuery(_configuration);
+            var accountsListQuery = new GetAccountsListQuery(_serviceProvider);
             return accountsListQuery.GetAccountsListQueryName();
         }
 

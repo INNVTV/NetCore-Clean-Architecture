@@ -4,8 +4,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Core.Common.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Services.Controllers
 {
@@ -13,23 +15,20 @@ namespace Core.Services.Controllers
     [ApiController]
     public class InfrastructureController : ControllerBase
     {
+        readonly ICoreConfiguration coreConfiguration;
+
+
+        public InfrastructureController(IServiceProvider serviceProvider)
+        {
+            coreConfiguration = serviceProvider.GetService<ICoreConfiguration>();
+        }
+
         // GET: api/Infrastructure/instance
         [Route("Instance")]
         [HttpGet]
-        public IEnumerable<string> Instance()
+        public string Instance()
         {
-            var ipAdresses = new List<string>();
-
-            IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
-            foreach (IPAddress addr in localIPs)
-            {
-                if (addr.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    ipAdresses.Add(addr.ToString());
-                }
-            }
-
-            return ipAdresses;
+            return coreConfiguration.Hosting.InstanceId;
         }
 
         

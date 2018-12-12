@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Common;
+using Core.Common.Configuration;
+using Core.Common.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,18 +30,40 @@ namespace Core.Services
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Register our dependancies (ServiceCollection is our DI container)
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSingleton<IConfiguration>(Configuration); //<-- DI for Configuration
+            #region Create our dependancies
 
-            //Settings = Common.Settings.Initialize.InitializeCoreSettings(Configuration);
-            //var x = Settings.Application.Name;
+            #region Initialize our ICoreConfiguration object
+
+            ICoreConfiguration coreConfiguration;
+            coreConfiguration = Core.Common.Configuration.Initialize.InitializeCoreConfiguration(Configuration);
+
+            #endregion
+
+            #region Initialize our ICoreLogger
+
+            ICoreLogger coreLogger = new CoreLogger();
+
+            #endregion
+
+            #endregion
+
+            // Register default WebAPI dependancies (ServiceCollection is our DI container)
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            #region Inject our custom dependancies into the default WebAPI provider
+
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<ICoreConfiguration>(coreConfiguration);
+            services.AddSingleton<ICoreLogger>(coreLogger);
+
+            #endregion
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

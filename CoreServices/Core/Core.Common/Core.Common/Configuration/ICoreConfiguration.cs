@@ -7,15 +7,36 @@ namespace Core.Common.Configuration
     public interface ICoreConfiguration
     {
         ApplicationConfiguration Application { get; set; }
+        HostingConfiguration Hosting { get; set; }
         AzureConfiguration Azure { get; set; }
     }
 
     #region Classes
 
+    #region Application
+
     public class ApplicationConfiguration
     {
         public string Name { get; set; }
+        public ApplicationSettings Settings { get; set; }
     }
+
+    public class ApplicationSettings
+    {
+        public string Url { get; set; }
+    }
+
+    #endregion
+
+    #region Hosting
+
+    // Only used in web hosted variations. 
+    public class HostingConfiguration
+    {
+        public string InstanceId { get; set; }
+    }
+
+    #endregion
 
     #region Azure
 

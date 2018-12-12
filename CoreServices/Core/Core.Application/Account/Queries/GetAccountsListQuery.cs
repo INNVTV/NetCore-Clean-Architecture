@@ -1,4 +1,5 @@
 ﻿using Core.Common.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,16 +8,18 @@ namespace Core.Application.Account.Queries
 {
     public class GetAccountsListQuery
     {
-        readonly ICoreConfiguration _coreConfiguration;
+        readonly IServiceProvider _serviceProvider;
 
-        public GetAccountsListQuery(ICoreConfiguration coreConfiguration)
+        public GetAccountsListQuery(ServiceProvider serviceProvider)
         {
-            _coreConfiguration = coreConfiguration;
+            _serviceProvider = serviceProvider;
         }
 
         public string GetAccountsListQueryName()
         {
-            return _coreConfiguration.Application.Name;
+            var coreConfiguration = _serviceProvider.GetService<ICoreConfiguration>();
+
+            return coreConfiguration.Application.Name;
         }
     }
 }

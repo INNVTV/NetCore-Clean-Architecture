@@ -5,7 +5,7 @@ Based on Jason Taylors talk on "Clean Architecture": https://www.youtube.com/wat
 
 ![Architecture](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/clean-architecture.png)
 
-## CoreServices
+# CoreServices
 Centralized business logic. Visual Studio Solution Project. Deployable to Linux or Windows as a Docker contianer to a variety of platforms including:
  * Azure, AWS, Google or any major cloud provider
  * Virtual machines or clusters
@@ -15,13 +15,13 @@ Centralized business logic. Visual Studio Solution Project. Deployable to Linux 
  * Kubernetes
 ...or any container orchastrator of your choice.
 
-## WebClients
+# WebClients
 UI client(s) that connect to CoreServices via REST API. Visual Studio Code projects.
 
-## TaskClients
+# TaskClients
 Background tasks hosted as workers that connect to CoreServices via gRPC. Visual Studio Code projects.
 
-#Core.Services
+## Core.Services
 Main entry point. Includes Core.Common, Core.Application and Core.Domain Projects and wraps them into a gateway for access by the clients.
 
 DependecyInjection is handled by default .Net Core ServiceProvider. Console and Test entry points are provided in the Utilities folder.
@@ -48,7 +48,7 @@ Docker is used on all projects/solutions to manage local builds and deploy to mu
 ## Configuration
 We use .Net Cores built in with Docker and Docker compose helping to manage builds for specific enviornments
 
-### Authorization
+## Authorization
 .Net Core Identity is used. (...or ADB2C) Users are assigned to a Account object.
 
 Authorization is built into all Command related methods via MediatR

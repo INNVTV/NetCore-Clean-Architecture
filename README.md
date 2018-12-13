@@ -34,7 +34,7 @@ The Command Query Responsibility Segregation pattern is used for all access to C
 
 For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 
-![CQRS](https://github.com/INNVTV/Clean-Architecture/blob/master/_docs/imgs/cqrs.png)
+![CQRS](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs.png)
 
 ### ViewModels
 View models that are returned from Query methods will include UI related values such as "canDelete" and "canEdit"

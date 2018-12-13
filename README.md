@@ -21,8 +21,13 @@ UI client(s) that connect to CoreServices via REST API. Visual Studio Code proje
 ## TaskClients
 Background tasks hosted as workers that connect to CoreServices via gRPC. Visual Studio Code projects.
 
-# The Domain layer
- Core.Domain Project
+#Core.Services
+Main entry point. Includes Core.Common, Core.Application and Core.Domain Projects and wraps them into a gateway for access by the clients.
+
+DependecyInjection is handled by default .Net Core ServiceProvider. Console and Test entry points are provided in the Utilities folder.
+
+More details can be found in the [ReadMe](CoreServices/README.md) doc for the CoreServices solution.
+
  
 ### CQRS
 The Command Query Responsibility Segregation pattern is used for all access to Core.Domain through the Core.Application project as a gateway.
@@ -31,23 +36,19 @@ For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 
 ![CQRS](https://github.com/INNVTV/Clean-Architecture/blob/master/_docs/imgs/cqrs.png)
 
-
-
-
-## ViewModels
+### ViewModels
 View models that are returned from Query methods will include UI related values such as "canDelete" and "canEdit"
 
-## Service-to-service Communication
+### Service-to-service Communication
 Examples of clients accessing the service layer are shown in both REST and gRPC flavors.
 
-## Containerization
+### Containerization
 Docker is used on all projects/solutions to manage local builds and deploy to multi-enviornment configurations.
 
 ## Configuration
 We use .Net Cores built in with Docker and Docker compose helping to manage builds for specific enviornments
 
-
-## Authorization
+### Authorization
 .Net Core Identity is used. (...or ADB2C) Users are assigned to a Account object.
 
 Authorization is built into all Command related methods via MediatR

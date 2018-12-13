@@ -9,20 +9,21 @@ During local debugging you may want to change your main entry point to be the Co
 # Utilities/Tests
 Your testing project(s) should go into Utilites/Tests. There is no predefined project included with this template.
 
-
-## CQRS
+## CQRS Pattern
 The Command Query Responsibility Segregation pattern is used for all access to Core.Domain through the Core.Application project as a gateway.
 
 For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 
+## Mediator Design Pattern
+Mediator Design Pattern is implemented using the MediatR library:
+
+    dotnet add package MediatR
+
 ## Cross-Cutting Concerns
 Cross-cutting concerns such as logging, authorization and caching are handled by Mediatr
 
-## MediatR
-xxxx
-
 ## Logging
-Logging is handled by Table Storage. We log by Time, Activity, Account and this can be used as an example for adding additional dimensions.
+Logging is handled by the ICoreLogging interface. Uses partitioned logging inside of Azure Table Storage. We log by Time, Activity and Account. This implemention can be used as an example for adding additional dimensions.
 
 Logging is built into all Command related methods via MediatR
 
@@ -37,8 +38,8 @@ You can push your containers to an Azure Web App, Service Fabric, Service Fabric
  # The Services Layer
  Core.Services Project
  
- ## Event Sourcing
-xxxx
+ ##Event Sourcing
+ 
 
 
 

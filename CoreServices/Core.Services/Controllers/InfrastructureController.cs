@@ -26,10 +26,9 @@ namespace Core.Services.Controllers
         // GET: api/Infrastructure/instance
         [Route("Instance")]
         [HttpGet]
-        [Produces("application/json")]
         public HostingConfiguration Instance()
         {
-
+            // Returns info on the WebApp instance for the current process
             return coreConfiguration.Hosting;
         }
 

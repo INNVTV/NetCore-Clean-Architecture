@@ -159,10 +159,9 @@ namespace Core.Common.Configuration
 
             try
             {
-                //Azure WebApp provides these settings.
-                coreConfiguration.Hosting.SiteName = configuration["WEBSITE_SITE_NAME"];
-                coreConfiguration.Hosting.InstanceId = configuration["WEBSITE_INSTANCE_ID"];
-                coreConfiguration.Hosting.RoleInstanceId = configuration["WEBSITE_ROLE_INSTANCE_ID"];
+                // Azure WebApp provides these settings when deployed.
+                coreConfiguration.Hosting.SiteName = "Name"; // configuration["WEBSITE_SITE_NAME"];
+                coreConfiguration.Hosting.InstanceId = "Id"; // configuration["WEBSITE_INSTANCE_ID"];
             }
             catch
             {

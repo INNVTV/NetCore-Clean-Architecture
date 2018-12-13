@@ -30,12 +30,16 @@ namespace Core.Common.Configuration
 
     #region Hosting
 
-    // Only used in Azure WebApp hosted deployments. 
+    /// <summary>
+    /// Only used in Azure WebApp hosted deployments.
+    /// Returns info on the WebApp instance for the current process. 
+    /// Can be used to log which WebApp instance a process ran on.
+    /// </summary>
     public class HostingConfiguration
     {
+
         public string SiteName { get; set; }
         public string InstanceId { get; set; }
-        public string RoleInstanceId { get; set; }   
     }
 
     #endregion

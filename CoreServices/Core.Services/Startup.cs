@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Converters;
 
 namespace Core.Services
 {
@@ -48,7 +49,10 @@ namespace Core.Services
             #endregion
 
             // Register default WebAPI dependancies (ServiceCollection is our DI container)
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options =>
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
             #region Inject our custom dependancies into the default WebAPI provider
 

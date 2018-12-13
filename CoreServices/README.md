@@ -61,8 +61,10 @@ APIs for integration with 3rd party systems such as Stripe or Event Grid.
 Local and debug settings are stored within the appsettings.json file in the Core.Services API project.
 
 When pushing to production these should be overriden by Application Settings on the hosted server
-    Replace : with double underscore: __
-	Example: Application:Name == Application__Name
+
+    Replace **:** with double underscore: **__**
+	Example: **Application:Name** == **Application__Name**
 
 You can also link the value to an Azure KeyVault instance for full encryption:
+
 ![AppSettingsVault](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/CoreServices/_docs/imgs/app-settings-vault.png)

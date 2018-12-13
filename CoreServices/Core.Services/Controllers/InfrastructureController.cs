@@ -26,9 +26,11 @@ namespace Core.Services.Controllers
         // GET: api/Infrastructure/instance
         [Route("Instance")]
         [HttpGet]
-        public string Instance()
+        [Produces("application/json")]
+        public HostingConfiguration Instance()
         {
-            return coreConfiguration.Hosting.InstanceId;
+
+            return coreConfiguration.Hosting;
         }
 
         

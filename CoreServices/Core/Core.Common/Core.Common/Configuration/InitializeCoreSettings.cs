@@ -33,6 +33,11 @@ namespace Core.Common.Configuration
 
             #region Settings/Keys
 
+            // Notes: 
+            // Can be overridden via ApplicationSettings in Azure WebApps
+            // Replace : with double underscore: __
+            // Example: Azure:CosmosDb:Url == Azure__CosmosDb__Url
+
             // CosmosDB
             coreConfiguration.Azure.CosmosDb.Settings.Url = configuration
                 .GetSection("Azure")
@@ -154,12 +159,15 @@ namespace Core.Common.Configuration
 
             try
             {
-                coreConfiguration.Hosting.InstanceId = configuration["WEBSITE_INSTANCE_ID"]; //<-- Azure WebApp provides this setting
+                //Azure WebApp provides these settings.
+                coreConfiguration.Hosting.SiteName = configuration["WEBSITE_SITE_NAME"];
+                coreConfiguration.Hosting.InstanceId = configuration["WEBSITE_INSTANCE_ID"];
+                coreConfiguration.Hosting.RoleInstanceId = configuration["WEBSITE_ROLE_INSTANCE_ID"];
             }
             catch
             {
-                coreConfiguration.Hosting.InstanceId = String.Empty;
             }
+
 
             #endregion
 

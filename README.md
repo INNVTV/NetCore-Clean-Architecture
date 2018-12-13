@@ -3,7 +3,7 @@
 
 Based on Jason Taylors talk on "Clean Architecture": https://www.youtube.com/watch?v=_lwCVE_XgqI
 
-![Architecture](https://github.com/INNVTV/NetCore-CQRS/blob/master/_docs/imgs/clean-architecture.png)
+![Architecture](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/clean-architecture.png)
 
 ## CoreServices
 Centralized business logic. Visual Studio Solution Project. Deployable to Linux or Windows as a Docker contianer to a variety of platforms including:
@@ -29,7 +29,7 @@ The Command Query Responsibility Segregation pattern is used for all access to C
 
 For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 
-![CQRS](https://github.com/INNVTV/NetCore-CQRS/blob/master/_docs/imgs/cqrs.png)
+![CQRS](https://github.com/INNVTV/Clean-Architecture/blob/master/_docs/imgs/cqrs.png)
 
 
 
@@ -43,9 +43,8 @@ Examples of clients accessing the service layer are shown in both REST and gRPC 
 ## Containerization
 Docker is used on all projects/solutions to manage local builds and deploy to multi-enviornment configurations.
 
-## Configuratin
+## Configuration
 We use .Net Cores built in with Docker and Docker compose helping to manage builds for specific enviornments
-
 
 
 ## Authorization
@@ -68,4 +67,4 @@ Our strategy is to use **'_docType'** as our partition on an "Unlimited" CosmosD
 
 ## Recommended Deployment Scenario
 
-![Deploy](https://github.com/INNVTV/NetCore-CQRS/blob/master/_docs/imgs/typical-setup.png)
+![Deploy](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/typical-setup.png)

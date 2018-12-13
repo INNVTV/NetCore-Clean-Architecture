@@ -30,10 +30,12 @@ namespace Core.Common.Configuration
 
     #region Hosting
 
-    // Only used in web hosted variations. 
+    // Only used in Azure WebApp hosted deployments. 
     public class HostingConfiguration
     {
+        public string SiteName { get; set; }
         public string InstanceId { get; set; }
+        public string RoleInstanceId { get; set; }   
     }
 
     #endregion

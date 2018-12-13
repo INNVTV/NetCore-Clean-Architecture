@@ -15,6 +15,7 @@ namespace Core.Common.Configuration
             // New up our root classes
             Application = new ApplicationConfiguration();
             Azure = new AzureConfiguration();
+            Hosting = new HostingConfiguration();
 
             // New up our CosmosDB classes
             Azure.CosmosDb = new CosmosDbConfiguration();

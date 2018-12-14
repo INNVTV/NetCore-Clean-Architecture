@@ -32,6 +32,8 @@ More details can be found in the [ReadMe](CoreServices/README.md) doc for the Co
 ### CQRS and Event Sourcing
 The Command Query Responsibility Segregation pattern is used for all access to Core. The [MediatR](https://www.nuget.org/packages/MediatR) Nuget package is used for in-process messaging. Event Sourcing is logged into Azure Table Storage via ICoreEventLogger interface.
 
+The command pattern along with event sourcing allows us to roll back to any state of our application.
+
 For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 
 ![CQRS](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs.png)

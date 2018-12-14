@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Application.Account.Commands;
 using Core.Application.Account.Queries;
 using Core.Common.Configuration;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Services.Controllers
 {
@@ -15,14 +18,17 @@ namespace Core.Services.Controllers
     public class AccountsController : ControllerBase
     {
         //readonly ICoreConfiguration _coreConfiguration;
-        readonly IServiceProvider _serviceProvider;
+        //readonly IServiceProvider _serviceProvider;
+        readonly IMediator _mediator;
+
 
         // Constructor automatically pulls in configuration via build in dependancy injection
         public AccountsController(IServiceProvider serviceProvider)//ICoreConfiguration coreConfiguration)
         {
             //We add a constructor for Dependancy Injection of confirguration into the controller
             //_coreConfiguration = coreConfiguration;
-            _serviceProvider = serviceProvider;
+            //_serviceProvider = serviceProvider;
+            _mediator = serviceProvider.GetService<IMediator>();
         }
 
         // GET: api/Accounts
@@ -44,8 +50,10 @@ namespace Core.Services.Controllers
 
         // POST: api/Accounts
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] CreateAccountCommand createAccountCommand)
         {
+            var accountModel = _mediator.Send(createAccountCommand);
+
         }
 
         // PUT: api/Accounts/5

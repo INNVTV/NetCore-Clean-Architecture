@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
+using MediatR;
 
 namespace ConsoleApp
 {
@@ -40,13 +41,16 @@ namespace ConsoleApp
 
             #endregion
 
-            #region Inject our dependancies into our provider
+            #region Register our dependancies into our provider
 
             // Create our collection of injectable services
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddSingleton<ICoreConfiguration>(coreConfiguration);
             serviceCollection.AddSingleton<ICoreLogger>(coreLogger);
+
+            // Register Mediatr Support
+            serviceCollection.AddMediatR();
 
             // Build the provider
             var serviceProvider = serviceCollection.BuildServiceProvider();

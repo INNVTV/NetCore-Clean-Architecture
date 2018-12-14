@@ -8,7 +8,7 @@ namespace Core.Application.Account.Models
     {
         public AccountModel Account { get; set; }
 
-        public bool EditEnables { get; set; }
+        public bool EditEnabled { get; set; }
         public bool DeleteEnabled { get; set; }
     }
 }

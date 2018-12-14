@@ -4,11 +4,14 @@ using Core.Common.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MediatR;
+using Core.Application.Account.Models;
 
 namespace Core.Application.Account.Commands
 {
-    public class CreateAccountCommand
+    public class CreateAccountCommand : IRequest<AccountModel>
     {
+        /*
         readonly ICoreConfiguration coreConfiguration;
         readonly ICoreLogger coreLogger;
 
@@ -16,6 +19,11 @@ namespace Core.Application.Account.Commands
         {
             coreConfiguration = serviceProvider.GetService<ICoreConfiguration>();
             coreLogger = serviceProvider.GetService<ICoreLogger>();
-        }
+        }*/
+
+        public string AccountName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
     }
 }

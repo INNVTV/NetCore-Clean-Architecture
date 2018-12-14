@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Converters;
+using MediatR;
 
 namespace Core.Services
 {
@@ -53,6 +54,9 @@ namespace Core.Services
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
                     options.SerializerSettings.Converters.Add(new StringEnumConverter()));
+
+            // Register Mediatr
+            services.AddMediatR();
 
             #region Inject our custom dependancies into the default WebAPI provider
 

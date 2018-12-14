@@ -22,25 +22,29 @@ UI client(s) that connect to CoreServices via REST API. Visual Studio Code proje
 Background tasks hosted as workers that connect to CoreServices via gRPC. Visual Studio Code projects.
 
 ## Core.Services
-Main entry point. Includes Core.Common, Core.Application and Core.Domain Projects and wraps them into a gateway for access by the clients.
+Main entry point. Headless implementation allows you to swap out interfaces between Consoles, Tests, WebApi's and WebApps. Includes Core.Common, Core.Application and Core.Domain Projects and wraps them into a gateway for access by the clients.
 
-DependecyInjection is handled by default .Net Core ServiceProvider. Console and Test entry points are provided in the Utilities folder.
+DependecyInjection is handled by default .Net Core ServiceProvider. Console and Test entry points are provided in the Utilities folder. API and gRPC client examples are in their respective folders on the root of the project. 
 
 More details can be found in the [ReadMe](CoreServices/README.md) doc for the CoreServices solution.
 
  
-### CQRS
-The Command Query Responsibility Segregation pattern is used for all access to Core.Domain through the Core.Application project as a gateway.
+### CQRS and Event Sourcing
+The Command Query Responsibility Segregation pattern is used for all access to Core. The [MediatR](https://www.nuget.org/packages/MediatR) Nuget package is used for in-process messaging. Event Sourcing is logged into Azure Table Storage via ICoreEventLogger interface.
 
 For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 
 ![CQRS](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs.png)
 
 ### ViewModels
-View models that are returned from Query methods will include UI related values such as "canDelete" and "canEdit"
+View models that are returned from Query methods will include UI related values such as "EditEnabled" and "DeleteEnabled"
 
 ### Service-to-service Communication
 Examples of clients accessing the service layer are shown in both REST and gRPC flavors.
+
+### Logging
+
+In addition to Event Source logging we also log activities via ICoreActivityLogger. These are used for human readable logs for platform and account admins to view in their respective portals.
 
 ### Containerization
 Docker is used on all projects/solutions to manage local builds and deploy to multi-enviornment configurations.

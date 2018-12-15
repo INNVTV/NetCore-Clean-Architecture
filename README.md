@@ -76,10 +76,10 @@ Our strategy is to use **'_docType'** as our partition on an "Unlimited" CosmosD
 
 ![Deploy](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/typical-setup.png)
 
-## Microservices
-Each Core can be developed into it's own microservice for architectures where this would be a good solution.
+## Microservices Approach
+Each CoreService can be developed into it's own microservice for scenarios where this solution makes sense.
 
-This allows for an even greater seperation of concerns, and the ability to scale or evolve each service as it's own entity.
+This allows for an even greater seperation of concerns and the ability to scale/evolve each service as it's own domain.
 
 Here is an example of such a soluton:
 

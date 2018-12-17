@@ -119,6 +119,6 @@ Each CoreService can be developed into it's own microservice for scenarios where
 
 This allows for an even greater seperation of concerns and the ability to scale/evolve each service as it's own domain.
 
-Here is an example of such a soluton:
+Here is an example of such a soluton using a variety of microservices as well as an admin portal with a Razor View:
 
 ![Microservices](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/microservices.png)

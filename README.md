@@ -18,8 +18,12 @@ Centralized business logic. Visual Studio Solution Project. Deployable to Linux 
 # WebClients
 UI client(s) that connect to CoreServices via REST API. Visual Studio Code projects.
 
+**Note:** It is recommened that you break WebClients out into seperate repositiores and build systems so they can be managed seperatly and connect to various enviornments that CoreServices is running on.
+
 # TaskClients
 Background tasks hosted as workers that connect to CoreServices via gRPC. Visual Studio Code projects.
+
+**Note:** It is recommened that you break TaskClients out into seperate repositiores and build systems so they can be managed seperatly and connect to various enviornments that CoreServices is running on.
 
 ## Core.Services
 Main entry point. Headless implementation allows you to swap out interfaces between Consoles, Tests, WebApi's and WebApps. Includes Core.Common, Core.Application and Core.Domain Projects and wraps them into a gateway for access by the clients.
@@ -28,15 +32,49 @@ DependecyInjection is handled by default .Net Core ServiceProvider. Console and 
 
 More details can be found in the [ReadMe](CoreServices/README.md) doc for the CoreServices solution.
 
- 
-### CQRS and Event Sourcing
-The Command Query Responsibility Segregation pattern is used for all access to Core. The [MediatR](https://www.nuget.org/packages/MediatR) Nuget package is used for in-process messaging. Event Sourcing is logged into Azure Table Storage via ICoreEventLogger interface.
+**Note:** You may choose to develop a more UI centric entry point (Such as a Razor Pages project) in some instances of CoreServices in order to facilitate an admin portal. This removes the need to build out a seperate web client that needs to autheticate to a REST API for certain scenarios where it makes sense. You may still choose to deploy a seperate set of CoreServices for acces by other clients with only REST endpoints in place. These other instances could be focused on only reads, or may only allow a certain subset of commands to run.
 
-The command pattern along with event sourcing allows us to roll back to any state of our application.
+ 
+### CQRS Pattern and Event Sourcing
+The Command Query Responsibility Segregation pattern is used for all access to Core. The [MediatR](https://www.nuget.org/packages/MediatR) Nuget package is used for in-process messaging.
+
+Event Sourcing is not fully implemented and allows you to develop using your Event Store of choice such as: EventStore, StreamStone or your own custom solution.
+
+**Note:** Current implementation uses document storage and does not fully segregate writes from reads at the persistence layer - only within the application layer. When implementing event sourcing you will want to seperate your event store (writes) from your snapshots and projections (reads) as shown here:
+![CQRS-Reads-Writes](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs-reads-writes.png)
+
+When fully implemented the CQRS Pattern along with Event Sourcing allows us to roll back to any state of our application and build up projections and aggregates of any kind from our events.
+
+For more on Event Sourcing: https://martinfowler.com/bliki/CQRS.html
 
 For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 
 ![CQRS](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs.png)
+
+### MediatR
+MediatR allows us to easily create send Command and Query objects to the correct Handlers:
+
+![MediatR](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr.png)
+
+Here is a typical file structure
+
+**Commands:** Commands include properties we expect to have passed in to run the command. They take the place of models that would normally be passed into a function. 
+
+[Command Class]
+
+[Handler Class]
+
+**Queries:**  Similar to Commands, Query objects include properties that the handler will expect to work with when being run.
+
+
+[Query Class]
+
+[Handler Class]
+
+**Note:** When added to your Dependency Injection Container MediatR will automatically search your assemblies for **IRequest** and **IRequestHandler** implementations and will build up your library of commands and quries for use throught your project.
+
+
+**Optimaization:** Seperating Commands from Queries allows you to optimize how you access your data store between each access type. You may also choose to have different data stores for reads vs writes. Perhaps Reads will ALWAYS hit a Redis Cache or Search Provider and part of the responsibility of Writes are to ensure these are kept up to date. You may use the same ata store but opt for Entity Framework for your Reads and ADO.NET for your Writes. Or you can go full Event Sourced and build up snapshots, projections and aggregates from your Event Store.
 
 ### ViewModels
 View models that are returned from Query methods will include UI related values such as "EditEnabled" and "DeleteEnabled"

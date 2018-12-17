@@ -32,7 +32,7 @@ namespace Core.Services
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            #region Create our dependancies
+            #region Create our custom dependancies
 
             #region Initialize our ICoreConfiguration object
 
@@ -49,7 +49,9 @@ namespace Core.Services
 
             #endregion
 
-            // Register default WebAPI dependancies (ServiceCollection is our DI container)
+            #region Register our dependencies
+
+            // Register default WebAPI dependancies
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
@@ -63,6 +65,8 @@ namespace Core.Services
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<ICoreConfiguration>(coreConfiguration);
             services.AddSingleton<ICoreLogger>(coreLogger);
+
+            #endregion
 
             #endregion
 

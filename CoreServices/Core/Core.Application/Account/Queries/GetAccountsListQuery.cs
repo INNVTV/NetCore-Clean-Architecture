@@ -8,11 +8,11 @@ namespace Core.Application.Account.Queries
 {
     public class GetAccountsListQuery
     {
-        readonly ICoreConfiguration coreConfiguration;
+        readonly ICoreConfiguration _coreConfiguration;
 
-        public GetAccountsListQuery(IServiceProvider serviceProvider)
+        public GetAccountsListQuery(ICoreConfiguration coreConfiguration)
         {
-            coreConfiguration = serviceProvider.GetService<ICoreConfiguration>();
+            _coreConfiguration = coreConfiguration;
         }
 
         public string GetAccountsListQueryName()

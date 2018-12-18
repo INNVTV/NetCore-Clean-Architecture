@@ -16,14 +16,14 @@ Centralized business logic. Visual Studio Solution Project. Deployable to Linux 
 ...or any container orchastrator of your choice.
 
 # WebClients
-UI client(s) that connect to CoreServices via REST API. Visual Studio Code projects.
+UI client(s) that connect to CoreServices via REST APIs.
 
-**Note:** It is recommened that you break WebClients out into seperate repositiores and build systems so they can be managed seperatly and connect to various enviornments that CoreServices is running on.
+**Note:** It is recommened that you break WebClients out into seperate repositiores and build systems so they can be managed by seperate teams. This also allows you to develope the clients across the enviornments that CoreServices may be running on.
 
 # TaskClients
-Background tasks hosted as workers that connect to CoreServices via gRPC. Visual Studio Code projects.
+Background tasks hosted as workers that connect to CoreServices via gRPC.
 
-**Note:** It is recommened that you break TaskClients out into seperate repositiores and build systems so they can be managed seperatly and connect to various enviornments that CoreServices is running on.
+**Note:** It is recommened that you break TaskClients out into seperate repositiores and build systems so they can be managed by seperate teams. This also allows you to develope the clients across the enviornments that CoreServices may be running on.
 
 ## Core.Services
 Main entry point. Headless implementation allows you to swap out interfaces between Consoles, Tests, WebApi's and WebApps. Includes Core.Common, Core.Application and Core.Domain Projects and wraps them into a gateway for access by the clients.
@@ -35,7 +35,7 @@ More details can be found in the [ReadMe](CoreServices/README.md) doc for the Co
 **Note:** You may choose to develop a more UI centric entry point (Such as a Razor Pages project) in some instances of CoreServices in order to facilitate an admin portal. This removes the need to build out a seperate web client that needs to autheticate to a REST API for certain scenarios where it makes sense. You may still choose to deploy a seperate set of CoreServices for acces by other clients with only REST endpoints in place. These other instances could be focused on only reads, or may only allow a certain subset of commands to run.
 
  
-### CQRS Pattern and Event Sourcing
+## CQRS Pattern and Event Sourcing
 The Command Query Responsibility Segregation pattern is used for all access to Core. The [MediatR](https://www.nuget.org/packages/MediatR) Nuget package is used for in-process messaging.
 
 Event Sourcing is not fully implemented and allows you to develop using your Event Store of choice such as: EventStore, StreamStone or your own custom solution.
@@ -51,12 +51,12 @@ For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 
 ![CQRS](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs.png)
 
-### MediatR
+## MediatR
 MediatR allows us to easily create send Command and Query objects to the correct Handlers:
 
 ![MediatR](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr.png)
 
-Here is a typical file structure
+Here is a typical file structure, simplified to only focus on a single entity:
 
 **Commands:** Commands include properties we expect to have passed in to run the command. They take the place of models that would normally be passed into a function. 
 
@@ -71,22 +71,22 @@ Here is a typical file structure
 
 [Handler Class]
 
-**Note:** When added to your Dependency Injection Container MediatR will automatically search your assemblies for **IRequest** and **IRequestHandler** implementations and will build up your library of commands and quries for use throught your project.
+**Note:** When added to your Dependency Injection Container MediatR will automatically search your assemblies for **IRequest** and **IRequestHandler** implementations and will build up your library of commands and queries for use throught your project.
 
 
 **Optimaization:** Seperating Commands from Queries allows you to optimize how you access your data store between each access type. You may also choose to have different data stores for reads vs writes. Perhaps Reads will ALWAYS hit a Redis Cache or Search Provider and part of the responsibility of Writes are to ensure these are kept up to date. You may use the same ata store but opt for Entity Framework for your Reads and ADO.NET for your Writes. Or you can go full Event Sourced and build up snapshots, projections and aggregates from your Event Store.
 
-### ViewModels
+## ViewModels
 View models that are returned from Query methods will include UI related values such as "EditEnabled" and "DeleteEnabled"
 
-### Service-to-service Communication
+## Service-to-service Communication
 Examples of clients accessing the service layer are shown in both REST and gRPC flavors.
 
-### Logging
+## Logging
 
 In addition to Event Source logging we also log activities via ICoreActivityLogger. These are used for human readable logs for platform and account admins to view in their respective portals.
 
-### Containerization
+## Containerization
 Docker is used on all projects/solutions to manage local builds and deploy to multi-enviornment configurations.
 
 ## Configuration
@@ -115,7 +115,7 @@ Our strategy is to use **'_docType'** as our partition on an "Unlimited" CosmosD
 ![Deploy](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/typical-setup.png)
 
 ## Microservices Approach
-Each CoreService can be developed into it's own microservice for scenarios where this solution makes sense.
+Each CoreService can be developed into it's own microservice and composed for a variety of scenarios.
 
 This allows for an even greater seperation of concerns and the ability to scale/evolve each service as it's own domain.
 

@@ -4,7 +4,9 @@ using System.Text;
 
 namespace Core.Application.Account.Models
 {
-    class AccountModel
+    public class AccountModel
     {
+        public string Name { get; set; }
+        public string Id { get; set; }
     }
 }

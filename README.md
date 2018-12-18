@@ -56,7 +56,9 @@ MediatR allows us to easily create send Command and Query objects to the correct
 
 ![MediatR](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr.png)
 
-Here is a typical file structure, simplified to only focus on a single entity:
+Here is a typical file structure, simplified to only focus on a single entity wth only 2 commands and 2 queries:
+
+![CQRS-File-Structure](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs-file-structure.png)
 
 **Commands:** Commands include properties we expect to have passed in to run the command. They take the place of models that would normally be passed into a function. 
 

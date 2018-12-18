@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Application.Account.Commands;
+using Core.Application.Account.Models;
 using Core.Application.Account.Queries;
 using Core.Common.Configuration;
 using MediatR;
@@ -17,46 +18,39 @@ namespace Core.Services.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        //readonly ICoreConfiguration _coreConfiguration;
-        //readonly IServiceProvider _serviceProvider;
-        readonly IMediator _mediator;
-
-
         // Constructor automatically pulls in configuration via build in dependancy injection
         public AccountsController(IServiceProvider serviceProvider)//ICoreConfiguration coreConfiguration)
         {
-            //We add a constructor for Dependancy Injection of confirguration into the controller
-            //_coreConfiguration = coreConfiguration;
             //_serviceProvider = serviceProvider;
             _mediator = serviceProvider.GetService<IMediator>();
         }
 
-        // GET: api/Accounts
+        readonly IMediator _mediator;
+ 
+        // GET: api/accounts
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<AccountViewModel>> GetAsync()
         {
-            return new string[] { "value1", "value2" };
+            var accountListQuery = new GetAccountListQuery();
+            return await _mediator.Send(accountListQuery);
         }
 
-        // GET: api/Accounts/5
+        // GET: api/accounts/{guid}
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public async Task<AccountViewModel> GetAsync(string id)
         {
-            //return Settings.
-            //return _configuration["Application:Name"];
-            var accountsListQuery = new GetAccountsListQuery(_serviceProvider);
-            return accountsListQuery.GetAccountsListQueryName();
+            var accountDetailsQuery = new GetAccountDetailQuery() { Id = id };
+            return await _mediator.Send(accountDetailsQuery);
         }
 
-        // POST: api/Accounts
+        // POST: api/accounts
         [HttpPost]
-        public void Post([FromBody] CreateAccountCommand createAccountCommand)
+        public async Task<AccountViewModel> PostAsync([FromBody] CreateAccountCommand createAccountCommand)
         {
-            var accountModel = _mediator.Send(createAccountCommand);
-
+            return await _mediator.Send(createAccountCommand);
         }
 
-        // PUT: api/Accounts/5
+        // PUT: api/accounts/{guid}
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
@@ -64,8 +58,10 @@ namespace Core.Services.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> Delete(string id)
         {
+            var closeAccountCommand = new CloseAccountCommand() { Id = id };
+            return await _mediator.Send(closeAccountCommand);
         }
     }
 }

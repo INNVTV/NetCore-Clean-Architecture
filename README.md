@@ -51,6 +51,19 @@ For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 
 ![CQRS](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs.png)
 
+### CQRS Benefits
+ * Clean seperation of Read/Write concerns.
+ * Ability to scale/optimize Reads seperatly from Writes.
+ * Thin controllers.
+ * Ability to use the Event Sourcing pattern.
+
+### Event Sourcing Benefits
+ * Break out of constrainst of thinking "relationally".
+ * Immutable tranasctional history of every event that occured in the system.
+ * Ability to rewind/fast-forward to any state/time. (Great for debugging and auditing).
+ * Future proof your data with unlimited capability to develop future projections from your Event Store (AKA Fact Logs).
+ * Nit contrained to initial use case or domain model.
+
 ## MediatR
 MediatR allows us to easily create and send Command and Query objects to the correct Command/Query Handlers:
 

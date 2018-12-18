@@ -1,10 +1,12 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Core.Application.Account.Commands
 {
-    class CloseAccountCommand
+    public class CloseAccountCommand : IRequest<bool>
     {
+        public string Id { get; set; }
     }
 }

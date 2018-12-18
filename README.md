@@ -52,11 +52,11 @@ For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 ![CQRS](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs.png)
 
 ## MediatR
-MediatR allows us to easily create send Command and Query objects to the correct Handlers:
+MediatR allows us to easily create and send Command and Query objects to the correct Command/Query Handlers:
 
 ![MediatR](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr.png)
 
-Here is a typical file structure, simplified to only focus on a single entity wth only 2 commands and 2 queries:
+Here is a typical file structure, simplified to focus on a single entity wth only 2 commands and 2 queries:
 
 ![CQRS-File-Structure](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs-file-structure.png)
 

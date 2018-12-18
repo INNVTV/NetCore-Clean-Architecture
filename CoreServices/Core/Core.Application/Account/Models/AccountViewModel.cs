@@ -6,7 +6,7 @@ namespace Core.Application.Account.Models
 {
     public class AccountViewModel
     {
-        public AccountModel Account { get; set; }
+        public AccountDocumentModel Account { get; set; }
 
         public bool EditEnabled { get; set; }
         public bool DeleteEnabled { get; set; }

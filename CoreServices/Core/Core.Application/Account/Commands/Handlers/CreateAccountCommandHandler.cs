@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Core.Application.Account.Commands.Handlers
 {
-    public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, AccountModel>
+    public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, AccountDocumentModel>
     {
-        public Task<AccountModel> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        public Task<AccountDocumentModel> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
             var id = Guid.NewGuid();
 

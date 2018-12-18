@@ -9,7 +9,7 @@ using Core.Application.Account.Models;
 
 namespace Core.Application.Account.Commands
 {
-    public class CreateAccountCommand : IRequest<AccountModel>
+    public class CreateAccountCommand : IRequest<AccountDocumentModel>
     {
         public string AccountName { get; set; }
         public string FirstName { get; set; }

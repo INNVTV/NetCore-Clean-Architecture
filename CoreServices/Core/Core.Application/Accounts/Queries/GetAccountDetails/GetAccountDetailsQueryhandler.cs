@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Application.Account.Queries.GetAccountDetails
+namespace Core.Application.Accounts.Queries.GetAccountDetails
 {
     class GetAccountDetailsQueryHandler
     {

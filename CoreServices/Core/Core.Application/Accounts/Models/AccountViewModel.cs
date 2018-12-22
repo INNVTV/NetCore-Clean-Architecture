@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Application.Account.Models
+namespace Core.Application.Accounts.Models
 {
     public class AccountViewModel
     {

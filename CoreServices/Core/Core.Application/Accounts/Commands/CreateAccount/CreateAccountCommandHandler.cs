@@ -1,5 +1,5 @@
 ﻿using FluentValidation.Results;
-using Core.Application.Account.Models;
+using Core.Application.Accounts.Models;
 using MediatR;
 using System;
 using System.Threading;
@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using Core.Common.Configuration;
 using Core.Common.Exceptions;
 using Core.Common.BaseClasses;
+using Core.Domain.Entities;
 
-namespace Core.Application.Account.Commands.CreateAccount
+namespace Core.Application.Accounts.Commands.CreateAccount
 {
-    public class CreateAccountCommandHandler : CommandHandlerBase, IRequestHandler<CreateAccountCommand, String>
+    public class CreateAccountCommandHandler : CommandHandlerBase, IRequestHandler<CreateAccountCommand, Account>
     {
         //private readonly NorthwindDbContext _context;
         //private readonly INotificationService _notificationService;
@@ -26,7 +27,7 @@ namespace Core.Application.Account.Commands.CreateAccount
             //_notificationService = notificationService;
         }
 
-        public async Task<String> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        public async Task<Account> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
             var id = Guid.NewGuid();
 
@@ -43,15 +44,15 @@ namespace Core.Application.Account.Commands.CreateAccount
 
             var accountDocumentModel = new AccountDocumentModel();
             accountDocumentModel.Id = id.ToString();
-            accountDocumentModel.Name = request.AccountName;
-            accountDocumentModel.NameKey = Common.Transformations.NameKey.Transform(request.AccountName);
+            accountDocumentModel.Name = request.Name;
+            accountDocumentModel.NameKey = Common.Transformations.NameKey.Transform(request.Name);
             accountDocumentModel.CreatedDate = DateTime.UtcNow;
 
             var result = await _coreConfiguration.Azure.CosmosDb.Client.CreateDocumentAsync("", accountDocumentModel);
 
             if(result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                return id.ToString(); // accountDocumentModel;
+                return new Account(); // id.ToString(); // accountDocumentModel;
             }
             else
             {

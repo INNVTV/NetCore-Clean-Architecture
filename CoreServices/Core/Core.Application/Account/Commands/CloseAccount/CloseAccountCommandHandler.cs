@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Core.Application.Account.Commands.Handlers
+namespace Core.Application.Account.Commands.CloseAccount
 {
     public class CloseAccountCommandHandler : CommandHandlerBase, IRequestHandler<CloseAccountCommand, CloseAccountResponse>
     {

@@ -1,9 +1,8 @@
 ﻿using MediatR;
-using Core.Application.Account.Models;
 
-namespace Core.Application.Account.Commands
+namespace Core.Application.Account.Commands.CreateAccount
 {
-    public class CreateAccountCommand : IRequest<AccountViewModel>
+    public class CreateAccountCommand : IRequest
     {
         public string AccountName { get; set; }
         public string FirstName { get; set; }

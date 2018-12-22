@@ -1,5 +1,4 @@
-﻿using Core.Application.Account.Commands.Validators;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using Core.Application.Account.Models;
 using MediatR;
 using System;
@@ -9,9 +8,9 @@ using Core.Common.Configuration;
 using Core.Common.Exceptions;
 using Core.Common.BaseClasses;
 
-namespace Core.Application.Account.Commands.Handlers
+namespace Core.Application.Account.Commands.CreateAccount
 {
-    public class CreateAccountCommandHandler : CommandHandlerBase, IRequestHandler<CreateAccountCommand, AccountDocumentModel>
+    public class CreateAccountCommandHandler : CommandHandlerBase, IRequestHandler<CreateAccountCommand, String>
     {
         //private readonly NorthwindDbContext _context;
         //private readonly INotificationService _notificationService;
@@ -27,7 +26,7 @@ namespace Core.Application.Account.Commands.Handlers
             //_notificationService = notificationService;
         }
 
-        public async Task<AccountDocumentModel> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        public async Task<String> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
             var id = Guid.NewGuid();
 
@@ -52,7 +51,7 @@ namespace Core.Application.Account.Commands.Handlers
 
             if(result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                return true; // accountDocumentModel;
+                return id.ToString(); // accountDocumentModel;
             }
             else
             {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Application.Account.Commands.Handlers.Responses
+namespace Core.Application.Account.Commands.CloseAccount
 {
     public class CloseAccountResponse : ResponseBase
     {

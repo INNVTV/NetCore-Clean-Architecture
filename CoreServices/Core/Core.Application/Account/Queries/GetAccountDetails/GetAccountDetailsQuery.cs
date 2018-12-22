@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Application.Account.Queries
+namespace Core.Application.Account.Queries.GetAccountDetails
 {
-    public class GetAccountDetailQuery : QueryHandlerBase, IRequest<AccountViewModel>
+    public class GetAccountDetailsQuery : QueryHandlerBase, IRequest<AccountViewModel>
     {
         public string Id { get; set; }
     }

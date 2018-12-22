@@ -8,7 +8,7 @@ namespace Core.Domain.Entities
     {
         public Account()
         {
-            Users = new HashSet<User>();
+            Users = new List<User>();
         }
 
         public string AccountId { get; set; }

@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Application.Account.Queries
+namespace Core.Application.Account.Queries.GetAccountsList
 {
-    public class GetAccountListQuery : QueryHandlerBase, IRequest<List<AccountViewModel>>
+    public class GetAccountsListQuery : QueryHandlerBase, IRequest<List<AccountViewModel>>
     {
        
     }

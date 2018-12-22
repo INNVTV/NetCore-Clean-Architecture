@@ -1,10 +1,4 @@
-﻿using Core.Common.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Core.Common.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using MediatR;
+﻿using MediatR;
 using Core.Application.Account.Models;
 
 namespace Core.Application.Account.Commands

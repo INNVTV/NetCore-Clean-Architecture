@@ -1,4 +1,5 @@
 ﻿using Core.Application.Account.Models;
+using Core.Common.BaseClasses;
 using Core.Common.Configuration;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Core.Application.Account.Queries
 {
-    public class GetAccountListQuery : IRequest<List<AccountViewModel>>
+    public class GetAccountListQuery : QueryHandlerBase, IRequest<List<AccountViewModel>>
     {
        
     }

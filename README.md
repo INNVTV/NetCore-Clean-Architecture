@@ -1,7 +1,7 @@
 # .Net Core Clean Architecture
 .Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, micro-service communications with both REST and gRPC endpoints, FluentValidation, CosmosDB for data and Table Storage for logging.
 
-Based on [Jason Taylor's talk on Clean Architecture](https://www.youtube.com/watch?v=_lwCVE_XgqI)
+Based on [Jason Taylor's talk on Clean Architecture](https://www.youtube.com/watch?v=_lwCVE_XgqI) with a lot of inspiration from Eric Evans book on [Domain-Driven Design](https://www.amazon.com/gp/product/0321125215)
 
 ![Architecture](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/clean-architecture.png)
 
@@ -32,7 +32,7 @@ DependecyInjection is handled by default .Net Core ServiceProvider. Console and 
 
 More details can be found in the [ReadMe](CoreServices/README.md) doc for the CoreServices solution.
 
-**Note:** You may choose to develop a more UI centric entry point (Such as a Razor Pages project) in some instances of CoreServices in order to facilitate an admin portal. This removes the need to build out a seperate web client that needs to autheticate to a REST API for certain scenarios where it makes sense. You may still choose to deploy a seperate set of CoreServices for acces by other clients with only REST endpoints in place. These other instances could be focused on only reads, or may only allow a certain subset of commands to run.
+**Note:** You can also to develop a more UI centric entry point (Such as a Razor Pages project). This can facilitate building something like an admin portal. This removes the need to build out a seperate web client that needs to autheticate to a REST API for certain scenarios where you may not need a service layer. You may still choose to deploy a seperate set of CoreServices for acces by other clients with only REST endpoints in place. This can also be part of your Razor solution or a seperate project/deployment. These other instances could be focused on only reads, or may only allow a certain subset of commands to run.
 
  
 ## CQRS Pattern and Event Sourcing
@@ -45,20 +45,20 @@ Event Sourcing is not fully implemented and allows you to develop using your Eve
 
 When fully implemented the CQRS Pattern along with Event Sourcing allows us to roll back to any state of our application and build up projections and aggregates of any kind from our events.
 
-For more on Event Sourcing: https://martinfowler.com/bliki/CQRS.html
-
 For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 
-![CQRS](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs.png)
+For more on Event Sourcing: https://martinfowler.com/eaaDev/EventSourcing.html
 
 ### CQRS Benefits
  * Clean seperation of Read/Write concerns.
- * Ability to scale/optimize Reads seperatly from Writes.
- * Thin controllers.
+ * Ability to scale/optimize Reads separately from Writes.
+ * Ability to use seperate data stores between reads/writes (For example: SQL for Writes and Redis for Reads)
+ * Thin controllers. 
  * Ability to use the Event Sourcing pattern.
 
 ### Event Sourcing Benefits
- * Break out of constrainst of thinking "relationally".
+ * Break out of the constrainst of thinking "relationally" which locks you into strict domain models.
+ * Focus on actions and events, rather than entities and relationships.
  * Immutable tranasctional history of every event that occured in the system.
  * Ability to rewind/fast-forward to any state/time. (Great for debugging and auditing).
  * Future proof your data with unlimited capability to develop future projections from your Event Store (AKA Fact Logs).
@@ -86,10 +86,18 @@ Here is a typical file structure, simplified to focus on a single entity wth onl
 
 [Handler Class]
 
-**Note:** When added to your Dependency Injection Container MediatR will automatically search your assemblies for **IRequest** and **IRequestHandler** implementations and will build up your library of commands and queries for use throught your project.
+**Note:** When added to your Dependency Injection Container MediatR will automatically search your assemblies using for **IRequest** and **IRequestHandler** and other MediatR "conventions" and will build up your library of commands and queries for use throught your project.
 
 
 **Optimaization:** Seperating Commands from Queries allows you to optimize how you access your data store between each access type. You may also choose to have different data stores for reads vs writes. Perhaps Reads will ALWAYS hit a Redis Cache or Search Provider and part of the responsibility of Writes are to ensure these are kept up to date. You may use the same ata store but opt for Entity Framework for your Reads and ADO.NET for your Writes. Or you can go full Event Sourced and build up snapshots, projections and aggregates from your Event Store.
+
+## MediatR Pipelines for Cross-Cutting Concerns
+MediatR gives you the ability to create pipelines to help manage cross-cutting concerns such as logging, authorization and caching. This example showcasing a logging feature.
+
+[Exampl with images]
+
+## MediatR Notifications
+MediatR
 
 ## ViewModels
 View models that are returned from Query methods will include UI related values such as "EditEnabled" and "DeleteEnabled"

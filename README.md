@@ -6,7 +6,7 @@ Based on [Jason Taylor's talk on Clean Architecture](https://www.youtube.com/wat
 ![Architecture](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/clean-architecture.png)
 
 # CoreServices
-Centralized business logic. Visual Studio Solution Project. Deployable to Linux or Windows as a Docker contianer to a variety of platforms including:
+Centralized business logic. Visual Studio Solution Project. Deployable to Linux or Windows as a Docker ccontainer to a variety of platforms including:
  * Azure, AWS, Google or any major cloud provider
  * Virtual machines or clusters
  * Azure Web Apps, Amazon EC2 or Google AppEngine

@@ -9,6 +9,8 @@ using MediatR;
 using Core.Application.Accounts.Commands;
 using Core.Infrastructure.Configuration;
 using Core.Infrastructure.Persistence.DocumentDatabase;
+using Core.Infrastructure.Persistence.StorageAccount;
+using Core.Infrastructure.Persistence.RedisCache;
 
 namespace ConsoleApp
 {
@@ -40,9 +42,11 @@ namespace ConsoleApp
 
             #endregion
 
-            #region Initialize our IDocumentContext
+            #region Initialize our Persistence Layer objects
 
             IDocumentContext documentContext = new DocumentContext(configuration);
+            IStorageContext storageContext = new StorageContext(configuration);
+            IRedisContext redisContext = new RedisContext(configuration);
 
             #endregion
 
@@ -61,10 +65,18 @@ namespace ConsoleApp
 
             // Create our collection of injectable services
             var serviceCollection = new ServiceCollection();
+
+            // Configuration
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddSingleton<ICoreConfiguration>(coreConfiguration);
-            serviceCollection.AddSingleton<ICoreLogger>(coreLogger);
+
+            // Persistence
             serviceCollection.AddSingleton<IDocumentContext>(documentContext);
+            serviceCollection.AddSingleton<IStorageContext>(storageContext);
+            serviceCollection.AddSingleton<IRedisContext>(redisContext);
+
+            // Logging
+            serviceCollection.AddSingleton<ICoreLogger>(coreLogger);
 
             /* REGISTER MEDIATR for CQRS Pattern ---------------
              * 

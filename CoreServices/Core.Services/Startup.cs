@@ -17,6 +17,8 @@ using Newtonsoft.Json.Converters;
 using MediatR;
 using Core.Infrastructure.Persistence.DocumentDatabase;
 using Core.Infrastructure.Configuration;
+using Core.Infrastructure.Persistence.StorageAccount;
+using Core.Infrastructure.Persistence.RedisCache;
 
 namespace Core.Services
 {
@@ -56,9 +58,11 @@ namespace Core.Services
 
             #endregion
 
-            #region Initialize our IDocumentContext
+            #region Initialize our Persistence Layer objects
 
             IDocumentContext documentContext = new DocumentContext(Configuration);
+            IStorageContext storageContext = new StorageContext(Configuration);
+            IRedisContext redisContext = new RedisContext(Configuration);
 
             #endregion
 
@@ -80,11 +84,18 @@ namespace Core.Services
 
             #region Inject our custom dependancies into the default WebAPI provider
 
+            // Configuration
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<ICoreConfiguration>(coreConfiguration);
+
+            // Persistence
+            services.AddSingleton<IDocumentContext>(documentContext);
+            services.AddSingleton<IStorageContext>(storageContext);
+            services.AddSingleton<IRedisContext>(redisContext);
+
+            // Logging
             services.AddSingleton<ICoreLogger>(coreLogger);
 
-            services.AddSingleton<IDocumentContext>(documentContext);
 
             #endregion
 

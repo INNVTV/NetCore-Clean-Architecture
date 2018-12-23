@@ -17,9 +17,8 @@ namespace Core.Infrastructure.Configuration
             Application = new ApplicationConfiguration();
             Hosting = new HostingConfiguration();
 
-
+            // Map appsettings.json
             Application.Name = configuration.GetSection("Application").GetSection("Name").Value;
-
 
             #region Hosting configuration details (if available)
 
@@ -37,25 +36,9 @@ namespace Core.Infrastructure.Configuration
             #endregion
 
 
-            // TO BE REMOVED ------------
-
-            Azure = new AzureConfiguration();
-            // New up our CosmosDB classes
-            //Azure.CosmosDb = new CosmosDbConfiguration();
-            //Azure.CosmosDb.Settings = new CosmosDbSettings();
-
-            // New up our Storage classes
-            Azure.Storage = new StorageConfiguration();
-            Azure.Storage.Settings = new StorageSettings();
-
-            // New up our Redis classes
-            Azure.Redis = new RedisConfiguration();
-            Azure.Redis.Settings = new RedisSettings();
-
         }
 
         public ApplicationConfiguration Application { get; set; }
         public HostingConfiguration Hosting { get; set; }
-        public AzureConfiguration Azure { get; set; }
     }
 }

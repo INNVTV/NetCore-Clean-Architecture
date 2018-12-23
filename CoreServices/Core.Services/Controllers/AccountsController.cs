@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Core.Application.Accounts.Models;
 using Core.Application.Accounts.Queries;
 using Core.Application.Accounts.Commands;
-using Core.Common.Configuration;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

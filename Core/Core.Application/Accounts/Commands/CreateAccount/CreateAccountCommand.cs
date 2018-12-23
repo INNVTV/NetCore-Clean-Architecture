@@ -1,9 +1,9 @@
-﻿using Core.Domain.Entities;
+﻿using Core.Application.Accounts.Models;
 using MediatR;
 
 namespace Core.Application.Accounts.Commands
 {
-    public class CreateAccountCommand : IRequest<Account>
+    public class CreateAccountCommand : IRequest<AccountViewModel>
     {
         public string Name { get; set; }
 

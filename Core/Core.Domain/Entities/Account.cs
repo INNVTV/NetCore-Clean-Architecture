@@ -11,9 +11,9 @@ namespace Core.Domain.Entities
             Users = new List<User>();
         }
 
-        public string AccountId { get; set; }
-        public string AccountName { get; set; }
-        public string AccountNameKey { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string NameKey { get; set; }
 
         public ICollection<User> Users { get; private set; }
     }

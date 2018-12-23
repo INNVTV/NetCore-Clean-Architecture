@@ -8,13 +8,12 @@ using System;
 using System.IO;
 using MediatR;
 using Core.Application.Accounts.Commands;
-using Core.Application.Accounts.Commands;
 
 namespace ConsoleApp
 {
     class Program
     {
-        static async System.Threading.Tasks.Task Main(string[] args)
+        static void Main(string[] args)
         {
             #region Create our dependancies
 
@@ -83,7 +82,7 @@ namespace ConsoleApp
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
-                AccountName = "Test Account",
+                Name = "Test Account",
                 Email = "test@email.com",
                 FirstName = "John",
                 LastName = "Smith"
@@ -98,10 +97,10 @@ namespace ConsoleApp
             // =======================================
 
             //  Build our GetAccountList Query:
-            var accountsListQuery = new GetAccountListQuery();
+            var accountsListQuery = new GetAccountsListQuery();
 
             // Send our query to MediatR for processing...
-            var accountList = await mediator.Send(accountsListQuery);
+            var accountList = mediator.Send(accountsListQuery).Result;
             Console.WriteLine("Query list results:");
             foreach(var accountViewModel in accountList)
             {
@@ -113,10 +112,10 @@ namespace ConsoleApp
             // Get details for first item in our list
 
             // Build our GetAccountDetail Query:
-            var accountDetailQuery = new GetAccountDetailQuery() {
+            var accountDetailQuery = new GetAccountDetailsQuery() {
                 Id = accountList[0].Account.Id
             };
-            var accountDetails = await mediator.Send(accountDetailQuery);
+            var accountDetails =  mediator.Send(accountDetailQuery).Result;
             Console.WriteLine("Query details results:" + accountDetails.Account.Name);
 
             Console.ReadLine();

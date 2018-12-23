@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Application.Accounts.Models;
-using Core.Application.Accounts.Queries.GetAccountDetails;
-using Core.Application.Accounts.Queries.GetAccountsList;
-using Core.Application.Accounts.Commands.CreateAccount;
+using Core.Application.Accounts.Queries;
+using Core.Application.Accounts.Commands;
 using Core.Common.Configuration;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -59,7 +58,7 @@ namespace Core.Services.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async Task<bool> Delete(string id)
+        public async Task<CloseAccountResponse> Delete(string id)
         {
             var closeAccountCommand = new CloseAccountCommand() { Id = id };
             return await _mediator.Send(closeAccountCommand);

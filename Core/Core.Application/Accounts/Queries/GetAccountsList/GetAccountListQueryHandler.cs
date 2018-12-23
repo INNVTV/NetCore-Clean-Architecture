@@ -4,13 +4,13 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Common.Configuration;
 using Core.Common.Exceptions;
 using Core.Common.BaseClasses;
 using Core.Domain.Entities;
 using Core.Application.Accounts.Queries;
 using System.Collections.Generic;
-using Core.Common.Persistence.DocumentDatabase;
+using Core.Infrastructure.Configuration;
+using Core.Infrastructure.Persistence.DocumentDatabase;
 
 namespace Core.Application.Accounts.Queries
 {

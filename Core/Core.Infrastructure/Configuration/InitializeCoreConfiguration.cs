@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Common.Configuration
+namespace Core.Infrastructure.Configuration
 {
     public class Initialize
     {

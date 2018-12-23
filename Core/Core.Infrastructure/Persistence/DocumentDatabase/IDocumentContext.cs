@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Common.Persistence.DocumentDatabase
+namespace Core.Infrastructure.Persistence.DocumentDatabase
 {
     public interface IDocumentContext
     {

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Common;
-using Core.Common.Configuration;
 using Core.Common.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,7 +15,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Converters;
 using MediatR;
-using Core.Common.Persistence.DocumentDatabase;
+using Core.Infrastructure.Persistence.DocumentDatabase;
+using Core.Infrastructure.Configuration;
 
 namespace Core.Services
 {

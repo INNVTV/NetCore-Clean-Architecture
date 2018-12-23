@@ -1,6 +1,5 @@
 ﻿using Core.Application.Accounts.Models;
 using Core.Common.BaseClasses;
-using Core.Common.Configuration;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;

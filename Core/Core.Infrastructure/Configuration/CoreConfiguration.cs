@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Common.Configuration
+namespace Core.Infrastructure.Configuration
 {
     /// <summary>
     /// We use the ICoreConfiguration type as a way to inject settings

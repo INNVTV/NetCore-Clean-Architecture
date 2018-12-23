@@ -2,7 +2,7 @@
 using Microsoft.WindowsAzure.Storage;
 using StackExchange.Redis;
 
-namespace Core.Common.Configuration
+namespace Core.Infrastructure.Configuration
 {
     public interface ICoreConfiguration
     {

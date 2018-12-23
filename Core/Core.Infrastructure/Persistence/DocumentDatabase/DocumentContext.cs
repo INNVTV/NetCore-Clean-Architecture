@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 
-namespace Core.Common.Persistence.DocumentDatabase
+namespace Core.Infrastructure.Persistence.DocumentDatabase
 {
     public class DocumentContext : IDocumentContext
     {
@@ -12,7 +12,7 @@ namespace Core.Common.Persistence.DocumentDatabase
         {
             Settings = new Settings();
 
-            #region Map appsettings.json to CosmosDbSettings class properties
+            #region Map appsettings.json
 
             Settings.Url = configuration
                 .GetSection("Azure")

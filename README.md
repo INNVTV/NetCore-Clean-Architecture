@@ -123,7 +123,7 @@ MediatR gives you the ability to create pipelines to help manage cross-cutting c
 MediatR
 
 ## Dependency Injection and CoreConfiguration
-Dependency Injection is handled through the default .Net Core Service Provider. An ICoreConfiguration interface is used to encapsulate many infrastructure related settings and 3rd party service connectors.
+Dependency Injection is handled through the default .Net Core Service Provider. An ICoreConfiguration interface is used to encapsulate many applcation related settings. 3rd party service connectors are set up through various interfaces such as IDocumentContext, IStorageContext and IRedisContext.
 
 This is a helper class found in **Core.Common** that allows us to grouop many application, infrastructure and persitence related settings and connectors into a single class within our DI Container.
 

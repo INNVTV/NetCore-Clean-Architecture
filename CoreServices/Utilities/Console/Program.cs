@@ -1,5 +1,4 @@
 ﻿using Core.Application.Accounts.Queries;
-using Core.Common.Configuration;
 using Core.Common.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
@@ -8,7 +7,8 @@ using System;
 using System.IO;
 using MediatR;
 using Core.Application.Accounts.Commands;
-using Core.Common.Persistence.DocumentDatabase;
+using Core.Infrastructure.Configuration;
+using Core.Infrastructure.Persistence.DocumentDatabase;
 
 namespace ConsoleApp
 {

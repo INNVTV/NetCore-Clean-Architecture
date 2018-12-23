@@ -1,7 +1,15 @@
+ * TODO: Complete and Test Validation in Commands/Queries (Make part of MediatR)
+ * TODO: Add Exception Response in Commands/Queries
+ * TODO: Add Cross-Cutting (ActivityLog, ExceptionLog, ErrorLog, Authorization) in Commands/Queries
+ * TODO: Finalize Automapper
+ * TODO: Restore AppSettings to GitHub
+
 # .Net Core Clean Architecture
-.Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, micro-service communications with both REST and gRPC endpoints, FluentValidation, CosmosDB for data and Table Storage for logging.
+.Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, service communications with both REST and gRPC endpoints, FluentValidation, AutoMapper, CosmosDB for data and Table Storage for logging.
 
 Based on [Jason Taylor's talk on Clean Architecture](https://www.youtube.com/watch?v=_lwCVE_XgqI) with a lot of inspiration from Eric Evans book on [Domain-Driven Design](https://www.amazon.com/gp/product/0321125215)
+
+This project stresses Domian Driven Design and can be leverged to develop Event Sourced solutions.
 
 ![Architecture](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/clean-architecture.png)
 
@@ -25,6 +33,9 @@ Background tasks hosted as workers that connect to CoreServices via gRPC.
 
 **Note:** It is recommened that you break TaskClients out into seperate repositiores and build systems so they can be managed by seperate teams. This also allows you to develope the clients across the enviornments that CoreServices may be running on.
 
+# Domain Driven Design
+A clean archtecture is only as good as the requirements gathering and design process that precedded it. It is important to include non-technical domain experts early and often. This will ensure that the real world problems you are trying model or solve problems for is clearly respresented in the software you are building.
+
 ## Core.Services
 Main entry point. Headless implementation allows you to swap out interfaces between Consoles, Tests, WebApi's and WebApps. Includes Core.Common, Core.Application and Core.Domain Projects and wraps them into a gateway for access by the clients.
 
@@ -38,7 +49,8 @@ More details can be found in the [ReadMe](CoreServices/README.md) doc for the Co
 ## CQRS Pattern and Event Sourcing
 The Command Query Responsibility Segregation pattern is used for all access to Core. The [MediatR](https://www.nuget.org/packages/MediatR) Nuget package is used for in-process messaging.
 
-Event Sourcing is not fully implemented and allows you to develop using your Event Store of choice such as: EventStore, StreamStone or your own custom solution.
+### Event Sourcing
+ Event sourcing is a data solution that stores every event that occurs in a system in an append only fashion. This is similar to how an accountant adds new information to a ledger, or how a blockchain appends transactions and blocks to it's historical record. From this store of events you can generate aggregates and projections that represent any entity or state from any point in time. The CQRS pattern lends itself well to event sourced solutions and this project should be a good starting point for any project that wants to build an event sourced solution.'
 
 **Note:** Current implementation uses document storage and does not fully segregate writes from reads at the persistence layer - only within the application layer. When implementing event sourcing you will want to seperate your event store (writes) from your snapshots and projections (reads) as shown here:
 ![CQRS-Reads-Writes](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs-reads-writes.png)

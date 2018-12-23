@@ -1,9 +1,3 @@
- * TODO: Complete and Test Validation in Commands/Queries (Make part of MediatR)
- * TODO: Add Exception Response in Commands/Queries
- * TODO: Add Cross-Cutting (ActivityLog, ExceptionLog, ErrorLog, Authorization) in Commands/Queries
- * TODO: Finalize Automapper
- * TODO: Restore AppSettings to GitHub
-
 # Core.Services
 Main entry point is the Core.Services WebAPI project. Set this as the "Startup Project" in Visual Studio. VS should detect that it is configured for Docker and give you the ability to debug with Docker. If not you may need to right click on the Core.Services project and choose **Add > Docker Support**.
 
@@ -15,16 +9,12 @@ During local debugging you may want to change your main entry point to be the Co
 ## Utilities/Tests
 Your testing project(s) should go into Utilites/Tests. There is no predefined project included with this template.
 
-## Domain Driven Design
-A clean archtecture is only as good as the requirements gathering and design process that precedded it. It is important to include non-technical domain experts early and often. This will ensure that the real world problems you are trying model or solve problems for is clearly respresented in the software you are building.
 
 ## CQRS Pattern
 The Command Query Responsibility Segregation pattern is used for all access to the business logic within the Core.Application project. This implementation shares the same persistence layer, however the class seperation easily allows you to use a different data store for your queries.
 
 For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html
 
-## Event Sourcing
- Event sourcing is a data solution that stores every event that occurs in a system in an append only fashion. This is similar to how an accountant adds new information to a ledger, or how a blockchain appends transactions and blocks to it's historical record. From this store of events you can generate aggregates and projections that represent any entity or state from any point in time. The CQRS pattern lends itself well to event sourced solutions and this project should be a good starting point for any project that wants to build an event sourced solution.'
 
 ## Mediator Design Pattern
 Mediator Design Pattern is implemented using the MediatR library:

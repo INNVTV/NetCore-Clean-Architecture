@@ -18,6 +18,8 @@ namespace Core.Services.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
+        readonly IMediator _mediator;
+
         // Constructor automatically pulls in configuration via build in dependancy injection
         public AccountsController(IServiceProvider serviceProvider)//ICoreConfiguration coreConfiguration)
         {
@@ -25,8 +27,6 @@ namespace Core.Services.Controllers
             _mediator = serviceProvider.GetService<IMediator>();
         }
 
-        readonly IMediator _mediator;
- 
         // GET: api/accounts
         [HttpGet]
         public async Task<IEnumerable<AccountViewModel>> GetAsync()

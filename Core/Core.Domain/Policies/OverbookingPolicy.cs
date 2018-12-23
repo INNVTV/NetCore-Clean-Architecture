@@ -6,12 +6,12 @@ namespace Core.Domain.Policies
 {
     /// <summary>
     /// Used as an example. From Chapter 1 of DDD by Eric Evans
-    /// When it is important that certain business polices have artifacts
-    /// That need to be shared and easily referenced by non-technical domain experts
+    /// When it is important that certain business polices have artifacts that are shared
+    /// and easily referenced by non-technical domain experts
     /// It is best to segment these as in a layer within the Domain library.
-    /// This way important policy logic is not burried within a method
+    /// This way important policy enforcement is not burried within a method deep in the application layer
     /// </summary>
-    public class OverbookingPolicy
+    public static class OverbookingPolicy
     {
         //==========================================================================
         // POLICY/STRATEGY PATTERN
@@ -22,7 +22,7 @@ namespace Core.Domain.Policies
         // You can share this with domain experts as it is more readable than code buried in a complex method
 
         /*
-        public bool isAllowed(Cargo cargo, Voyage voyage)
+        public static bool isAllowed(Cargo cargo, Voyage voyage)
         {
             return (cargo.size() + voyage.bookedCargoSize())  <= (voyage.capacity * 1.1);
         }

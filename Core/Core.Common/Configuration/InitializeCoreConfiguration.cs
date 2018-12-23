@@ -21,7 +21,7 @@ namespace Core.Common.Configuration
         /// </summary>
         public static ICoreConfiguration InitializeCoreConfiguration(IConfiguration configuration)
         {
-            var coreConfiguration = new CoreConfiguration();
+            var coreConfiguration = new CoreConfiguration(configuration);
 
             #region Map appsettings.json to ICoreConfiguration class properties (Showing multiple formats)
 
@@ -39,6 +39,7 @@ namespace Core.Common.Configuration
             // Example: Azure:CosmosDb:Url == Azure__CosmosDb__Url
 
             // CosmosDB
+            /*
             coreConfiguration.Azure.CosmosDb.Settings.Url = configuration
                 .GetSection("Azure")
                 .GetSection("CosmosDb")
@@ -63,6 +64,7 @@ namespace Core.Common.Configuration
                 .GetSection("Azure")
                 .GetSection("CosmosDb")
                 .GetSection("Collection").Value;
+                */
 
             // Storage
             coreConfiguration.Azure.Storage.Settings.Name = configuration
@@ -91,7 +93,7 @@ namespace Core.Common.Configuration
             #region Clients and Service Connections
 
             #region CosmosDb/DocumentDb
-
+            /*
             ConnectionPolicy _connectionPolicy = new ConnectionPolicy
             {
                 // Since we are running within Azure we use Direct/TCP connections for performance.
@@ -112,7 +114,7 @@ namespace Core.Common.Configuration
                     coreConfiguration.Azure.CosmosDb.Settings.Key,
                     _connectionPolicy 
                     );
-
+                    */
             #endregion
 
             #region Storage Account

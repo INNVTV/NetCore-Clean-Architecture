@@ -8,21 +8,32 @@ using Core.Common.Configuration;
 using Core.Common.Exceptions;
 using Core.Common.BaseClasses;
 using Core.Domain.Entities;
+using Core.Application.Accounts.Queries;
+using Core.Common.Persistence;
+using Core.Common.Persistence.DocumentDatabase;
 
 namespace Core.Application.Accounts.Commands
 {
-    public class CreateAccountCommandHandler : CommandHandlerBase, IRequestHandler<CreateAccountCommand, AccountViewModel>
+    public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, AccountViewModel>
     {
-        //private readonly NorthwindDbContext _context;
-        //private readonly INotificationService _notificationService;
+        //MediatR will automatically inject out dependencies
+        private readonly IMediator _mediator;
         private readonly ICoreConfiguration _coreConfiguration;
+        private readonly IDocumentContext _documentContext;
 
-        public CreateAccountCommandHandler(
-            ICoreConfiguration coreConfiguration)
-           // NorthwindDbContext context,
-            //INotificationService notificationService)
+
+        public CreateAccountCommandHandler(IDocumentContext documentContext, ICoreConfiguration coreConfiguration, IMediator mediator)
         {
+            _mediator = mediator;
             _coreConfiguration = coreConfiguration;
+            _documentContext = documentContext;
+
+            //Log Activity
+
+            //Authorization
+
+            //_coreConfiguration = coreConfiguration;
+
             //_context = context;
             //_notificationService = notificationService;
         }
@@ -52,10 +63,13 @@ namespace Core.Application.Accounts.Commands
             accountDocumentModel.NameKey = Common.Transformations.NameKey.Transform(request.Name);
             accountDocumentModel.CreatedDate = DateTime.UtcNow;
 
-            var result = await _coreConfiguration.Azure.CosmosDb.Client.CreateDocumentAsync("", accountDocumentModel);
+            var result = await _documentContext.Client.CreateDocumentAsync("", accountDocumentModel);
 
             if(result.StatusCode == System.Net.HttpStatusCode.OK)
             {
+                // Example of using Mediatr to return a list of accounts (Should be removed)
+                var accountListQuery = new GetAccountsListQuery();
+                var accountList = await _mediator.Send(accountListQuery);
 
                 // Use AutoMapper to transform document model to domain model
                 var account = new Account();

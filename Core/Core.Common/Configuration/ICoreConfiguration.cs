@@ -50,23 +50,23 @@ namespace Core.Common.Configuration
     {
         public AzureConfiguration()
         {
-            CosmosDb = new CosmosDbConfiguration();
+            //CosmosDb = new CosmosDbConfiguration();  <-- Moved to Persistence.IDocumentClient
             Storage = new StorageConfiguration();
             Redis = new RedisConfiguration();
         }
 
-        public CosmosDbConfiguration CosmosDb;
+        //public CosmosDbConfiguration CosmosDb;  <-- Moved to Persistence.IDocumentClient
         public StorageConfiguration Storage;
         public RedisConfiguration Redis;
     }
 
     #region Resource Types
 
-    #region Cosmos
-
+    #region Cosmos (Moved to: Persistence.IDocumentClient)
+    /*
     public class CosmosDbConfiguration
     {
-        public DocumentClient Client;
+        //public DocumentClient Client; <-- Moved to Persistence.IDocumentClient
         public CosmosDbSettings Settings;
     }
 
@@ -78,7 +78,7 @@ namespace Core.Common.Configuration
         public string Database { get; set; }
         public string Collection { get; set; }
     }
-
+    */
     #endregion
 
     #region Storage

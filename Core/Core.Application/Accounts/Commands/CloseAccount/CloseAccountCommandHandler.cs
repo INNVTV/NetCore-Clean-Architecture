@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Application.Accounts.Commands
 {
-    public class CloseAccountCommandHandler : CommandHandlerBase, IRequestHandler<CloseAccountCommand, CloseAccountResponse>
+    public class CloseAccountCommandHandler : IRequestHandler<CloseAccountCommand, CloseAccountResponse>
     {
         public async Task<CloseAccountResponse> Handle(CloseAccountCommand request, CancellationToken cancellationToken)
         {

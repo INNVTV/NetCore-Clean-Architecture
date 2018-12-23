@@ -36,3 +36,13 @@ Domain entities are the clean versions of our models without the added propertie
 Domain policies are broken out using the strategy pattern so they can be easily be shared in collaboration with non technical domain experts.
 
 
+# Core.Common
+
+Core.Common encapsulates many common settings, transformations, base classes, interfaces and logging used within the application domain or shared with a consumer of the Core project.
+
+### Dependency Injection and CoreConfiguration
+An ICoreConfiguration interface is used to encapsulate infrastructure related settings and 3rd party service connectors.
+
+This is a helper class that allows us to grouop many application, infrastructure and persitence related settings and connectors into a single class within our DI Container.
+
+The **InitializeCoreConfiguration()** should be called in your main entry point prior to adding the initialized CoreConfiguration class into your DI Container. 

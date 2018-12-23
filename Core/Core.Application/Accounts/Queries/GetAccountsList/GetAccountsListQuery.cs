@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Core.Application.Accounts.Queries
 {
-    public class GetAccountsListQuery : QueryHandlerBase, IRequest<List<AccountViewModel>>
+    public class GetAccountsListQuery : IRequest<List<AccountViewModel>>
     {
        
     }

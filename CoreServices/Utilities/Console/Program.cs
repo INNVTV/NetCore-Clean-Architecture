@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using MediatR;
 using Core.Application.Accounts.Commands;
+using Core.Common.Persistence.DocumentDatabase;
 
 namespace ConsoleApp
 {
@@ -29,14 +30,19 @@ namespace ConsoleApp
 
             #region Initialize our ICoreConfiguration object
 
-            ICoreConfiguration coreConfiguration;
-            coreConfiguration = Core.Common.Configuration.Initialize.InitializeCoreConfiguration(configuration);
+            ICoreConfiguration coreConfiguration = new CoreConfiguration(configuration);
 
             #endregion
 
             #region Initialize our ICoreLogger
 
             ICoreLogger coreLogger = new CoreLogger();
+
+            #endregion
+
+            #region Initialize our IDocumentContext
+
+            IDocumentContext documentContext = new DocumentContext(configuration);
 
             #endregion
 
@@ -58,6 +64,7 @@ namespace ConsoleApp
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddSingleton<ICoreConfiguration>(coreConfiguration);
             serviceCollection.AddSingleton<ICoreLogger>(coreLogger);
+            serviceCollection.AddSingleton<IDocumentContext>(documentContext);
 
             /* REGISTER MEDIATR for CQRS Pattern ---------------
              * 

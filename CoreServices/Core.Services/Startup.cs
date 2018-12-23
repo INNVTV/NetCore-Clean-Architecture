@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Converters;
 using MediatR;
+using Core.Common.Persistence.DocumentDatabase;
 
 namespace Core.Services
 {
@@ -45,14 +46,19 @@ namespace Core.Services
 
             #region Initialize our ICoreConfiguration object
 
-            ICoreConfiguration coreConfiguration;
-            coreConfiguration = Core.Common.Configuration.Initialize.InitializeCoreConfiguration(Configuration);
+            ICoreConfiguration coreConfiguration = new CoreConfiguration(Configuration);
 
             #endregion
 
             #region Initialize our ICoreLogger
 
             ICoreLogger coreLogger = new CoreLogger();
+
+            #endregion
+
+            #region Initialize our IDocumentContext
+
+            IDocumentContext documentContext = new DocumentContext(Configuration);
 
             #endregion
 
@@ -77,6 +83,8 @@ namespace Core.Services
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<ICoreConfiguration>(coreConfiguration);
             services.AddSingleton<ICoreLogger>(coreLogger);
+
+            services.AddSingleton<IDocumentContext>(documentContext);
 
             #endregion
 

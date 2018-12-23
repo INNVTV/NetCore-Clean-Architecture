@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Core.Application.Accounts.Queries
 {
-    public class GetAccountDetailsQuery : QueryHandlerBase, IRequest<AccountViewModel>
+    public class GetAccountDetailsQuery : IRequest<AccountViewModel>
     {
         public string Id { get; set; }
     }

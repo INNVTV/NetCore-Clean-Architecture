@@ -1,8 +1,11 @@
  * TODO: Complete and Test Validation in Commands/Queries (Make part of MediatR)
+ * TODO: Delete InitializeCoreConfiguration (after created Table/Redis)
+ * TODO: Break out into IDocumentClient, IStorageClient, etc...
+ * TODO: Add MediatR Pipeline and Notification Services + Others
+ * TODO: Resolve continuation tokens in MediatR
  * TODO: Add Exception Response in Commands/Queries
  * TODO: Add Cross-Cutting (ActivityLog, ExceptionLog, ErrorLog, Authorization) in Commands/Queries
  * TODO: Finalize Automapper
- * TODO: Switch to AutoFac and Add to ReadMe
  * TODO: Restore AppSettings to GitHub
 
 # .Net Core Clean Architecture
@@ -118,6 +121,13 @@ MediatR gives you the ability to create pipelines to help manage cross-cutting c
 
 ## MediatR Notifications
 MediatR
+
+## Dependency Injection and CoreConfiguration
+Dependency Injection is handled through the default .Net Core Service Provider. An ICoreConfiguration interface is used to encapsulate many infrastructure related settings and 3rd party service connectors.
+
+This is a helper class found in **Core.Common** that allows us to grouop many application, infrastructure and persitence related settings and connectors into a single class within our DI Container.
+
+The **InitializeCoreConfiguration()** should be called in your main entry point prior to adding the fully initialized CoreConfiguration class into your DI Container. 
 
 ## ViewModels
 View models that are returned from Query methods will include UI related values such as "EditEnabled" and "DeleteEnabled"

@@ -29,6 +29,10 @@ namespace Core.Application.Accounts.Commands.CreateAccount
 
         public async Task<Account> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
+            // Prepare our domain model to be returned
+            var newAccount = new Account();
+
+            // Create the new account Id
             var id = Guid.NewGuid();
 
             CreateAccountValidator validator = new CreateAccountValidator();
@@ -52,6 +56,9 @@ namespace Core.Application.Accounts.Commands.CreateAccount
 
             if(result.StatusCode == System.Net.HttpStatusCode.OK)
             {
+                // Use AutoMapper to transform document model to domain model
+
+
                 return new Account(); // id.ToString(); // accountDocumentModel;
             }
             else
@@ -60,9 +67,6 @@ namespace Core.Application.Accounts.Commands.CreateAccount
                 throw new CreateException(nameof(accountDocumentModel), accountDocumentModel.Id);
             }
 
-            //TODO: Complete and Test Validation (Make part of MediatR)
-            //TODO: Add Exception Response
-            //TODO: Add Cross-Cutting (ActivityLog, ExceptionLog, ErrorLog, Authorization)
         }
     }
 }

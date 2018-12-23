@@ -13,11 +13,14 @@ namespace Core.Domain.Policies
     /// </summary>
     public class OverbookingPolicy
     {
-
-        // This enforces an "overbooking policy" which allows for an over booking of cargo at 110% of capacity
-        // It will be called by the method that books cargo onto frieght.
+        //==========================================================================
+        // POLICY/STRATEGY PATTERN
+        //=========================================================================
+        // This enforces an example "overbooking policy" which allows for an
+        // over booking of cargo at 110% of voyage capacity.
+        // It would be called by a method within Core.Application that books cargo onto frieght.
         // You can share this with domain experts as it is more readable than code buried in a complex method
-       
+
         /*
         public bool isAllowed(Cargo cargo, Voyage voyage)
         {

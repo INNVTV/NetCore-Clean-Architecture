@@ -11,7 +11,7 @@ using Core.Domain.Entities;
 
 namespace Core.Application.Accounts.Commands.CreateAccount
 {
-    public class CreateAccountCommandHandler : CommandHandlerBase, IRequestHandler<CreateAccountCommand, Account>
+    public class CreateAccountCommandHandler : CommandHandlerBase, IRequestHandler<CreateAccountCommand, AccountViewModel>
     {
         //private readonly NorthwindDbContext _context;
         //private readonly INotificationService _notificationService;
@@ -27,7 +27,7 @@ namespace Core.Application.Accounts.Commands.CreateAccount
             //_notificationService = notificationService;
         }
 
-        public async Task<Account> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        public async Task<AccountViewModel> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
             // Prepare our domain model to be returned
             var newAccount = new Account();
@@ -56,10 +56,18 @@ namespace Core.Application.Accounts.Commands.CreateAccount
 
             if(result.StatusCode == System.Net.HttpStatusCode.OK)
             {
+
                 // Use AutoMapper to transform document model to domain model
+                var account = new Account();
 
+                // Add account domain model to the view model
+                var accountViewModel = new AccountViewModel { Account = account };
 
-                return new Account(); // id.ToString(); // accountDocumentModel;
+                // Add the remaining authorization details to the view model
+                accountViewModel.DeleteEnabled = false;
+                accountViewModel.EditEnabled = false;
+
+                return accountViewModel;
             }
             else
             {

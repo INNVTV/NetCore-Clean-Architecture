@@ -2,6 +2,7 @@
  * TODO: Add Exception Response in Commands/Queries
  * TODO: Add Cross-Cutting (ActivityLog, ExceptionLog, ErrorLog, Authorization) in Commands/Queries
  * TODO: Finalize Automapper
+ * TODO: Switch to AutoFac and Add to ReadMe
  * TODO: Restore AppSettings to GitHub
 
 # .Net Core Clean Architecture

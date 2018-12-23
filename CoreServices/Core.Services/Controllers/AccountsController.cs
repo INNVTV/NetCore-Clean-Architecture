@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Application.Account.Commands;
-using Core.Application.Account.Models;
-using Core.Application.Account.Queries;
+using Core.Application.Accounts.Models;
+using Core.Application.Accounts.Queries.GetAccountDetails;
+using Core.Application.Accounts.Queries.GetAccountsList;
+using Core.Application.Accounts.Commands.CreateAccount;
 using Core.Common.Configuration;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +32,7 @@ namespace Core.Services.Controllers
         [HttpGet]
         public async Task<IEnumerable<AccountViewModel>> GetAsync()
         {
-            var accountListQuery = new GetAccountListQuery();
+            var accountListQuery = new GetAccountsListQuery();
             return await _mediator.Send(accountListQuery);
         }
 
@@ -39,7 +40,7 @@ namespace Core.Services.Controllers
         [HttpGet("{id}", Name = "Get")]
         public async Task<AccountViewModel> GetAsync(string id)
         {
-            var accountDetailsQuery = new GetAccountDetailQuery() { Id = id };
+            var accountDetailsQuery = new GetAccountDetailsQuery() { Id = id };
             return await _mediator.Send(accountDetailsQuery);
         }
 

@@ -15,11 +15,11 @@ This project stresses Domian Driven Design and can be leverged to develop Event 
 ![Architecture](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/clean-architecture.png)
 
 # Core
-Centralized business logic broken out into Application and Domain layers.
+Centralized business logic broken out into **Application** and **Domain** layers.
 
-The Domain Layer is designed to be shared with non-technical domain experts and includes easy to read core domain logic written as policies.
+The **Domain Layer** is designed to be shared with non-technical domain experts and includes easy to read domain entities and logic written as policies.
 
-The Application Layer includes infrastructure implementation and low level business logic.
+The **Application Layer** includes infrastructure implementation details, persistence models, view models, logging, authorization and low level business logic.
 
 # CoreServices
 One of many options to wrap and deploy the Core. In this scenario we use a REST API and gRPC endpoints deployable to Linux or Windows as a Docker container to a variety of platforms including:

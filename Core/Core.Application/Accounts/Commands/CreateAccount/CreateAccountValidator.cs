@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Application.Accounts.Commands.CreateAccount
+namespace Core.Application.Accounts.Commands
 {
     public class CreateAccountValidator : AbstractValidator<CreateAccountCommand>
     {

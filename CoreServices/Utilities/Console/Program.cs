@@ -1,4 +1,4 @@
-﻿using Core.Application.Account.Queries;
+﻿using Core.Application.Accounts.Queries;
 using Core.Common.Configuration;
 using Core.Common.Logging;
 using Microsoft.Extensions.Configuration;
@@ -7,7 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using MediatR;
-using Core.Application.Account.Commands;
+using Core.Application.Accounts.Commands;
+using Core.Application.Accounts.Commands;
 
 namespace ConsoleApp
 {

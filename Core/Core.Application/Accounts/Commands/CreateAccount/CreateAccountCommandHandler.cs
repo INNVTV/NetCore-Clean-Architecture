@@ -9,7 +9,7 @@ using Core.Common.Exceptions;
 using Core.Common.BaseClasses;
 using Core.Domain.Entities;
 
-namespace Core.Application.Accounts.Commands.CreateAccount
+namespace Core.Application.Accounts.Commands
 {
     public class CreateAccountCommandHandler : CommandHandlerBase, IRequestHandler<CreateAccountCommand, AccountViewModel>
     {

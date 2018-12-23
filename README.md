@@ -17,9 +17,9 @@ This project stresses Domian Driven Design and can be leverged to develop Event 
 # Core
 Centralized business logic broken out into **Application** and **Domain** layers.
 
-The **Domain Layer** is designed to be shared with non-technical domain experts and includes easy to read domain entities and logic written as policies.
+The **Domain Layer** is designed to be shared with non-technical domain experts and includes easy to read domain entities and important business processes written out as policies.
 
-The **Application Layer** includes infrastructure implementation details, persistence models, view models, logging, authorization and low level business logic.
+The **Application Layer** includes infrastructure implementation, persistence models, view models, logging, authorization and low level business logic. 
 
 # CoreServices
 One of many options to wrap and deploy the Core. In this scenario we use a REST API and gRPC endpoints deployable to Linux or Windows as a Docker container to a variety of platforms including:
@@ -158,9 +158,9 @@ Our strategy is to use **'_docType'** as our partition on an "Unlimited" CosmosD
 ![Deploy](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/typical-setup.png)
 
 ## Microservices Approach
-Each CoreService can be developed into it's own microservice and composed for a variety of scenarios.
+Each Core can be developed into seperate sub-domains and using a "wrapper" (such as Core.Service) can each be developed and deployed into it's own microservice for a variety of scenarios.
 
-This allows for an even greater seperation of concerns and the ability to scale/evolve each service as it's own domain.
+This allows for an even greater seperation of concerns and the ability to scale/evolve each core/service as it's own domain or domain within a domain.
 
 Here is an example of such a soluton using a variety of microservices as well as an admin portal with a Razor View:
 

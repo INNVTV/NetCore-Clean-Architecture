@@ -133,7 +133,7 @@ The **InitializeCoreConfiguration()** should be called in your main entry point 
 ## Why no Repository Pattern?
 I think Jummy Bogard said it best in his contribution to [this article](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design):
 
-> I'm really not a fan of repositories, mainly because they hide the important details of the underlying persistence mechanism. It's why I go for MediatR for commands, too. I can use the full power of the persistence layer, and push all that domain behavior into my aggregate roots. I don’t usually want to mock my repositories – I still need to have that integration test with the real thing. Going CQRS meant that we didn't really have a need for repositories any more.
+> I'm really not a fan of repositories, mainly because they hide the important details of the underlying persistence mechanism. It's why I go for MediatR for commands, too. I can use the full power of the persistence layer, and push all that domain behavior into my aggregate roots. I don't usually want to mock my repositories - I still need to have that integration test with the real thing. Going CQRS meant that we didn't really have a need for repositories any more.
 
 ## ViewModels
 View models that are returned from Query methods will include UI related values such as "EditEnabled" and "DeleteEnabled"

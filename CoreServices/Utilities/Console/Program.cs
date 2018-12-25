@@ -107,7 +107,7 @@ namespace ConsoleApp
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
-                Name = "Tes",
+                Name = "Test 2",
                 Email = "test@email.com",
                 FirstName = "John",
                 LastName = "Smith"
@@ -143,11 +143,11 @@ namespace ConsoleApp
             // Get details for first item in our list
 
             // Build our GetAccountDetail Query:
-            var accountDetailQuery = new GetAccountDetailsQuery() {
-                Id = accountList[0].Account.Id
-            };
-            var accountDetails =  mediator.Send(accountDetailQuery).Result;
-            Console.WriteLine("Query details results:" + accountDetails.Account.Name);
+            //var accountDetailQuery = new GetAccountDetailsQuery() {
+                //Id = accountList[0].Account.Id
+            //};
+            //var accountDetails =  mediator.Send(accountDetailQuery).Result;
+            //Console.WriteLine("Query details results:" + accountDetails.Account.Name);
 
             Console.ReadLine();
         }

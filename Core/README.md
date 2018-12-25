@@ -1,6 +1,6 @@
 # The Application Layer
 
- Core.Application Project - This is the business logic layer. Many infrastructure specific models are represented with this layer - but will be transfomed into domain models when passed back to consumers.
+ **Core.Application:** This is the business logic layer. Many infrastructure specific models are represented with this layer - but will be transfomed into domain models when passed back to consumers.
  
 
 ### CQRS Pattern
@@ -25,7 +25,7 @@ Logging is built into all Command related methods via MediatR
 
 # The Domain Layer
 
-Core.Domain Project - The classes represented here are a result of collaboration with the non-technical domain experts on the project. Any application models will likely be trasformed from or to the domain models represented in this project in order to better represent the real world model this software strives to represent.
+**Core.Domain:** The classes represented here are a result of collaboration with the non-technical domain experts on the project. Any application models will likely be trasformed from or to the domain models represented in this project in order to better represent the real world model this software strives to represent.
 
 ### Entities
 
@@ -37,15 +37,22 @@ Domain policies are broken out using the strategy pattern so they can be easily 
 
 # The Infrastructure Layer
 
-Core.Infrastructure Project - The classes represented here include hosting, configuration, persistence services, data storage and other 3rd party integrations.
+**Core.Infrastructure:** The classes represented here include hosting, configuration, persistence services, data storage and other 3rd party integrations.
 
 ### Dependency Injection, CoreConfiguration & Contexts
 An ICoreConfiguration interface is used to encapsulate many applcation related settings. 3rd party service connectors are set up through various interfaces such as IDocumentContext, IStorageContext and IRedisContext.
 
 
-# Core.Common
+# Common 
 
-Core.Common encapsulates many common settings, transformations, base classes, interfaces and logging used within the application domain or shared with a consumer of the Core project.
+**Core.Common:** Encapsulates many common settings, transformations, base classes, interfaces and logging used within the application domain or shared with a consumer of the Core project.
 
 
+# Startup
 
+**Core.Startup:** Set of routines that must be called by consumers of Core in order to initialize all configurations. We do this to simplify startup on services/clients. This avoids having to copy/paste startup routines to various Main and Startup methods. They are all encapsulated here and can run with a single line of code from Startup or Main.
+
+**Note:** Startup is it's own library to avoid circular reference issues.
+
+### AutoMapper
+AutoMapper Mappings are configured within the Core.Startup.AutoMapperConfiguration Class

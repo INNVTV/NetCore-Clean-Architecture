@@ -35,14 +35,15 @@ namespace Core.Services
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /* Default .Net Core IServiceCollection is used in this example.
+            /* -----------------------------------------------------------------
+             * Default .Net Core IServiceCollection is used in this example.
              * You can switch to Autofaq, Ninject or any DI Container of your choice.
-             * 
+             * ------------------------------------------------------------------
              * Autofaq allows for automatic registration of Interfaces by using "Assembly Scanning":
              *     - builder.RegisterAssemblyTypes(dataAccess)
              *         .Where(t => t.Name.EndsWith("Repository"))
              *         .AsImplementedInterfaces();
-             */
+             ---------------------------------------------------------------------*/
 
             #region Create our custom dependancies
 
@@ -76,10 +77,12 @@ namespace Core.Services
                 .AddJsonOptions(options =>
                     options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
-            /* REGISTER MEDIATR for CQRS Pattern ---------------
-             * 
+            /* -----------------------------------------------------
+             * REGISTER MEDIATR for CQRS Pattern 
+             * ------------------------------------------------------
              * MediatR will automatically search your assemblies for IRequest and IRequestHandler implementations
              * and will build up your library of commands and queries for use throught your project. */
+
             services.AddMediatR();
 
             #region Inject our custom dependancies into the default WebAPI provider
@@ -100,6 +103,9 @@ namespace Core.Services
             #endregion
 
             #endregion
+
+            // Initialize Core.Startup
+            Core.Startup.Routines.Initialize();
 
         }
 

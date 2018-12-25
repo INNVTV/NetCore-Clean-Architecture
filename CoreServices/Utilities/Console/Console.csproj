@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\..\Core\Core.Common\Core.Common.csproj" />
     <ProjectReference Include="..\..\..\Core\Core.Domain\Core.Domain.csproj" />
     <ProjectReference Include="..\..\..\Core\Core.Infrastructure\Core.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Core\Core.Startup\Core.Startup.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,6 +11,7 @@ using Core.Infrastructure.Configuration;
 using Core.Infrastructure.Persistence.DocumentDatabase;
 using Core.Infrastructure.Persistence.StorageAccount;
 using Core.Infrastructure.Persistence.RedisCache;
+using Core.Domain.Entities;
 
 namespace ConsoleApp
 {
@@ -78,16 +79,21 @@ namespace ConsoleApp
             // Logging
             serviceCollection.AddSingleton<ICoreLogger>(coreLogger);
 
-            /* REGISTER MEDIATR for CQRS Pattern ---------------
-             * 
+            /* -----------------------------------------------------
+             * REGISTER MEDIATR for CQRS Pattern 
+             * ------------------------------------------------------
              * MediatR will automatically search your assemblies for IRequest and IRequestHandler implementations
              * and will build up your library of commands and queries for use throught your project. */
+
             serviceCollection.AddMediatR();
 
             // Build the provider
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             #endregion
+
+            // Initialize Core.Startup
+            Core.Startup.Routines.Initialize();
 
             // Console Debugging:
 
@@ -101,7 +107,7 @@ namespace ConsoleApp
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
-                Name = "Test Account",
+                Name = "Tes",
                 Email = "test@email.com",
                 FirstName = "John",
                 LastName = "Smith"
@@ -109,7 +115,13 @@ namespace ConsoleApp
 
             // Send our command to MediatR for processing...
             var createAccountResponse = mediator.Send(createAccountCommand);
-            Console.WriteLine("Command results:" + createAccountResponse.Id);
+
+            if(createAccountResponse.Result.isSuccess)
+            {
+                var account = (Account)createAccountResponse.Result.Object;
+                Console.WriteLine("Command results:" + account.Id);
+            }
+            
 
             // =======================================
             // QUERIES

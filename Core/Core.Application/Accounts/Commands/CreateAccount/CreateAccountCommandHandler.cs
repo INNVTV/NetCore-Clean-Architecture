@@ -5,15 +5,15 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Common.Exceptions;
-using Core.Common.BaseClasses;
 using Core.Domain.Entities;
 using Core.Application.Accounts.Queries;
 using Core.Infrastructure.Configuration;
 using Core.Infrastructure.Persistence.DocumentDatabase;
+using Core.Common.Response;
 
 namespace Core.Application.Accounts.Commands
 {
-    public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, AccountViewModel>
+    public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, CommandResponse>
     {
         //MediatR will automatically inject out dependencies
         private readonly IMediator _mediator;
@@ -37,7 +37,7 @@ namespace Core.Application.Accounts.Commands
             //_notificationService = notificationService;
         }
 
-        public async Task<AccountViewModel> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResponse> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
             // Prepare our domain model to be returned
             var newAccount = new Account();
@@ -45,8 +45,16 @@ namespace Core.Application.Accounts.Commands
             // Create the new account Id
             var id = Guid.NewGuid();
 
+            //==========================================================================
+            // VALIDATE OUR COMMAND REQUEST
+            //=========================================================================
+
             CreateAccountValidator validator = new CreateAccountValidator();
             ValidationResult validationResult = validator.Validate(request);
+            if(!validationResult.IsValid)
+            {
+                throw new FluentValidation.ValidationException(validationResult.Errors);
+            }
 
             //==========================================================================
             // EVENT SOURCING - REFACTORING NOTES
@@ -62,25 +70,26 @@ namespace Core.Application.Accounts.Commands
             accountDocumentModel.NameKey = Common.Transformations.NameKey.Transform(request.Name);
             accountDocumentModel.CreatedDate = DateTime.UtcNow;
 
-            var result = await _documentContext.Client.CreateDocumentAsync("", accountDocumentModel);
+            //var result = await _documentContext.Client.CreateDocumentAsync("", accountDocumentModel);
 
-            if(result.StatusCode == System.Net.HttpStatusCode.OK)
+            if(true)//result.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 // Example of using Mediatr to return a list of accounts (Should be removed)
                 var accountListQuery = new GetAccountsListQuery();
                 var accountList = await _mediator.Send(accountListQuery);
 
-                // Use AutoMapper to transform document model to domain model
-                var account = new Account();
 
-                // Add account domain model to the view model
-                var accountViewModel = new AccountViewModel { Account = account };
 
-                // Add the remaining authorization details to the view model
-                accountViewModel.DeleteEnabled = false;
-                accountViewModel.EditEnabled = false;
+                //==========================================================================
+                // AUTOMAPPER 
+                //=========================================================================
+                // Add additional mappings into the: Core.Startup.AutoMapperConfiguration class.
 
-                return accountViewModel;
+                var account = AutoMapper.Mapper.Map<Account>(accountDocumentModel);
+
+
+
+                return new CommandResponse { isSuccess = true, Object = account };
             }
             else
             {

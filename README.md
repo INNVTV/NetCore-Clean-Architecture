@@ -6,7 +6,6 @@
  * TODO: Resolve continuation tokens in MediatR
  * TODO: Add Exception Response in Commands/Queries
  * TODO: Add Cross-Cutting (ActivityLog, ExceptionLog, ErrorLog, Authorization) in Commands/Queries
- * TODO: Finalize Automapper
  * TODO: Restore AppSettings to GitHub
 
 # .Net Core Clean Architecture
@@ -155,6 +154,9 @@ We use .Net Cores built in with Docker and Docker compose helping to manage buil
 .Net Core Identity is used. (...or ADB2C) Users are assigned to a Account object.
 
 Authorization is built into all Command related methods via MediatR
+
+### AutoMapper
+AutoMapper Mappings are configured within the Core.Startup.AutoMapperConfiguration Class
 
 ## CosmosDB Document Partitioning Strategy
 Our strategy is to use **'_docType'** as our partition on an "Unlimited" CosmosDB collection. This project uses the SQL API for document management.

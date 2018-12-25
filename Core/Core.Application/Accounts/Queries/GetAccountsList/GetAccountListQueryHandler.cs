@@ -4,7 +4,6 @@ using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Common.Exceptions;
 using Core.Domain.Entities;
 using Core.Application.Accounts.Queries;
 using System.Collections.Generic;

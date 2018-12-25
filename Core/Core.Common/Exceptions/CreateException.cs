@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Core.Common.Exceptions
 {
+    /*
     public class CreateException : Exception
     {
         public CreateException(string name, object key)
@@ -11,4 +12,5 @@ namespace Core.Common.Exceptions
         {
         }
     }
+    */
 }

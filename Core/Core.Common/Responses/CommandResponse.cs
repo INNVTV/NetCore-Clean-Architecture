@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,5 +15,7 @@ namespace Core.Common.Response
         public bool isSuccess { get; set; }
         public string Message { get; set; }
         public Object Object { get; set; }
+
+        public IList<ValidationFailure> ValidationErrors;
     }
 }

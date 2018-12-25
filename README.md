@@ -155,11 +155,11 @@ We use .Net Cores built in with Docker and Docker compose helping to manage buil
 
 Authorization is built into all Command related methods via MediatR
 
-### AutoMapper
+## AutoMapper
 AutoMapper Mappings are configured within the Core.Startup.AutoMapperConfiguration Class
 
 ## CosmosDB Document Partitioning Strategy
-Our strategy is to use **'_docType'** as our partition on an "Unlimited" CosmosDB collection. This project uses the SQL API for document management.
+Our strategy is to use **'_docType'** as our partition on the CosmosDB collection. This project uses the SQL API for document management.
 
  * Account document _docTypes are named: **"Account"**
  * Platform document _docTypes are named: **"Platform"**
@@ -170,6 +170,8 @@ Our strategy is to use **'_docType'** as our partition on an "Unlimited" CosmosD
  * Documents belonging to particular entity type for a specific account are named: **"EntityName-\<EntityId\>-Account-\<AccountId\>"**
  * Partitions that may exceed the 10gb limit should append a date key at the end: **"\<_docType\>-\<YYYYMM\>"**
  
+### DocumentType Dynamic Constants
+To ensure the integrity of the _docType naming convention the **Core.Common.Constants.DocumentTypes** static class should be used when assigning _docTypes to your DocumentModels.
 
 ## Recommended Deployment Scenario
 

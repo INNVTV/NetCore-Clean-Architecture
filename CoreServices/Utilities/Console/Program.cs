@@ -12,6 +12,7 @@ using Core.Infrastructure.Persistence.DocumentDatabase;
 using Core.Infrastructure.Persistence.StorageAccount;
 using Core.Infrastructure.Persistence.RedisCache;
 using Core.Domain.Entities;
+using Core.Infrastructure.Services.Email;
 
 namespace ConsoleApp
 {
@@ -51,6 +52,12 @@ namespace ConsoleApp
 
             #endregion
 
+            #region Initialize 3rd Party Service Dependencies
+
+            IEmailService sendgridService = new SendGridEmailService(configuration);
+
+            #endregion
+
             #endregion
 
             #region Register our dependancies into our provider
@@ -76,6 +83,9 @@ namespace ConsoleApp
             serviceCollection.AddSingleton<IStorageContext>(storageContext);
             serviceCollection.AddSingleton<IRedisContext>(redisContext);
 
+            // 3rd Part Services
+            serviceCollection.AddSingleton<IEmailService>(sendgridService);
+
             // Logging
             serviceCollection.AddSingleton<ICoreLogger>(coreLogger);
 
@@ -83,7 +93,9 @@ namespace ConsoleApp
              * REGISTER MEDIATR for CQRS Pattern 
              * ------------------------------------------------------
              * MediatR will automatically search your assemblies for IRequest and IRequestHandler implementations
-             * and will build up your library of commands and queries for use throught your project. */
+             * and will build up your library of commands and queries for use throught your project.
+             * 
+             * Note: MediatR should be added LAST. */
 
             serviceCollection.AddMediatR();
 
@@ -107,8 +119,8 @@ namespace ConsoleApp
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
-                Name = "Test 1145",
-                Email = "test@email.com",
+                Name = "Account Name 1",
+                Email = "kaz@innvtv.com",
                 FirstName = "John",
                 LastName = "Smith"
             };

@@ -12,7 +12,9 @@ namespace Core.Startup
         {
             AutoMapper.Mapper.Initialize(cfg => {
                 cfg.CreateMap<AccountDocumentModel, Account>();
-                //cfg.CreateMap<Account, AccountDocumentModel>();
+                //cfg.CreateMap<EntityDocumentModel, Entity>();
+                //cfg.CreateMap<EntityDocumentModel, Entity>();
+                //cfg.CreateMap<EntityDocumentModel, Entity>();
             });
         }
     }

@@ -19,6 +19,7 @@ using Core.Infrastructure.Persistence.DocumentDatabase;
 using Core.Infrastructure.Configuration;
 using Core.Infrastructure.Persistence.StorageAccount;
 using Core.Infrastructure.Persistence.RedisCache;
+using Core.Infrastructure.Services.Email;
 
 namespace Core.Services
 {
@@ -67,6 +68,12 @@ namespace Core.Services
 
             #endregion
 
+            #region Initialize 3rd Party Service Dependencies
+
+            IEmailService sendgridService = new SendGridEmailService(Configuration);
+
+            #endregion
+
             #endregion
 
             #region Register our dependencies
@@ -77,13 +84,6 @@ namespace Core.Services
                 .AddJsonOptions(options =>
                     options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
-            /* -----------------------------------------------------
-             * REGISTER MEDIATR for CQRS Pattern 
-             * ------------------------------------------------------
-             * MediatR will automatically search your assemblies for IRequest and IRequestHandler implementations
-             * and will build up your library of commands and queries for use throught your project. */
-
-            services.AddMediatR();
 
             #region Inject our custom dependancies into the default WebAPI provider
 
@@ -96,11 +96,24 @@ namespace Core.Services
             services.AddSingleton<IStorageContext>(storageContext);
             services.AddSingleton<IRedisContext>(redisContext);
 
+            // 3rd Part Services
+            services.AddSingleton<IEmailService>(sendgridService);
+
             // Logging
             services.AddSingleton<ICoreLogger>(coreLogger);
 
 
             #endregion
+
+            /* -----------------------------------------------------
+             * REGISTER MEDIATR for CQRS Pattern 
+             * ------------------------------------------------------
+             * MediatR will automatically search your assemblies for IRequest and IRequestHandler implementations
+             * and will build up your library of commands and queries for use throught your project.
+             * 
+             * Note: MediatR should be added LAST. */
+
+            services.AddMediatR();
 
             #endregion
 

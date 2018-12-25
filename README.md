@@ -1,11 +1,12 @@
- * TODO: Complete and Test Validation in Commands/Queries (Make part of MediatR)
- * TODO: Incorporate Unit of Work?
- * TODO: Delete InitializeCoreConfiguration (after created Table/Redis)
- * TODO: Break out into IDocumentClient, IStorageClient, etc...
  * TODO: Add MediatR Pipeline and Notification Services + Others
- * TODO: Resolve continuation tokens in MediatR
- * TODO: Add Exception Response in Commands/Queries
  * TODO: Add Cross-Cutting (ActivityLog, ExceptionLog, ErrorLog, Authorization) in Commands/Queries
+ * TODO: Resolve continuation tokens in MediatR
+ * TODO: Incorporate Unit of Work?
+ * TODO: Add email to Close Accounts
+ * TODO: Redis on Queries (+ Clear Cache On Updates)
+ * TODO: Make Validation part of MediatR/Startup?
+ * TODO: Add Dependency Creation into Core.Startup
+ * TODO: Add Simple Entity to Account Object of Type
  * TODO: Restore AppSettings to GitHub
 
 # .Net Core Clean Architecture
@@ -158,8 +159,13 @@ Authorization is built into all Command related methods via MediatR
 ## AutoMapper
 AutoMapper Mappings are configured within the Core.Startup.AutoMapperConfiguration Class
 
+## Email
+Use the IEmailService interface to implement your email service provider. The default implementation within this project uses SendGrid.
+
 ## CosmosDB Document Partitioning Strategy
 Our strategy is to use **'_docType'** as our partition on the CosmosDB collection. This project uses the SQL API for document management.
+
+**Here is a recommended ParitionKey naming convention:**
 
  * Account document _docTypes are named: **"Account"**
  * Platform document _docTypes are named: **"Platform"**
@@ -173,7 +179,7 @@ Our strategy is to use **'_docType'** as our partition on the CosmosDB collectio
 ### NameKey
 Most entities will have a "NameKey" derived from the name of the entity. This is a pretty version of the entity name that serves as both a unique id as well as an index name for routing.
 
-### UniqueKey
+### Unique Key
 CosmosDB allows you to create a "UniqueKey" that adds a layer of data integrity to your collection. This will ensure that this property is not duplicated in any documents within the same partition. "NameKey" would be a good candidate for this extra layer of integrity.
 
 ### DocumentType Dynamic Constants

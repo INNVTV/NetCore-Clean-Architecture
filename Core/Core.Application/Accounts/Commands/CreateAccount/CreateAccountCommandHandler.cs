@@ -11,6 +11,7 @@ using Core.Infrastructure.Persistence.DocumentDatabase;
 using Core.Common.Response;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents;
+using Core.Infrastructure.Services.Email;
 
 namespace Core.Application.Accounts.Commands
 {
@@ -20,13 +21,14 @@ namespace Core.Application.Accounts.Commands
         private readonly IMediator _mediator;
         private readonly ICoreConfiguration _coreConfiguration;
         private readonly IDocumentContext _documentContext;
+        private readonly IEmailService _emailService;
 
-
-        public CreateAccountCommandHandler(IDocumentContext documentContext, ICoreConfiguration coreConfiguration, IMediator mediator)
+        public CreateAccountCommandHandler(IMediator mediator, IDocumentContext documentContext, ICoreConfiguration coreConfiguration, IEmailService emailService)
         {
             _mediator = mediator;
             _coreConfiguration = coreConfiguration;
             _documentContext = documentContext;
+            _emailService = emailService;
 
             //Log Activity
 
@@ -78,7 +80,6 @@ namespace Core.Application.Accounts.Commands
                     }
                 }
 
-
                 //=========================================================================
                 // CREATE AND STORE OUR DOCUMENT MODEL
                 //=========================================================================
@@ -108,6 +109,21 @@ namespace Core.Application.Accounts.Commands
 
                 if(result.StatusCode == System.Net.HttpStatusCode.Created)
                 {
+                    //==========================================================================
+                    // SEND EMAIL 
+                    //=========================================================================
+                    // Send an email to the new account owner
+                    var emailMessage = new EmailMessage
+                    {
+                        ToEmail = request.Email,
+                        ToName = String.Concat(request.FirstName, " ", request.LastName),
+                        Subject = "Account created",
+                        TextContent = String.Concat("Thank you ", String.Concat(request.FirstName, " ", request.LastName), "! your account named ", request.Name, " has been created!"),
+                        HtmlContent = String.Concat("Thank you ", String.Concat(request.FirstName, " ", request.LastName), ",<br>Your account named <b>", request.Name, "</b> has been created!")
+                    };
+
+                    var emailSent = await _emailService.SendEmail(emailMessage);
+
                     //==========================================================================
                     // AUTOMAPPER 
                     //=========================================================================

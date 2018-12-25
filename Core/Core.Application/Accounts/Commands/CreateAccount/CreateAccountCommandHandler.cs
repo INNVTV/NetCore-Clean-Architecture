@@ -63,6 +63,9 @@ namespace Core.Application.Accounts.Commands
                 //=========================================================================
                 // VALIDATE ACCOUNT NAME IS UNIQUE (Via MediatR Query)
                 //=========================================================================
+                // Note: "NameKey" is transformed from "Name" and is used as a both a unique id as well as for pretty routes/urls
+                // Note: Consider using both "Name and ""NameKey" as UniqueKeys on your DocumentDB collection.
+                // Note: Once contraints are in place you could remove this manual check - however this process does ensure no exceptions are thrown and a cleaner response message.
 
                 var accountDetailsQuery = new GetAccountDetailsQuery { NameKey = Common.Transformations.NameKey.Transform(request.Name) };
                 var accountDetails = await _mediator.Send(accountDetailsQuery);

@@ -101,13 +101,13 @@ namespace ConsoleApp
             var mediator = serviceProvider.GetRequiredService<IMediator>();
 
             // =======================================
-            // COMMANDS
+            // TEST BED FOR COMMANDS/QUERIES
             // =======================================
 
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
-                Name = "Test 2",
+                Name = "Test 1145",
                 Email = "test@email.com",
                 FirstName = "John",
                 LastName = "Smith"
@@ -116,40 +116,34 @@ namespace ConsoleApp
             // Send our command to MediatR for processing...
             var createAccountResponse = mediator.Send(createAccountCommand);
 
-            if(createAccountResponse.Result.isSuccess)
+            // Print results:
+            Console.WriteLine("RESULTS:");
+            Console.WriteLine(createAccountResponse.Result.isSuccess);
+            Console.WriteLine(createAccountResponse.Result.Message);
+
+            if (createAccountResponse.Result.isSuccess)
             {
                 var account = (Account)createAccountResponse.Result.Object;
-                Console.WriteLine("Command results:" + account.Id);
+
+                Console.WriteLine("----------------------------------------");
+                Console.WriteLine("NEW ACCOUNT:");
+                Console.WriteLine("----------------------------------------");
+                Console.WriteLine("Id: " + account.Id);
+                Console.WriteLine("NameKey: " + account.NameKey);
+                Console.WriteLine("----------------------------------------");
             }
-            
-
-            // =======================================
-            // QUERIES
-            // =======================================
-
-            //  Build our GetAccountList Query:
-            var accountsListQuery = new GetAccountsListQuery();
-
-            // Send our query to MediatR for processing...
-            var accountList = mediator.Send(accountsListQuery).Result;
-            Console.WriteLine("Query list results:");
-            foreach(var accountViewModel in accountList)
-            {
-                Console.WriteLine(String.Concat("{0} ({1})", accountViewModel.Account.Name, accountViewModel.Account.Id));
-            }
-
-            Console.WriteLine();
-
-            // Get details for first item in our list
-
-            // Build our GetAccountDetail Query:
-            //var accountDetailQuery = new GetAccountDetailsQuery() {
-                //Id = accountList[0].Account.Id
-            //};
-            //var accountDetails =  mediator.Send(accountDetailQuery).Result;
-            //Console.WriteLine("Query details results:" + accountDetails.Account.Name);
 
             Console.ReadLine();
+
         }
+
+        #region Test Commands/Queries
+
+        public static void CreateNewAccount(IServiceProvider serviceProvider, string accountName)
+        {
+            //TODO: Move our test commands to these methods
+        }
+
+        #endregion
     }
 }

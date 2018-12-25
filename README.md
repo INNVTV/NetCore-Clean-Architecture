@@ -170,6 +170,12 @@ Our strategy is to use **'_docType'** as our partition on the CosmosDB collectio
  * Documents belonging to particular entity type for a specific account are named: **"EntityName-\<EntityId\>-Account-\<AccountId\>"**
  * Partitions that may exceed the 10gb limit should append a date key at the end: **"\<_docType\>-\<YYYYMM\>"**
  
+### NameKey
+Most entities will have a "NameKey" derived from the name of the entity. This is a pretty version of the entity name that serves as both a unique id as well as an index name for routing.
+
+### UniqueKey
+CosmosDB allows you to create a "UniqueKey" that adds a layer of data integrity to your collection. This will ensure that this property is not duplicated in any documents within the same partition. "NameKey" would be a good candidate for this extra layer of integrity.
+
 ### DocumentType Dynamic Constants
 To ensure the integrity of the _docType naming convention the **Core.Common.Constants.DocumentTypes** static class should be used when assigning _docTypes to your DocumentModels.
 

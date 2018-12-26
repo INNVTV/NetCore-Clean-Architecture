@@ -107,7 +107,7 @@ Here is a typical file structure, simplified to focus on a single entity wth onl
 ## MediatR Pipeline Behaviors for Cross-Cutting Concerns
 MediatR gives you the ability to inject functionality into it's processing pipeline such as pre-request and post-request handlers.  this allow for  on the requests coming in, or post-process the request on the way out. We can define pipelines to help manage cross-cutting concerns such as logging, authorization and caching. 
 
-![Pipelines](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipelines.png)
+![Pipelines](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipeline.png)
 
 
 ## MediatR Notifications
@@ -116,7 +116,7 @@ MediatR allows you to publish a message that can be picked up by any handlers su
 ![Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-notifications.png)
 
 ## MediatR Pipeline Behaviors with Notifications
-![Pipelines-Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipelines-notifications.png)
+![Pipelines-Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipeline-notifications.png)
 
 
 

@@ -116,6 +116,9 @@ namespace ConsoleApp
             // TEST BED FOR COMMANDS/QUERIES
             // =======================================
 
+            #region CREATE ACCOUNT
+
+            /*
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
@@ -146,16 +149,40 @@ namespace ConsoleApp
             }
 
             Console.ReadLine();
+            */
+            #endregion
+
+            #region CLOSE ACCOUNT
+
+            /*
+            // Build our CreateAccount Command:
+            var closeAccountCommand = new CloseAccountCommand()
+            {
+                Id = "724a70f2-594d-48f8-b623-956f2f94fb61"
+            };
+
+            // Send our command to MediatR for processing...
+            var closeAccountResponse = mediator.Send(closeAccountCommand);
+
+            // Print results:
+            Console.WriteLine("RESULTS:");
+            Console.WriteLine(closeAccountResponse.Result.isSuccess);
+            Console.WriteLine(closeAccountResponse.Result.Message);
+
+            if (closeAccountResponse.Result.isSuccess)
+            {
+                Console.WriteLine("----------------------------------------");
+                Console.WriteLine("ACCOUNT CLOSED");
+                Console.WriteLine("----------------------------------------");
+            }
+
+            Console.ReadLine();
+            
+            */
+            #endregion
 
         }
+        
 
-        #region Test Commands/Queries
-
-        public static void CreateNewAccount(IServiceProvider serviceProvider, string accountName)
-        {
-            //TODO: Move our test commands to these methods
-        }
-
-        #endregion
     }
 }

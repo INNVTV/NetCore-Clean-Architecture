@@ -16,7 +16,7 @@ namespace Core.Application.Accounts.Queries
 {
     public class GetAccountDetailsQueryHandler : IRequestHandler<GetAccountDetailsQuery, AccountViewModel>
     {
-        //MediatR will automatically inject out dependencies
+        //MediatR will automatically inject dependencies
         private readonly IMediator _mediator;
         private readonly ICoreConfiguration _coreConfiguration;
         private readonly IDocumentContext _documentContext;

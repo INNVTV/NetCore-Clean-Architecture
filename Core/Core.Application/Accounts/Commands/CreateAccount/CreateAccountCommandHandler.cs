@@ -17,7 +17,7 @@ namespace Core.Application.Accounts.Commands
 {
     public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, CommandResponse>
     {
-        //MediatR will automatically inject out dependencies
+        //MediatR will automatically inject dependencies
         private readonly IMediator _mediator;
         private readonly ICoreConfiguration _coreConfiguration;
         private readonly IDocumentContext _documentContext;
@@ -95,13 +95,17 @@ namespace Core.Application.Accounts.Commands
                 accountDocumentModel.Active = true;
                 accountDocumentModel.CreatedDate = DateTime.UtcNow;
 
+                accountDocumentModel.Owner.Email = request.Email;
+                accountDocumentModel.Owner.FirstName = request.FirstName;
+                accountDocumentModel.Owner.LastName = request.LastName;
+
                 // Add the ParitionKey to the document
                 accountDocumentModel.DocumentType = Common.Constants.DocumentType.Account();
 
                 // Generate collection uri
                 Uri collectionUri = UriFactory.CreateDocumentCollectionUri(_documentContext.Settings.Database, _documentContext.Settings.Collection);
 
-                // Save the document to document store
+                // Save the document to document store using the IDocumentContext dependency
                 var result = await _documentContext.Client.CreateDocumentAsync(
                     collectionUri,
                     accountDocumentModel
@@ -112,7 +116,7 @@ namespace Core.Application.Accounts.Commands
                     //==========================================================================
                     // SEND EMAIL 
                     //=========================================================================
-                    // Send an email to the new account owner
+                    // Send an email to the new account owner using the IEmailService dependency
                     var emailMessage = new EmailMessage
                     {
                         ToEmail = request.Email,
@@ -123,6 +127,7 @@ namespace Core.Application.Accounts.Commands
                     };
 
                     var emailSent = await _emailService.SendEmail(emailMessage);
+
 
                     //==========================================================================
                     // AUTOMAPPER 
@@ -136,7 +141,7 @@ namespace Core.Application.Accounts.Commands
                 }
                 else
                 {                  
-                    return new CommandResponse { Message = "Could not save model to document store. Status code:" + result.StatusCode };
+                    return new CommandResponse { Message = "Could not save model to document store. Status code: " + result.StatusCode };
                 }
             }
             catch(Exception e)

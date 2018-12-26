@@ -7,6 +7,11 @@ namespace Core.Application.Accounts.Models
 {
     public class AccountDocumentModel
     {
+        public AccountDocumentModel()
+        {
+            Owner = new Owner();
+        }
+
         [JsonProperty(PropertyName = "id")] //<-- Required for all Documents
         public string Id { get; set; }
 
@@ -18,6 +23,15 @@ namespace Core.Application.Accounts.Models
 
         public bool Active { get; set; }
 
-        public DateTime CreatedDate {get; set;}     
+        public DateTime CreatedDate {get; set;}
+
+        public Owner Owner { get; set; }
+    }
+
+    public class Owner
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
     }
 }

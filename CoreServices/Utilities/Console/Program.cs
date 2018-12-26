@@ -152,6 +152,43 @@ namespace ConsoleApp
             */
             #endregion
 
+            #region CREATE BATCH OF ACCOUNTS
+
+            int amount = 80;
+
+            for(var i = 41; i <= amount; i++)
+            {
+                // Build our CreateAccount Command:
+                var createAccountCommand = new CreateAccountCommand()
+                {
+                    Name = String.Concat("Account ", i),
+                    Email = "kaz@innvtv.com",
+                    FirstName = "John",
+                    LastName = "Smith"
+                };
+
+                // Send our command to MediatR for processing...
+                var createAccountResponse = mediator.Send(createAccountCommand);
+
+                if (createAccountResponse.Result.isSuccess)
+                {
+                    var account = (Account)createAccountResponse.Result.Object;
+                    Console.WriteLine(String.Concat(account.Name, " created."));
+                }
+            }
+            
+            Console.ReadLine();
+            
+            #endregion
+
+            #region GET ACCOUNT LIST
+
+            // Order By
+            // Count
+            // Pagination
+
+            #endregion
+
             #region CLOSE ACCOUNT
 
             /*
@@ -182,7 +219,7 @@ namespace ConsoleApp
             #endregion
 
         }
-        
+
 
     }
 }

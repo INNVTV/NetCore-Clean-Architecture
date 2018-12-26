@@ -197,6 +197,8 @@ Here is an example of such a soluton using a variety of microservices as well as
 ![Microservices](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/microservices.png)
 
 
+# TODO
+
  * TODO: Enable Notification with many subscribers.
  * TODO: Logging using Notification Services or Pre/Post Pipelines?
  * TODO: Use Nitifications with Caching? (To clear cache)

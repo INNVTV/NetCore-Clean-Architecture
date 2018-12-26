@@ -17,4 +17,10 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logging\" />
+    <Folder Include="Caching\" />
+    <Folder Include="Authorization\" />
+  </ItemGroup>
+
 </Project>

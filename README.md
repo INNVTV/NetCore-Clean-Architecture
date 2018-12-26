@@ -1,21 +1,3 @@
- * TODO: Enable Notification with many subscribers.
- * TODO: Logging using Notification Services or Pre/Post Pipelines
- * TODO: Authorization using Pre-Post Pipelines (with logging?)
- * TODO: Notification and Pipeline Notes in ReadMe
-
- * TODO: Add Cross-Cutting (ActivityLog, ExceptionLog, ErrorLog, Authorization) in Commands/Queries
-
- * TODO: Application Insights and Built in Logging?
- * TODO: Resolve continuation tokens in MediatR
- * TODO: Incorporate Unit of Work?
- * TODO: Redis on Queries (+ Clear Cache On Updates)
-
- * TODO: Make Validation part of MediatR/Startup?
- * TODO: Add Dependency Creation into Core.Startup
- * TODO: Add Simple Entity to Account Object of Type
- 
- * TODO: Restore AppSettings to GitHub
-
 # .Net Core Clean Architecture
 .Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, service communications with both REST and gRPC endpoints, FluentValidation, AutoMapper, CosmosDB for data and Table Storage for logging.
 
@@ -122,13 +104,22 @@ Here is a typical file structure, simplified to focus on a single entity wth onl
 
 **Optimaization:** Seperating Commands from Queries allows you to optimize how you access your data store between each access type. You may also choose to have different data stores for reads vs writes. Perhaps Reads will ALWAYS hit a Redis Cache or Search Provider and part of the responsibility of Writes are to ensure these are kept up to date. You may use the same ata store but opt for Entity Framework for your Reads and ADO.NET for your Writes. Or you can go full Event Sourced and build up snapshots, projections and aggregates from your Event Store.
 
-## MediatR Pipelines for Cross-Cutting Concerns
-MediatR gives you the ability to inject functionality into it's processing pipeline such as pre-request and post-request handlers.  this allow for  on the requests coming in, or post-process the request on the way out. We can define some interfaces around this: create pipelines to help manage cross-cutting concerns such as logging, authorization and caching. This example showcasing a logging feature.
+## MediatR Pipeline Behaviors for Cross-Cutting Concerns
+MediatR gives you the ability to inject functionality into it's processing pipeline such as pre-request and post-request handlers.  this allow for  on the requests coming in, or post-process the request on the way out. We can define pipelines to help manage cross-cutting concerns such as logging, authorization and caching. 
 
-[Exampl with images]
+![Pipelines](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipelines.png)
+
 
 ## MediatR Notifications
-MediatR allows you to publish a message that can be picked up by any handlers subscribed to it. An example can be found with ...
+MediatR allows you to publish a message that can be picked up by any handlers subscribed to it. 
+
+![Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-notifications.png)
+
+## MediatR Pipeline Behaviors with Notifications
+![Pipelines-Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipelines-notifications.png)
+
+
+
 
 ## Dependency Injection and CoreConfiguration
 Dependency Injection is handled through the default .Net Core Service Provider. An ICoreConfiguration interface is used to encapsulate many applcation related settings. 3rd party service connectors are set up through various interfaces such as IDocumentContext, IStorageContext and IRedisContext.
@@ -204,3 +195,26 @@ This allows for an even greater seperation of concerns and the ability to scale/
 Here is an example of such a soluton using a variety of microservices as well as an admin portal with a Razor View:
 
 ![Microservices](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/microservices.png)
+
+
+ * TODO: Enable Notification with many subscribers.
+ * TODO: Logging using Notification Services or Pre/Post Pipelines?
+ * TODO: Use Nitifications with Caching? (To clear cache)
+ * TODO: Authorization using Pre-Post Pipelines (with logging?)
+ * TODO: Notification and Pipeline Notes in ReadMe
+
+ * TODO: Add Cross-Cutting (ActivityLog, ExceptionLog, ErrorLog, Authorization) in Commands/Queries
+
+ * TODO: Console Cleaner Methods for Debug Methods
+ * TODO: Resolve continuation tokens in MediatR
+ * TODO: Incorporate Unit of Work?
+ * TODO: Redis on Queries (+ Clear Cache On Updates)
+
+ * TODO: View Accounts, Details, Logs
+ * TODO: Identity, Roles, Users Creation, Authorization, Logs
+
+ * TODO: Make Validation part of MediatR/Startup?
+ * TODO: Add Dependency Creation into Core.Startup
+ * TODO: Add Simple Entity to Account Object of Type
+ 
+ * TODO: Restore AppSettings to GitHub

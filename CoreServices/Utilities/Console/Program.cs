@@ -13,6 +13,7 @@ using Core.Infrastructure.Persistence.StorageAccount;
 using Core.Infrastructure.Persistence.RedisCache;
 using Core.Domain.Entities;
 using Core.Infrastructure.Services.Email;
+using Core.Infrastructure.Pipeline;
 
 namespace ConsoleApp
 {
@@ -87,7 +88,12 @@ namespace ConsoleApp
             serviceCollection.AddSingleton<IEmailService>(sendgridService);
 
             // Logging
-            serviceCollection.AddSingleton<ICoreLogger>(coreLogger);
+            //serviceCollection.AddSingleton<ICoreLogger>(coreLogger);
+
+            // MediatR Pipeline Behaviors
+            serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
+            serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+
 
             /* -----------------------------------------------------
              * REGISTER MEDIATR for CQRS Pattern 
@@ -121,7 +127,7 @@ namespace ConsoleApp
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
-                Name = "Account Name 1",
+                Name = "Account Name 4",
                 Email = "kaz@innvtv.com",
                 FirstName = "John",
                 LastName = "Smith"

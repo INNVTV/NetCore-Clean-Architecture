@@ -20,6 +20,7 @@ using Core.Infrastructure.Configuration;
 using Core.Infrastructure.Persistence.StorageAccount;
 using Core.Infrastructure.Persistence.RedisCache;
 using Core.Infrastructure.Services.Email;
+using Core.Infrastructure.Pipeline;
 
 namespace Core.Services
 {
@@ -100,7 +101,11 @@ namespace Core.Services
             services.AddSingleton<IEmailService>(sendgridService);
 
             // Logging
-            services.AddSingleton<ICoreLogger>(coreLogger);
+            //services.AddSingleton<ICoreLogger>(coreLogger);
+
+            // MediatR Pipeline Behaviors
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
 
             #endregion

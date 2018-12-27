@@ -120,7 +120,14 @@ MediatR gives you the ability to inject functionality into it's processing pipel
 		}
 	}
 
-**Note:** You can see an example of pipleline behaviors in the **xxx** and ***xxx** implementation
+**Note:** You can see an example of pipleline behaviors in the **Core.Infrastructure.Pipeline.TracingBehavior** and ***Core.Infrastructure.Pipeline.LoggingBehavior** implementations.
+
+**Note:** The **TracingBehavior** Pipeline will trace diagnostic messages to your Output window during debugging. 
+
+**Note:** Examples are run on every handler. You can designate pipelines for specific handler types by designating them in your DI container.
+
+**Note:** Pipelines must be added to your DI container during main entrypoint startup. 
+
 
 ## MediatR Notifications
 MediatR allows you to publish a message that can be picked up by any handlers subscribed to it. 

@@ -124,22 +124,21 @@ MediatR gives you the ability to inject functionality into it's processing pipel
 
 **Note:** The **TracingBehavior** Pipeline will trace diagnostic messages to your Output window during debugging. 
 
-**Note:** Examples are run on every handler. You can designate pipelines for specific handler types by designating them in your DI container.
+**Note:** Examples are run on every handler. You can designate pipelines for specific handler types by using if/case statements: **if (request is IQuery)** within your behavior handler or by.
 
 **Note:** Pipelines must be added to your DI container during main entrypoint startup. 
-
 
 ## MediatR Notifications
 MediatR allows you to publish a message that can be picked up by any handlers subscribed to it. 
 
 ![Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-notifications.png)
 
-**Note:** You can see an example of notifications in the activity logging implementation here: **xxx** and here: ***xxx** implementation
+**Note:** You can see an example of notifications used inside of a pipleline behavior here: **Core.Infrastructure.Pipeline.TracingBehavior** - This example uses the **Core.Infrastructure.Notifications.Publisher.Ping** notification and **Core.Infrastructure.Notifications.Subscriber.Pong1/2** NotificationHandler(s).
 
 ## MediatR Pipeline Behaviors with Notifications
+The illustration below showcases how the Ping/Pong Notification Pub/Sub example is used within the TraceBehavior Pipeline/Behavior.
+
 ![Pipelines-Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipeline-notifications.png)
-
-
 
 
 ## Dependency Injection and CoreConfiguration

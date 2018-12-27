@@ -127,7 +127,7 @@ namespace ConsoleApp
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
-                Name = "Account Name 4",
+                Name = "Account Name 5",
                 Email = "kaz@innvtv.com",
                 FirstName = "John",
                 LastName = "Smith"

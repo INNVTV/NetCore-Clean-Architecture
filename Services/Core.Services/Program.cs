@@ -14,8 +14,8 @@ namespace Core.Services
 {
     public class Program
     {
-        readonly IConfiguration _configuration;
-        public static ICoreConfiguration _coreConfiguration;
+        //readonly IConfiguration _configuration;
+        //public static ICoreConfiguration _coreConfiguration;
 
         public static void Main(string[] args)
         {
@@ -27,6 +27,12 @@ namespace Core.Services
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    logging.AddConsole();
+                    logging.AddDebug();
+                });
     }
 }

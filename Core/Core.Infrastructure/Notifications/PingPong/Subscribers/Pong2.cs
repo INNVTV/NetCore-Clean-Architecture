@@ -1,4 +1,4 @@
-﻿using Core.Infrastructure.Notifications.Publisher;
+﻿using Core.Infrastructure.Notifications.PingPong.Publisher;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Core.Infrastructure.Notifications.Subscriber
+namespace Core.Infrastructure.Notifications.PingPong.Subscribers
 {
     public class Pong2 : INotificationHandler<Ping>
     {

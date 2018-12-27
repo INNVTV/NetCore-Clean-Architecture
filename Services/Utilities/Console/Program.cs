@@ -1,8 +1,8 @@
 ﻿using Core.Application.Accounts.Queries;
-using Core.Common.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using MediatR;
@@ -14,6 +14,7 @@ using Core.Infrastructure.Persistence.RedisCache;
 using Core.Domain.Entities;
 using Core.Infrastructure.Services.Email;
 using Core.Infrastructure.Pipeline;
+using MediatR.Pipeline;
 
 namespace ConsoleApp
 {
@@ -21,6 +22,7 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
+            
             #region Create our dependancies
 
             #region Build our IConfiguration
@@ -36,12 +38,6 @@ namespace ConsoleApp
             #region Initialize our ICoreConfiguration object
 
             ICoreConfiguration coreConfiguration = new CoreConfiguration(configuration);
-
-            #endregion
-
-            #region Initialize our ICoreLogger
-
-            ICoreLogger coreLogger = new CoreLogger();
 
             #endregion
 
@@ -75,6 +71,10 @@ namespace ConsoleApp
             // Create our collection of injectable services
             var serviceCollection = new ServiceCollection();
 
+            // Logging:
+            //serviceCollection.AddSingleton<ILoggerFactory, LoggerFactory>();
+            serviceCollection.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+
             // Configuration
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddSingleton<ICoreConfiguration>(coreConfiguration);
@@ -87,12 +87,13 @@ namespace ConsoleApp
             // 3rd Part Services
             serviceCollection.AddSingleton<IEmailService>(sendgridService);
 
-            // Logging
-            //serviceCollection.AddSingleton<ICoreLogger>(coreLogger);
+            // Account/Platform Activity Logging
+            //serviceCollection.AddSingleton<ICore(Account/Platform)ActivityLogger>(coreLogger);
 
             // MediatR Pipeline Behaviors
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
-            serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
+            serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>)); //<-- Includes LoggingBehavior
 
 
             /* -----------------------------------------------------

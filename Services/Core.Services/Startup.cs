@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Common;
-using Core.Common.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -21,12 +20,12 @@ using Core.Infrastructure.Persistence.StorageAccount;
 using Core.Infrastructure.Persistence.RedisCache;
 using Core.Infrastructure.Services.Email;
 using Core.Infrastructure.Pipeline;
+using MediatR.Pipeline;
 
 namespace Core.Services
 {
     public class Startup
     {
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -55,12 +54,6 @@ namespace Core.Services
 
             #endregion
 
-            #region Initialize our ICoreLogger
-
-            ICoreLogger coreLogger = new CoreLogger();
-
-            #endregion
-
             #region Initialize our Persistence Layer objects
 
             IDocumentContext documentContext = new DocumentContext(Configuration);
@@ -85,6 +78,8 @@ namespace Core.Services
                 .AddJsonOptions(options =>
                     options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
+            // Add logging:
+            //services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
 
             #region Inject our custom dependancies into the default WebAPI provider
 
@@ -100,13 +95,13 @@ namespace Core.Services
             // 3rd Part Services
             services.AddSingleton<IEmailService>(sendgridService);
 
-            // Logging
-            //services.AddSingleton<ICoreLogger>(coreLogger);
+            // Account/Platform Activity Logging
+            //serviceCollection.AddSingleton<ICore(Account/Platform)ActivityLogger>(coreLogger);
 
             // MediatR Pipeline Behaviors
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>)); //<-- Includes LoggingBehavior
 
             #endregion
 
@@ -121,6 +116,8 @@ namespace Core.Services
             services.AddMediatR();
 
             #endregion
+
+            
 
             // Initialize Core.Startup
             Core.Startup.Routines.Initialize();

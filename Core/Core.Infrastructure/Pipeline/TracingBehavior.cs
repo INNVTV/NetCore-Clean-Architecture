@@ -4,16 +4,17 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Infrastructure.Notifications.Publisher;
+using Core.Infrastructure.Notifications.PingPong.Publisher;
 using MediatR;
 
 namespace Core.Infrastructure.Pipeline
 {
     public class TracingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
-        // Mediator property and constructor for TracingBehavior are not mandatory
-        // in cases where you don't need a dependancy such as MediatR injected.
-        // Here we need MediatR in order to send notifications after processing the handler
+        // Here we simply trace to our Output window for local Visual Studio debugging.
+
+        // MediatR property and constructor for TracingBehavior are not mandatory in cases where you don't need a dependancy such as MediatR injected.
+        // Here we need MediatR in order to send notifications after processing the handler.
 
         private readonly IMediator _mediatr;
 

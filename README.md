@@ -1,20 +1,22 @@
 # .Net Core Clean Architecture
 .Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, service communications with both REST and gRPC endpoints, FluentValidation, AutoMapper, CosmosDB for data and Table Storage for logging.
 
-Based on [Jason Taylor's talk on Clean Architecture](https://www.youtube.com/watch?v=_lwCVE_XgqI) with a lot of inspiration from Eric Evans book on [Domain-Driven Design](https://www.amazon.com/gp/product/0321125215)
+Based on [Jason Taylor's talk on Clean Architecture](https://www.youtube.com/watch?v=_lwCVE_XgqI) with a lot of inspiration from Eric Evans classic book on [Domain-Driven Design](https://www.amazon.com/gp/product/0321125215) and of course the absolutely beutiful work of Jimmy Board and his [MediatR](https://github.com/jbogard/MediatR) project.
 
 This project stresses Domian Driven Design and can be leverged to develop Event Sourced solutions.
 
 ![Architecture](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/clean-architecture.png)
 
 # Core
-Centralized business logic broken out into **Application** and **Domain** layers.
+Centralized business logic broken out into **Domain**, **Application** and **Infrastructure** layers.
 
-The **Domain Layer** is designed to be shared with non-technical domain experts and includes easy to read domain entities and important business processes written out as policies.
+The **Domain Layer** is designed to be shared with non-technical domain experts and includes easy to read domain models/entities and important business logic/processes written out as policies.
 
-The **Application Layer** includes infrastructure implementation, persistence models, view models, logging, authorization and low level business logic. 
+The **Application Layer** includes command and query logic, lower-level business logic, view models and works as a bridge between both the domain and infrastructure layers. 
 
-# CoreServices
+The **Infrastructure Layer** includes  persistence layers, configurations, mediator pipelines, mediator notifications, diagnostics, logging and 3rd party integrations. 
+
+# Services (AKA: CoreServices)
 One of many options to wrap and deploy the Core. In this scenario we use a REST API and gRPC endpoints deployable to Linux or Windows as a Docker container to a variety of platforms including:
  * Azure, AWS, Google or any major cloud provider
  * Virtual machines or clusters
@@ -24,15 +26,14 @@ One of many options to wrap and deploy the Core. In this scenario we use a REST 
  * Kubernetes
 ...or any container orchastrator of your choice.
 
-# WebClients
+# Clients
+It is recommened that you break clients out into seperate repositiores and build systems so they can be managed by seperate teams. This also allows you to develop the client(s) across your enviornment(s) decoupled from CoreServices.
+
+## REST
 UI client(s) that connect to CoreServices via REST APIs.
 
-**Note:** It is recommened that you break WebClients out into seperate repositiores and build systems so they can be managed by seperate teams. This also allows you to develope the clients across the enviornments that CoreServices may be running on.
-
-# TaskClients
+## gRPC
 Background tasks hosted as workers that connect to CoreServices via gRPC.
-
-**Note:** It is recommened that you break TaskClients out into seperate repositiores and build systems so they can be managed by seperate teams. This also allows you to develope the clients across the enviornments that CoreServices may be running on.
 
 # Domain Driven Design
 A clean archtecture is only as good as the requirements gathering and design process that precedded it. It is important to include non-technical domain experts early and often. This will ensure that the real world problems you are trying model or solve problems for is clearly respresented in the software you are building.
@@ -75,7 +76,7 @@ For more on Event Sourcing: https://martinfowler.com/eaaDev/EventSourcing.html
  * Immutable tranasctional history of every event that occured in the system.
  * Ability to rewind/fast-forward to any state/time. (Great for debugging and auditing).
  * Future proof your data with unlimited capability to develop future projections from your Event Store (AKA Fact Logs).
- * Nit contrained to initial use case or domain model.
+ * Not contrained to initial use case or domain model.
 
 ## MediatR
 MediatR allows us to easily create and send Command and Query objects to the correct Command/Query Handlers:
@@ -88,19 +89,9 @@ Here is a typical file structure, simplified to focus on a single entity wth onl
 
 **Commands:** Commands include properties we expect to have passed in to run the command. They take the place of models that would normally be passed into a function. 
 
-[Command Class]
-
-[Handler Class]
-
 **Queries:**  Similar to Commands, Query objects include properties that the handler will expect to work with when being run.
 
-
-[Query Class]
-
-[Handler Class]
-
-**Note:** When added to your Dependency Injection Container MediatR will automatically search your assemblies using for **IRequest** and **IRequestHandler** and other MediatR "conventions" and will build up your library of commands and queries for use throught your project.
-
+**Note:** When added to your Dependency Injection Container MediatR will automatically search your assemblies using for **IRequest** and **IRequestHandler** and other MediatR naming conventions. This builds up your library of commands and queries for use throught your project.
 
 **Optimaization:** Seperating Commands from Queries allows you to optimize how you access your data store between each access type. You may also choose to have different data stores for reads vs writes. Perhaps Reads will ALWAYS hit a Redis Cache or Search Provider and part of the responsibility of Writes are to ensure these are kept up to date. You may use the same ata store but opt for Entity Framework for your Reads and ADO.NET for your Writes. Or you can go full Event Sourced and build up snapshots, projections and aggregates from your Event Store.
 
@@ -120,7 +111,7 @@ MediatR gives you the ability to inject functionality into it's processing pipel
 		}
 	}
 
-**Note:** You can see an example of pipleline behaviors in the **Core.Infrastructure.Pipeline.TracingBehavior** and ***Core.Infrastructure.Pipeline.LoggingBehavior** implementations.
+**Note:** You can see an example of pipleline behaviors in the **Core.Infrastructure.Pipeline.TracingBehavior**, **Core.Infrastructure.Pipeline.PerformanceBehavior** and **Core.Infrastructure.Pipeline.LoggingBehavior** implementations.
 
 **Note:** The **TracingBehavior** Pipeline will trace diagnostic messages to your Output window during debugging. 
 
@@ -133,13 +124,12 @@ MediatR allows you to publish a message that can be picked up by any handlers su
 
 ![Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-notifications.png)
 
-**Note:** You can see an example of notifications used inside of a pipleline behavior here: **Core.Infrastructure.Pipeline.TracingBehavior** - This example uses the **Core.Infrastructure.Notifications.Publisher.Ping** notification and **Core.Infrastructure.Notifications.Subscriber.Pong1/2** NotificationHandler(s).
+**Note:** You can see an example of notifications used inside of a pipleline behavior here: **Core.Infrastructure.Pipeline.TracingBehavior** - This example uses the **Core.Infrastructure.Notifications.PingPong.Publisher.Ping** notification and **Core.Infrastructure.Notifications.PingPong.Subscribers.Pong1/2** NotificationHandler(s).
 
 ## MediatR Pipeline Behaviors with Notifications
 The illustration below showcases how the Ping/Pong Notification Pub/Sub example is used within the TraceBehavior Pipeline/Behavior.
 
 ![Pipelines-Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipeline-notifications.png)
-
 
 ## Dependency Injection and CoreConfiguration
 Dependency Injection is handled through the default .Net Core Service Provider. An ICoreConfiguration interface is used to encapsulate many applcation related settings. 3rd party service connectors are set up through various interfaces such as IDocumentContext, IStorageContext and IRedisContext.
@@ -159,20 +149,22 @@ View models that are returned from Query methods will include UI related values 
 ## Service-to-service Communication
 Examples of clients accessing the service layer are shown in both REST and gRPC flavors.
 
-## Logging
+## Activity Logging
 
-In addition to Event Source logging we also log activities via ICoreActivityLogger. These are used for human readable logs for platform and account admins to view in their respective portals.
+In addition to diagnostics logging found in the Performance and Logging Pipleines you should consider implementing application activity logging.
+
+These are used for human readable logs for platform and account admins to view in their respective portals and can be focused on user activity that focuses on the domain and not the infrastructure.
+
+While it is tempting to add this to a Pipeline Behavior - considering the fact that you will want to run authentication/authorization checks (see: authentication/authorization below), manage role allowances and log user details with the activity - this could be better suited to the Service layer where you are closer to the user request and can use this as a gateway to the Commands/Queries in the Application layer below. This also allows you to be more flexible in how you address activity logs as you can check for successes or failures on the Commands/Queries made and decide if certain requests are worth logging. YOu may also want to diferentiate between Account and Platform users and store activities in seperate logs.
+
+## Authentication/Authorization
+Authorization is left open. .Net Core Identity or Azure Active Directory (including the B2C variant) should all be considered.
 
 ## Containerization
 Docker is used on all projects/solutions to manage local builds and deploy to multi-enviornment configurations.
 
 ## Configuration
 We use .Net Cores built in with Docker and Docker compose helping to manage builds for specific enviornments
-
-## Authorization
-.Net Core Identity is used. (...or ADB2C) Users are assigned to a Account object.
-
-Authorization is built into all Command related methods via MediatR
 
 ## AutoMapper
 AutoMapper Mappings are configured within the Core.Startup.AutoMapperConfiguration Class
@@ -223,13 +215,9 @@ Here is an example of such a soluton using a variety of microservices as well as
 
 # TODO
 
- * TODO: Enable Notification with many subscribers.
- * TODO: Logging using Notification Services or Pre/Post Pipelines?
+ * TODO: Logging using Notification Services or Pre/Post Pipelines (only on commands/success - otherwise post failure)?
  * TODO: Use Nitifications with Caching? (To clear cache)
  * TODO: Authorization using Pre-Post Pipelines (with logging?)
- * TODO: Notification and Pipeline Notes in ReadMe
-
- * TODO: Add Cross-Cutting (ActivityLog, ExceptionLog, ErrorLog, Authorization) in Commands/Queries
 
  * TODO: Console Cleaner Methods for Debug Methods
  * TODO: Resolve continuation tokens in MediatR

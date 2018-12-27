@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Core.Common.Response;
 
 namespace Core.Services.Controllers
 {
@@ -35,10 +36,10 @@ namespace Core.Services.Controllers
         }
 
         // GET: api/accounts/{guid}
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<AccountViewModel> GetAsync(string id)
+        [HttpGet("{nameKey}", Name = "Get")]
+        public async Task<AccountViewModel> GetAsync(string nameKey)
         {
-            var accountDetailsQuery = new GetAccountDetailsQuery() { Id = id };
+            var accountDetailsQuery = new GetAccountDetailsQuery() { NameKey = nameKey };
             return await _mediator.Send(accountDetailsQuery);
         }
 
@@ -46,7 +47,8 @@ namespace Core.Services.Controllers
         [HttpPost]
         public async Task<AccountViewModel> PostAsync([FromBody] CreateAccountCommand createAccountCommand)
         {
-            return await _mediator.Send(createAccountCommand);
+            var result = await _mediator.Send(createAccountCommand);
+            return (AccountViewModel)result.Object;
         }
 
         // PUT: api/accounts/{guid}
@@ -57,7 +59,7 @@ namespace Core.Services.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async Task<CloseAccountResponse> Delete(string id)
+        public async Task<CommandResponse> Delete(string id)
         {
             var closeAccountCommand = new CloseAccountCommand() { Id = id };
             return await _mediator.Send(closeAccountCommand);

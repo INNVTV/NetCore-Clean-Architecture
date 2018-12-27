@@ -108,7 +108,17 @@ Here is a typical file structure, simplified to focus on a single entity wth onl
 MediatR gives you the ability to inject functionality into it's processing pipeline such as pre-request and post-request handlers.  this allow for  on the requests coming in, or post-process the request on the way out. We can define pipelines to help manage cross-cutting concerns such as logging, authorization and caching. 
 
 ![Pipelines](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipeline.png)
-
+    
+	public class TracingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+	{
+		public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next)
+		{
+			Trace.WriteLine("Before");
+			var response = await next();
+			Trace.WriteLine("After");
+			return response;
+		}
+	}
 
 ## MediatR Notifications
 MediatR allows you to publish a message that can be picked up by any handlers subscribed to it. 

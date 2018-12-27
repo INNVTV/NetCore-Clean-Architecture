@@ -195,6 +195,7 @@ Most entities will have a "NameKey" derived from the name of the entity. This is
 CosmosDB allows you to create a "UniqueKey" that adds a layer of data integrity to your collection. This will ensure that this property is not duplicated in any documents within the same partition. "NameKey" would be a good candidate for this extra layer of integrity.
 
 Here is an example of how you may want to set up your collection:
+
 ![collection-settings](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/collection-settings.png)
 
 ### DocumentType Dynamic Constants

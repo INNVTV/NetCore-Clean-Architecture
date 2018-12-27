@@ -12,6 +12,7 @@ using Core.Common.Response;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents;
 using Core.Infrastructure.Services.Email;
+using System.Diagnostics;
 
 namespace Core.Application.Accounts.Commands
 {
@@ -54,6 +55,8 @@ namespace Core.Application.Accounts.Commands
                 //=========================================================================
                 // VALIDATE OUR COMMAND REQUEST
                 //=========================================================================
+
+                Trace.WriteLine("About to validate.");
 
                 CreateAccountValidator validator = new CreateAccountValidator();
                 ValidationResult validationResult = validator.Validate(request);

@@ -118,7 +118,6 @@ namespace ConsoleApp
 
             #region CREATE ACCOUNT
 
-            /*
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
@@ -149,14 +148,14 @@ namespace ConsoleApp
             }
 
             Console.ReadLine();
-            */
+          
             #endregion
 
             #region CREATE BATCH OF ACCOUNTS
+            /*
+            int amount = 1;
 
-            int amount = 80;
-
-            for(var i = 41; i <= amount; i++)
+            for(var i = 1; i <= amount; i++)
             {
                 // Build our CreateAccount Command:
                 var createAccountCommand = new CreateAccountCommand()
@@ -178,7 +177,7 @@ namespace ConsoleApp
             }
             
             Console.ReadLine();
-            
+            */
             #endregion
 
             #region GET ACCOUNT LIST

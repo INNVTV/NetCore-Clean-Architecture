@@ -120,10 +120,14 @@ MediatR gives you the ability to inject functionality into it's processing pipel
 		}
 	}
 
+**Note:** You can see an example of pipleline behaviors in the **xxx** and ***xxx** implementation
+
 ## MediatR Notifications
 MediatR allows you to publish a message that can be picked up by any handlers subscribed to it. 
 
 ![Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-notifications.png)
+
+**Note:** You can see an example of notifications in the activity logging implementation here: **xxx** and here: ***xxx** implementation
 
 ## MediatR Pipeline Behaviors with Notifications
 ![Pipelines-Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipeline-notifications.png)
@@ -189,6 +193,9 @@ Most entities will have a "NameKey" derived from the name of the entity. This is
 
 ### Unique Key
 CosmosDB allows you to create a "UniqueKey" that adds a layer of data integrity to your collection. This will ensure that this property is not duplicated in any documents within the same partition. "NameKey" would be a good candidate for this extra layer of integrity.
+
+Here is an example of how you may want to set up your collection:
+![collection-settings](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/collection-settings.png)
 
 ### DocumentType Dynamic Constants
 To ensure the integrity of the _docType naming convention the **Core.Common.Constants.DocumentTypes** static class should be used when assigning _docTypes to your DocumentModels.

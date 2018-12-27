@@ -93,7 +93,7 @@ Here is a typical file structure, simplified to focus on a single entity wth onl
 
 **Note:** When added to your Dependency Injection Container MediatR will automatically search your assemblies using for **IRequest** and **IRequestHandler** and other MediatR naming conventions. This builds up your library of commands and queries for use throught your project.
 
-**Optimaization:** Seperating Commands from Queries allows you to optimize how you access your data store between each access type. You may also choose to have different data stores for reads vs writes. Perhaps Reads will ALWAYS hit a Redis Cache or Search Provider and part of the responsibility of Writes are to ensure these are kept up to date. You may use the same ata store but opt for Entity Framework for your Reads and ADO.NET for your Writes. Or you can go full Event Sourced and build up snapshots, projections and aggregates from your Event Store.
+**Optimization:** Seperating Commands from Queries allows you to optimize how you access your data store between each access type. You may also choose to have different data stores for reads vs writes. Perhaps Reads will ALWAYS hit a Redis Cache or Search Provider and part of the responsibility of Writes are to ensure these are kept up to date. You may use the same ata store but opt for Entity Framework for your Reads and ADO.NET for your Writes. Or you can go full Event Sourced and build up snapshots, projections and aggregates from your Event Store.
 
 ## MediatR Pipeline Behaviors for Cross-Cutting Concerns
 MediatR gives you the ability to inject functionality into it's processing pipeline such as pre-request and post-request handlers.  this allow for  on the requests coming in, or post-process the request on the way out. We can define pipelines to help manage cross-cutting concerns such as logging, authorization and caching. 
@@ -157,8 +157,12 @@ These are used for human readable logs for platform and account admins to view i
 
 While it is tempting to add this to a Pipeline Behavior - considering the fact that you will want to run authentication/authorization checks (see: authentication/authorization below), manage role allowances and log user details with the activity - this could be better suited to the Service layer where you are closer to the user request and can use this as a gateway to the Commands/Queries in the Application layer below. This also allows you to be more flexible in how you address activity logs as you can check for successes or failures on the Commands/Queries made and decide if certain requests are worth logging. YOu may also want to diferentiate between Account and Platform users and store activities in seperate logs.
 
+Regardless  - command objects include commented out regions should you desire to include user details for activity logging as a pipeline behavior.
+
 ## Authentication/Authorization
 Authorization is left open. .Net Core Identity or Azure Active Directory (including the B2C variant) should all be considered.
+
+Command objects include commented out regions should you desire to include authorization checks as a pipeline behavior.
 
 ## Containerization
 Docker is used on all projects/solutions to manage local builds and deploy to multi-enviornment configurations.

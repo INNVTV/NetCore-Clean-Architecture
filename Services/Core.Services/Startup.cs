@@ -26,6 +26,7 @@ using Core.Application;
 using Core.Application.Accounts.Queries;
 using Core.Application.Accounts.Commands;
 using Serilog;
+using Core.Infrastructure.Notifications.PingPong.Publisher;
 
 namespace Core.Services
 {
@@ -125,7 +126,10 @@ namespace Core.Services
             // MediatR Pipeline Behaviors
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>)); //<-- Includes LoggingBehavior
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
+
+            // MediatR Notifications
+            services.AddMediatR(typeof(Ping));
 
             #endregion
 

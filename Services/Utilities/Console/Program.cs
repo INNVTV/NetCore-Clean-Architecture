@@ -17,6 +17,7 @@ using Core.Infrastructure.Pipeline;
 using MediatR.Pipeline;
 using Serilog;
 using Serilog.Sinks;
+using Core.Infrastructure.Notifications.PingPong.Publisher;
 
 namespace ConsoleApp
 {
@@ -118,6 +119,8 @@ namespace ConsoleApp
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>)); //<-- Includes LoggingBehavior
 
+            // MediatR Notifications
+            serviceCollection.AddMediatR(typeof(Ping));
 
             /* -----------------------------------------------------
              * REGISTER MEDIATR for CQRS Pattern 

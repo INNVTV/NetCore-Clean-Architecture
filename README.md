@@ -131,6 +131,8 @@ The illustration below showcases how the Ping/Pong Notification Pub/Sub example 
 
 ![Pipelines-Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipeline-notifications.png)
 
+**Note:** Notifications are a great way to mediate background responsibilities such as adding an object to cache after it is created, or refreshing/removing it after it has changed or been deleted. You can read the response object after a handler is called to determine if the task succeeded/failed, who initiated the task and send the proper notification to the proper handler(s).
+
 ## Dependency Injection and CoreConfiguration
 Dependency Injection is handled through the default .Net Core Service Provider. An ICoreConfiguration interface is used to encapsulate many applcation related settings. 3rd party service connectors are set up through various interfaces such as IDocumentContext, IStorageContext and IRedisContext.
 
@@ -228,20 +230,14 @@ Here is an example of such a soluton using a variety of microservices as well as
 
 # TODO
 
- * TODO: Logging using Notification Services or Pre/Post Pipelines (only on commands/success - otherwise post failure)?
- * TODO: Use Nitifications with Caching? (To clear cache)
- * TODO: Authorization using Pre-Post Pipelines (with logging?)
+ * TODO: Pong 2 on success only
 
  * TODO: Console Cleaner Methods for Debug Methods
  * TODO: Resolve continuation tokens in MediatR
  * TODO: Incorporate Unit of Work?
- * TODO: Redis on Queries (+ Clear Cache On Updates)
 
- * TODO: View Accounts, Details, Logs
- * TODO: Identity, Roles, Users Creation, Authorization, Logs
+ * TODO: View Accounts, Details
 
- * TODO: Make Validation part of MediatR/Startup?
  * TODO: Add Dependency Creation into Core.Startup
- * TODO: Add Simple Entity to Account Object of Type
- 
+
  * TODO: Restore AppSettings to GitHub

@@ -9,7 +9,7 @@ using MediatR;
 
 namespace Core.Infrastructure.Pipeline
 {
-    public class TracingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class NotificationsAndTracingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         // Here we simply trace to our Output window for local Visual Studio debugging.
 
@@ -18,7 +18,7 @@ namespace Core.Infrastructure.Pipeline
 
         private readonly IMediator _mediatr;
 
-        public TracingBehavior(IMediator mediatr)
+        public NotificationsAndTracingBehavior(IMediator mediatr)
         {
             _mediatr = mediatr;
         }

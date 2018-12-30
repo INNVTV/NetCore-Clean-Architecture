@@ -115,7 +115,7 @@ namespace ConsoleApp
             //serviceCollection.AddSingleton<ICore(Account/Platform)ActivityLogger>(coreLogger);
 
             // MediatR Pipeline Behaviors
-            serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
+            serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(NotificationsAndTracingBehavior<,>));
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>)); //<-- Includes LoggingBehavior
 

@@ -100,7 +100,7 @@ MediatR gives you the ability to inject functionality into it's processing pipel
 
 ![Pipelines](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-pipeline.png)
     
-	public class TracingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+	public class NotificationsAndTracingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 	{
 		public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next)
 		{
@@ -111,9 +111,9 @@ MediatR gives you the ability to inject functionality into it's processing pipel
 		}
 	}
 
-**Note:** You can see an example of pipleline behaviors in the **Core.Infrastructure.Pipeline.TracingBehavior**, **Core.Infrastructure.Pipeline.PerformanceBehavior** and **Core.Infrastructure.Pipeline.LoggingBehavior** implementations.
+**Note:** You can see an example of pipleline behaviors in the **Core.Infrastructure.Pipeline.NotificationsAndTracingBehavior**, **Core.Infrastructure.Pipeline.PerformanceBehavior** and **Core.Infrastructure.Pipeline.LoggingBehavior** implementations.
 
-**Note:** The **TracingBehavior** Pipeline will trace diagnostic messages to your Output window during debugging. 
+**Note:** The **NotificationsAndTracingBehavior** Pipeline will send 'Ping' notifications to 'Pong' subscribers and trace diagnostic messages to your Output window during debugging. 
 
 **Note:** Examples are run on every handler. You can designate pipelines for specific handler types by using if/case statements: **if (request is IQuery)** within your behavior handler or by.
 
@@ -124,7 +124,7 @@ MediatR allows you to publish a message that can be picked up by any handlers su
 
 ![Notifications](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/mediatr-notifications.png)
 
-**Note:** You can see an example of notifications used inside of a pipleline behavior here: **Core.Infrastructure.Pipeline.TracingBehavior** - This example uses the **Core.Infrastructure.Notifications.PingPong.Publisher.Ping** notification and **Core.Infrastructure.Notifications.PingPong.Subscribers.Pong1/2** NotificationHandler(s).
+**Note:** You can see an example of notifications used inside of a pipleline behavior here: **Core.Infrastructure.Pipeline.NotificationsAndTracingBehavior** - This example uses the **Core.Infrastructure.Notifications.PingPong.Publisher.Ping** notification and **Core.Infrastructure.Notifications.PingPong.Subscribers.Pong1/2** NotificationHandler(s).
 
 ## MediatR Pipeline Behaviors with Notifications
 The illustration below showcases how the Ping/Pong Notification Pub/Sub example is used within the TraceBehavior Pipeline/Behavior.

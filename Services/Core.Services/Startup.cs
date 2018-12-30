@@ -124,7 +124,7 @@ namespace Core.Services
             // serviceCollection.AddSingleton<ICore(Account/Platform)ActivityLogger>(coreLogger);
 
             // MediatR Pipeline Behaviors
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(NotificationsAndTracingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
 

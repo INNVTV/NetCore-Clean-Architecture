@@ -31,7 +31,7 @@ gRPC implementation. Used by background workers and custodians. Custodial and Pl
 ## WebHooks
 APIs for integration with 3rd party systems such as Stripe or Event Grid.
 
-    Webhoo Endpoints: /webhooks
+    Webhook Endpoints: /webhooks
 
 # Configuration
 Local and debug settings are stored within the appsettings.json file in the Core.Services API project.

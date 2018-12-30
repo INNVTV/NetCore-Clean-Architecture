@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Core.Application.Accounts.Queries
 {
-    public class GetAccountsListQuery : IRequest<List<AccountViewModel>>
+    public class GetAccountListQuery : IRequest<List<AccountViewModel>>
     {
        
     }

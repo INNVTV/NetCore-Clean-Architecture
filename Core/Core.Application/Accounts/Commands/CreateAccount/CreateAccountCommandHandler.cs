@@ -29,12 +29,6 @@ namespace Core.Application.Accounts.Commands
             _coreConfiguration = coreConfiguration;
             _documentContext = documentContext;
             _emailService = emailService;
-
-            //Log Activity
-
-            //Authorization
-
-            //_notificationService = notificationService;
         }
 
         public async Task<CommandResponse> Handle(CreateAccountCommand request, CancellationToken cancellationToken)

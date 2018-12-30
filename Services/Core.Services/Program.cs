@@ -14,25 +14,13 @@ namespace Core.Services
 {
     public class Program
     {
-        //readonly IConfiguration _configuration;
-        //public static ICoreConfiguration _coreConfiguration;
-
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
-
-            //We add a constructor for Dependancy Injection of confirguration into the controller
-            //_configuration = 
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .ConfigureLogging((hostingContext, logging) =>
-                {
-                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    logging.AddConsole();
-                    logging.AddDebug();
-                });
+                .UseStartup<Startup>();
     }
 }

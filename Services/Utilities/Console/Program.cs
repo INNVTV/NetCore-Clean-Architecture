@@ -15,14 +15,37 @@ using Core.Domain.Entities;
 using Core.Infrastructure.Services.Email;
 using Core.Infrastructure.Pipeline;
 using MediatR.Pipeline;
+using Serilog;
+using Serilog.Sinks;
 
 namespace ConsoleApp
 {
     class Program
     {
+
         static void Main(string[] args)
         {
-            
+
+            #region Setup Serilog for Logging
+
+            // Core is set up to use the global, statically accessible logger from Serilog.
+            // It must be set up in the main entrpoint and does not require a DI container
+
+            // Create a logger with configured sinks, enrichers, and minimum level
+            // Serilog's global, statically accessible logger, is set via Log.Logger and can be invoked using the static methods on the Log class.
+
+            // File Sink is commented out and can be replaced with Serilogs vast library of available sinks
+
+            Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console() //<-- This will give us output to our console
+            //.WriteTo.File("_logs/log-.txt", rollingInterval: RollingInterval.Day) //<-- Write our logs to a local text file with rolling interval configuration
+            .CreateLogger();
+
+            Log.Information("The global logger has been configured.");
+            Log.Information("Hello, Serilog!");
+
+            #endregion
+
             #region Create our dependancies
 
             #region Build our IConfiguration
@@ -71,9 +94,9 @@ namespace ConsoleApp
             // Create our collection of injectable services
             var serviceCollection = new ServiceCollection();
 
-            // Logging:
-            //serviceCollection.AddSingleton<ILoggerFactory, LoggerFactory>();
-            serviceCollection.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+            //var services = new ServiceCollection();
+            //ConfigureServices(services);
+
 
             // Configuration
             serviceCollection.AddSingleton<IConfiguration>(configuration);
@@ -84,7 +107,7 @@ namespace ConsoleApp
             serviceCollection.AddSingleton<IStorageContext>(storageContext);
             serviceCollection.AddSingleton<IRedisContext>(redisContext);
 
-            // 3rd Part Services
+            // 3rd Party Services
             serviceCollection.AddSingleton<IEmailService>(sendgridService);
 
             // Account/Platform Activity Logging
@@ -114,21 +137,19 @@ namespace ConsoleApp
             // Initialize Core.Startup
             Core.Startup.Routines.Initialize();
 
-            // Console Debugging:
-
             // Get our mediator
             var mediator = serviceProvider.GetRequiredService<IMediator>();
 
             // =======================================
-            // TEST BED FOR COMMANDS/QUERIES
+            // DEBUGGING TESTS FOR COMMANDS/QUERIES
             // =======================================
 
             #region CREATE ACCOUNT
-
+            
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
-                Name = "Account Name 5",
+                Name = "Account Name 8",
                 Email = "kaz@innvtv.com",
                 FirstName = "John",
                 LastName = "Smith"
@@ -223,9 +244,25 @@ namespace ConsoleApp
             
             */
             #endregion
-
         }
 
+        //private static void ConfigureServices(IServiceCollection services)
+        //{
+        //    ILoggerFactory loggerFactory = new LoggerFactory()
+        //        .AddConsole() // Error!
+        //        .AddDebug();
 
+        //    services.AddSingleton(loggerFactory); // Add first my already configured instance
+        //    services.AddLogging(); // Allow ILogger<T>
+
+        //    IConfigurationRoot configuration = GetConfiguration();
+        //    services.AddSingleton<IConfigurationRoot>(configuration);
+
+        //    // Support typed Options
+        //    services.AddOptions();
+        //    services.Configure<MyOptions>(configuration.GetSection("MyOptions")); // Error!
+
+        //    services.AddTransient<Application>();
+        //}
     }
 }

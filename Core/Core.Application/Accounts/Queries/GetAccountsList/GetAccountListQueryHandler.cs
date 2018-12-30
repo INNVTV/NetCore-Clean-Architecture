@@ -12,7 +12,7 @@ using Core.Infrastructure.Persistence.DocumentDatabase;
 
 namespace Core.Application.Accounts.Queries
 {
-    public class GetAccountListQueryHandler : IRequestHandler<GetAccountsListQuery, List<AccountViewModel>>
+    public class GetAccountListQueryHandler : IRequestHandler<GetAccountListQuery, List<AccountViewModel>>
     {
         //MediatR will automatically inject  dependencies
         private readonly IMediator _mediator;
@@ -28,7 +28,7 @@ namespace Core.Application.Accounts.Queries
 
         }
 
-    public async Task<List<AccountViewModel>> Handle(GetAccountsListQuery request, CancellationToken cancellationToken)
+    public async Task<List<AccountViewModel>> Handle(GetAccountListQuery request, CancellationToken cancellationToken)
         {
             // Prepare our domain model to be returned
             var accountsList = new List<AccountViewModel>();

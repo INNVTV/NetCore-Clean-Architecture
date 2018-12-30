@@ -8,6 +8,7 @@
     <PackageReference Include="MediatR" Version="6.0.0" />
     <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.2.1" />
     <PackageReference Include="Sendgrid" Version="9.10.0" />
+    <PackageReference Include="Serilog" Version="2.7.1" />
     <PackageReference Include="StackExchange.Redis" Version="2.0.519" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>

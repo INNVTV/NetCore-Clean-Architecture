@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,16 +14,11 @@ namespace Core.Infrastructure.Pipeline
     {
         // We run a stopwatch on every request and log a warning for any requests that exceed our threshold.
 
-        // Note: You will need to assign a logging mechanism in your DI container.
-        // Current implentation will only log to your local Output window during Visual Studio debugging.
-
         private readonly Stopwatch _timer;
-        private readonly ILogger _logger;
 
-        public PerformanceBehavior(ILogger logger)
+        public PerformanceBehavior()
         {
             _timer = new Stopwatch();
-            _logger = logger; //<-- using Microsoft.Extensions.Logging
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
@@ -33,13 +29,17 @@ namespace Core.Infrastructure.Pipeline
 
             _timer.Stop();
 
-            if (_timer.ElapsedMilliseconds > 1)
+            if (_timer.ElapsedMilliseconds > 500)
             {
                 var name = typeof(TRequest).Name;
 
-                // TODO: Add User Details
+                // TODO: Add User/Caller Details, or include in Command
 
-                _logger.LogWarning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}", name, _timer.ElapsedMilliseconds, request);
+                // Uses Serilog's global, statically accessible logger, is set via Log.Logger in the startup/entrypoint of the host solution/project.
+                // Sinks, enrichers, and minimum logging level are set up in the entry point.
+                // Dependency Injection is not required. We are using a global, statically accessible logger 
+                Log.Warning("Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}", name, _timer.ElapsedMilliseconds, request);
+
             }
 
             return response;

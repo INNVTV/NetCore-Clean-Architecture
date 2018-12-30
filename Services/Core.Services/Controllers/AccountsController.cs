@@ -31,8 +31,20 @@ namespace Core.Services.Controllers
         [HttpGet]
         public async Task<IEnumerable<AccountViewModel>> GetAsync()
         {
-            var accountListQuery = new GetAccountsListQuery();
-            return await _mediator.Send(accountListQuery);
+            var createAccountCommand = new CreateAccountCommand()
+            {
+                Name = "Account Name 7",
+                Email = "kaz@innvtv.com",
+                FirstName = "John",
+                LastName = "Smith"
+            };
+
+            // Send our command to MediatR for processing...
+            var createAccountResponse = await _mediator.Send(createAccountCommand);
+
+            var accountListQuery = new GetAccountListQuery();
+            var result = await _mediator.Send(accountListQuery);
+            return result;
         }
 
         // GET: api/accounts/{guid}
@@ -47,6 +59,7 @@ namespace Core.Services.Controllers
         [HttpPost]
         public async Task<AccountViewModel> PostAsync([FromBody] CreateAccountCommand createAccountCommand)
         {
+
             var result = await _mediator.Send(createAccountCommand);
             return (AccountViewModel)result.Object;
         }

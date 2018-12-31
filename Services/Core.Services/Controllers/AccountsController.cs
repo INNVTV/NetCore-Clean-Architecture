@@ -59,7 +59,6 @@ namespace Core.Services.Controllers
         [HttpPost]
         public async Task<AccountViewModel> PostAsync([FromBody] CreateAccountCommand createAccountCommand)
         {
-
             var result = await _mediator.Send(createAccountCommand);
             return (AccountViewModel)result.Object;
         }

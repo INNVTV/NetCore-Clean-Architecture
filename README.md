@@ -154,6 +154,11 @@ I think Jummy Bogard said it best in his contribution to [this article](https://
 
 > I'm really not a fan of repositories, mainly because they hide the important details of the underlying persistence mechanism. It's why I go for MediatR for commands, too. I can use the full power of the persistence layer, and push all that domain behavior into my aggregate roots. I don't usually want to mock my repositories - I still need to have that integration test with the real thing. Going CQRS meant that we didn't really have a need for repositories any more.
 
+## ServiceModels
+Service models that are used to accept incoming requests from  client applications. In most cases they will be transformed into the appropriate command or query and may have authorization and authentication details appended to from the service call.
+
+**Note:** The Core libraries should have no concept of these models as they only serve the purpose of service to client communication.
+
 ## ViewModels
 View models that are returned from Query methods will include UI related values such as "EditEnabled" and "DeleteEnabled"
 

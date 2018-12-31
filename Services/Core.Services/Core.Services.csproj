@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="RPC\" />
-    <Folder Include="WebHooks\" />
   </ItemGroup>
 
   <ItemGroup>

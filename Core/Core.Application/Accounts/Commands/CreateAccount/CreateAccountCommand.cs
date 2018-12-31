@@ -15,11 +15,11 @@ namespace Core.Application.Accounts.Commands
 
         #region Command Authorization Options
 
-        /*-------------------------------------------
+        /*------------------------------------------------------------------------------------------
         * Authorization Properties (To be managed via 'AuthorizationBehavior' Pipeline Behavior)
-        * ------------------------------------------*/
+        * ----------------------------------------------------------------------------------------*/
+        
         /*
-         
         public CreateAccountCommand()
         {
             Exemption = true;

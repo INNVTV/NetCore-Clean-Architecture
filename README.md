@@ -29,11 +29,11 @@ One of many options to wrap and deploy the Core. In this scenario we use a REST 
 # Clients
 It is recommened that you break clients out into seperate repositiores and build systems so they can be managed by seperate teams. This also allows you to develop the client(s) across your enviornment(s) decoupled from CoreServices.
 
-## REST
+## REST APIs and Swagger
 UI client(s) that connect to CoreServices via REST APIs. Swagger is used extensively to aid in API documentatio, client integration and code generation.
 
 ## Webhooks
-Simple webhooks to help integrate with 3rd party service providers 
+Simple webhooks to help integrate with 3rd party service providers as well as background tasks/processes.
 
 # Domain Driven Design
 A clean archtecture is only as good as the requirements gathering and design process that precedded it. It is important to include non-technical domain experts early and often. This will ensure that the real world problems you are trying model or solve problems for is clearly respresented in the software you are building.

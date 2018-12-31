@@ -23,10 +23,8 @@ You can push your containers to an Azure Web App, Service Fabric, Service Fabric
  
      REST Endpoints: /api
  
-## RPC
-gRPC implementation. Used by background workers and custodians. Custodial and Platform calls are initited through here.
-
-    gRPC Endpoints: /rpc
+## Swagger
+Swagger is used extensively to aid in API documentatio, client integration and code generation.
 
 ## WebHooks
 APIs for integration with 3rd party systems such as Stripe or Event Grid.

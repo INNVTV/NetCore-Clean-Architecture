@@ -1,5 +1,5 @@
 # .Net Core Clean Architecture
-.Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, service communications with both REST and gRPC endpoints, FluentValidation, AutoMapper, CosmosDB for data and Table Storage for logging.
+.Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, service communications with REST APIs using Swagger, FluentValidation, AutoMapper, CosmosDB for data and Table Storage for logging.
 
 Based on [Jason Taylor's talk on Clean Architecture](https://www.youtube.com/watch?v=_lwCVE_XgqI) with a lot of inspiration from Eric Evans classic book on [Domain-Driven Design](https://www.amazon.com/gp/product/0321125215) and of course the absolutely beutiful work of Jimmy Board and his [MediatR](https://github.com/jbogard/MediatR) project.
 
@@ -17,7 +17,7 @@ The **Application Layer** includes command and query logic, lower-level business
 The **Infrastructure Layer** includes  persistence layers, configurations, mediator pipelines, mediator notifications, diagnostics, logging and 3rd party integrations. 
 
 # Services (AKA: CoreServices)
-One of many options to wrap and deploy the Core. In this scenario we use a REST API and gRPC endpoints deployable to Linux or Windows as a Docker container to a variety of platforms including:
+One of many options to wrap and deploy the Core. In this scenario we use a REST API and Webhooks deployable to Linux or Windows as a Docker container to a variety of platforms including:
  * Azure, AWS, Google or any major cloud provider
  * Virtual machines or clusters
  * Azure Web Apps, Amazon EC2 or Google AppEngine
@@ -30,10 +30,10 @@ One of many options to wrap and deploy the Core. In this scenario we use a REST 
 It is recommened that you break clients out into seperate repositiores and build systems so they can be managed by seperate teams. This also allows you to develop the client(s) across your enviornment(s) decoupled from CoreServices.
 
 ## REST
-UI client(s) that connect to CoreServices via REST APIs.
+UI client(s) that connect to CoreServices via REST APIs. Swagger is used extensively to aid in API documentatio, client integration and code generation.
 
-## gRPC
-Background tasks hosted as workers that connect to CoreServices via gRPC.
+## Webhooks
+Simple webhooks to help integrate with 3rd party service providers 
 
 # Domain Driven Design
 A clean archtecture is only as good as the requirements gathering and design process that precedded it. It is important to include non-technical domain experts early and often. This will ensure that the real world problems you are trying model or solve problems for is clearly respresented in the software you are building.
@@ -41,7 +41,7 @@ A clean archtecture is only as good as the requirements gathering and design pro
 ## Core.Services
 Main entry point. Headless implementation allows you to swap out interfaces between Consoles, Tests, WebApi's and WebApps. Includes Core.Common, Core.Application and Core.Domain Projects and wraps them into a gateway for access by the clients.
 
-DependecyInjection is handled by default .Net Core ServiceProvider. Console and Test entry points are provided in the Utilities folder. API and gRPC client examples are in their respective folders on the root of the project. 
+DependecyInjection is handled by default .Net Core ServiceProvider. Console and Test entry points are provided in the Utilities folder. API client examples are in their respective folders on the root of the project. 
 
 More details can be found in the [ReadMe](CoreServices/README.md) doc for the CoreServices solution.
 

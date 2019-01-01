@@ -61,13 +61,13 @@ namespace Core.Services.Controllers
 
         // POST: api/accounts
         [HttpPost]
-        public async Task<AccountViewModel> PostAsync([FromBody] CreateAccountServiceModel createAccountServiceModel)
+        public async Task<CommandResponse> PostAsync(CreateAccountServiceModel createAccountServiceModel)
         {
-            //Use AutoMapper insatance to transform ServiceModel into MediatR Request (Configured in Startup)
+            //Use AutoMapper instance to transform ServiceModel into MediatR Request (Configured in Startup)
             var createAccountCommand = _mapper.Map<CreateAccountCommand>(createAccountServiceModel);
 
             var result = await _mediator.Send(createAccountCommand);
-            return (AccountViewModel)result.Object;
+            return result;
         }
 
         // PUT: api/accounts/{guid}

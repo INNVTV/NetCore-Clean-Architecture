@@ -190,7 +190,7 @@ namespace Core.Services
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Core Services", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "Core Services", Version = "v1", Description = "REST API for Clean Architecture" });
             });
 
             #endregion

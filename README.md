@@ -29,18 +29,6 @@ One of many options to wrap and deploy the Core. In this scenario we use a REST 
 # Clients
 It is recommened that you break clients out into seperate repositiores and build systems so they can be managed by seperate teams. This also allows you to develop the client(s) across your enviornment(s) decoupled from CoreServices.
 
-## REST APIs and Swagger
-UI client(s) that connect to CoreServices via REST APIs. Swagger is used extensively to aid in API documentatio, client integration and code generation.
-
-Generated document describing the endpoints: **http://localhost:<port>/swagger/v1/swagger.json**
-
-The Swagger UI can be found at: **http://localhost:<port>/swagger**
-
-![Swagger-UI](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/swagger-ui.png)
-
-## Webhooks
-Simple webhooks to help integrate with 3rd party service providers as well as background tasks/processes.
-
 # Domain Driven Design
 A clean archtecture is only as good as the requirements gathering and design process that precedded it. It is important to include non-technical domain experts early and often. This will ensure that the real world problems you are trying model or solve problems for is clearly respresented in the software you are building.
 
@@ -160,6 +148,45 @@ I think Jummy Bogard said it best in his contribution to [this article](https://
 
 > I'm really not a fan of repositories, mainly because they hide the important details of the underlying persistence mechanism. It's why I go for MediatR for commands, too. I can use the full power of the persistence layer, and push all that domain behavior into my aggregate roots. I don't usually want to mock my repositories - I still need to have that integration test with the real thing. Going CQRS meant that we didn't really have a need for repositories any more.
 
+## CosmosDB Document Partitioning Strategy
+Our strategy is to use **'_docType'** as our partition on the CosmosDB collection. This project uses the SQL API for document management.
+
+**Here is a recommended ParitionKey naming convention:**
+
+ * Account document _docTypes are named: **"Account"**
+ * Platform document _docTypes are named: **"Platform"**
+ * Documents belonging to an Account are named: **"Account\<AccountId\>"**
+ * Documents for a specific entity type are named: **"\<EntityName\>"**
+ * Documents belonging to an entity are named: **"EntityName-\<EntityId\>"**
+ * Documents of a particular entity type belonging to a spcific account are named: **"EntityName-Account-\<AccountId\>"**
+ * Documents belonging to particular entity type for a specific account are named: **"EntityName-\<EntityId\>-Account-\<AccountId\>"**
+ * Partitions that may exceed the 10gb limit should append a date key at the end: **"\<_docType\>-\<YYYYMM\>"**
+ 
+### NameKey
+Most entities will have a "NameKey" derived from the name of the entity. This is a pretty version of the entity name that serves as both a unique id as well as an index name for routing.
+
+### Unique Key
+CosmosDB allows you to create a "UniqueKey" that adds a layer of data integrity to your collection. This will ensure that this property is not duplicated in any documents within the same partition. "NameKey" would be a good candidate for this extra layer of integrity.
+
+Here is an example of how you may want to set up your collection:
+
+![collection-settings](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/collection-settings.png)
+
+### DocumentType Dynamic Constants
+To ensure the integrity of the _docType naming convention the **Core.Common.Constants.DocumentTypes** static class should be used when assigning _docTypes to your DocumentModels.
+
+## REST APIs and Swagger
+UI client(s) that connect to CoreServices via REST APIs. Swagger is used extensively to aid in API documentatio, client integration and code generation.
+
+Generated document describing the endpoints: **http://localhost:<port>/swagger/v1/swagger.json**
+
+The Swagger UI can be found at: **http://localhost:<port>/swagger**
+
+![Swagger-UI](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/swagger-ui.png)
+
+## Webhooks
+Simple webhooks to help integrate with 3rd party service providers as well as background tasks/processes.
+
 ## ServiceModels
 Service models that are used to accept some incoming requests from  client applications in order to avoid exposing MediatR request objects or to perform tasks requeired to create those objects.
 
@@ -206,32 +233,6 @@ AutoMapper is also configured seperatly using the **Instance** type within the S
 ## Email
 Use the IEmailService interface to implement your email service provider. The default implementation within this project uses SendGrid.
 
-## CosmosDB Document Partitioning Strategy
-Our strategy is to use **'_docType'** as our partition on the CosmosDB collection. This project uses the SQL API for document management.
-
-**Here is a recommended ParitionKey naming convention:**
-
- * Account document _docTypes are named: **"Account"**
- * Platform document _docTypes are named: **"Platform"**
- * Documents belonging to an Account are named: **"Account\<AccountId\>"**
- * Documents for a specific entity type are named: **"\<EntityName\>"**
- * Documents belonging to an entity are named: **"EntityName-\<EntityId\>"**
- * Documents of a particular entity type belonging to a spcific account are named: **"EntityName-Account-\<AccountId\>"**
- * Documents belonging to particular entity type for a specific account are named: **"EntityName-\<EntityId\>-Account-\<AccountId\>"**
- * Partitions that may exceed the 10gb limit should append a date key at the end: **"\<_docType\>-\<YYYYMM\>"**
- 
-### NameKey
-Most entities will have a "NameKey" derived from the name of the entity. This is a pretty version of the entity name that serves as both a unique id as well as an index name for routing.
-
-### Unique Key
-CosmosDB allows you to create a "UniqueKey" that adds a layer of data integrity to your collection. This will ensure that this property is not duplicated in any documents within the same partition. "NameKey" would be a good candidate for this extra layer of integrity.
-
-Here is an example of how you may want to set up your collection:
-
-![collection-settings](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/collection-settings.png)
-
-### DocumentType Dynamic Constants
-To ensure the integrity of the _docType naming convention the **Core.Common.Constants.DocumentTypes** static class should be used when assigning _docTypes to your DocumentModels.
 
 ## Recommended Deployment Scenario
 

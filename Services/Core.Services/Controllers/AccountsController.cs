@@ -35,17 +35,6 @@ namespace Core.Services.Controllers
         [HttpGet]
         public async Task<IEnumerable<AccountViewModel>> GetAsync()
         {
-            var createAccountCommand = new CreateAccountCommand()
-            {
-                Name = "Account Name 7",
-                Email = "kaz@innvtv.com",
-                FirstName = "John",
-                LastName = "Smith"
-            };
-
-            // Send our command to MediatR for processing...
-            var createAccountResponse = await _mediator.Send(createAccountCommand);
-
             var accountListQuery = new GetAccountListQuery();
             var result = await _mediator.Send(accountListQuery);
             return result;

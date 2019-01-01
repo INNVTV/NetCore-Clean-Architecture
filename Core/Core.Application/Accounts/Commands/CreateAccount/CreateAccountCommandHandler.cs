@@ -46,33 +46,16 @@ namespace Core.Application.Accounts.Commands
 
 
                 //=========================================================================
-                // VALIDATE OUR COMMAND REQUEST
+                // VALIDATE OUR COMMAND REQUEST USING FLUENT VALIDATION
                 //=========================================================================
 
-                CreateAccountValidator validator = new CreateAccountValidator();
+                CreateAccountValidator validator = new CreateAccountValidator(_mediator);
                 ValidationResult validationResult = validator.Validate(request);
                 if(!validationResult.IsValid)
                 {
-                    return new CommandResponse { Message = "Invalid Input", ValidationErrors = validationResult.Errors };
+                    return new CommandResponse { Message = "One or more validation errors occurred.", ValidationErrors = validationResult.Errors };
                 }
 
-                //=========================================================================
-                // VALIDATE ACCOUNT NAME IS UNIQUE (Via MediatR Query)
-                //=========================================================================
-                // Note: "NameKey" is transformed from "Name" and is used as a both a unique id as well as for pretty routes/urls
-                // Note: Consider using both "Name and ""NameKey" as UniqueKeys on your DocumentDB collection.
-                // Note: Once contraints are in place you could remove this manual check - however this process does ensure no exceptions are thrown and a cleaner response message.
-
-                var accountDetailsQuery = new GetAccountDetailsQuery { NameKey = Common.Transformations.NameKey.Transform(request.Name) };
-                var accountDetails = await _mediator.Send(accountDetailsQuery);
-
-                if(accountDetails != null)
-                {
-                    if (accountDetails.Account != null)
-                    {
-                        return new CommandResponse { Message = "Account name already exists." };
-                    }
-                }
 
                 //=========================================================================
                 // CREATE AND STORE OUR DOCUMENT MODEL

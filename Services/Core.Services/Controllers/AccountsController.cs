@@ -21,7 +21,7 @@ namespace Core.Services.Controllers
     public class AccountsController : ControllerBase
     {
         readonly IMediator _mediator;
-        readonly IMapper _mapper; //<-- Instance version of IMapper used only in the Service layer for ServiceModels
+        readonly IMapper _mapper; //<-- Instance version of IMapper. Used only in the Service layer for ServiceModels
 
         // Constructor automatically pulls in configuration via build in dependancy injection
         public AccountsController(IServiceProvider serviceProvider, IMapper mapper)//ICoreConfiguration coreConfiguration)

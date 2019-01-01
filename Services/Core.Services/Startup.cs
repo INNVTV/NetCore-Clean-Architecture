@@ -29,6 +29,7 @@ using Serilog;
 using Core.Infrastructure.Notifications.PingPong.Publisher;
 using Core.Services.ServiceModels;
 using AutoMapper;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Core.Services
 {
@@ -159,7 +160,7 @@ namespace Core.Services
             Core.Startup.Routines.Initialize();
 
 
-            #region Configure AutoMapper for ServiceModels
+            #region Configure AutoMapper (Instance Version) for ServiceModels
 
             /*----------------------------------------
              * AutoMapper is also configured using the Static API within our Core library.
@@ -184,7 +185,15 @@ namespace Core.Services
 
             #endregion
 
+            #region Register Swagger Generator with Swashbuckle 
 
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Core Services", Version = "v1" });
+            });
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -199,6 +208,23 @@ namespace Core.Services
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            #region Swagger Middleware
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Core Services V1");
+            });
+
+            // Generated document describing the endpoints: http://localhost:<port>/swagger/v1/swagger.json
+            // The Swagger UI can be found at: http://localhost:<port>/swagger
+
+            #endregion
 
             app.UseHttpsRedirection();
             app.UseMvc();

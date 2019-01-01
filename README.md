@@ -32,6 +32,12 @@ It is recommened that you break clients out into seperate repositiores and build
 ## REST APIs and Swagger
 UI client(s) that connect to CoreServices via REST APIs. Swagger is used extensively to aid in API documentatio, client integration and code generation.
 
+Generated document describing the endpoints: **http://localhost:<port>/swagger/v1/swagger.json**
+
+The Swagger UI can be found at: **http://localhost:<port>/swagger**
+
+![Swagger-UI](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/swagger-ui.png)
+
 ## Webhooks
 Simple webhooks to help integrate with 3rd party service providers as well as background tasks/processes.
 

@@ -26,6 +26,10 @@ You can push your containers to an Azure Web App, Service Fabric, Service Fabric
 ## Swagger
 Swagger is used extensively to aid in API documentation, client integration and code generation.
 
+Generated document describing the endpoints: **http://localhost:<port>/swagger/v1/swagger.json**
+
+The Swagger UI can be found at: **http://localhost:<port>/swagger**
+
 ## WebHooks
 APIs for integration with 3rd party systems such as Stripe or Event Grid. As well as background processes within your system.
 

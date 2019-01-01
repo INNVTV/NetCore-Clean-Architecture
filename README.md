@@ -8,7 +8,7 @@ This project stresses Domian Driven Design and can be leverged to develop Event 
 ![Architecture](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/clean-architecture.png)
 
 # Core
-Centralized business logic broken out into **Domain**, **Application** and **Infrastructure** layers.
+Centralized business logic broken out into **Domain**, **Application** and **Infrastructure** layers. Headless implementation allows you to swap out interfaces between Consoles, Tests, WebApi's and WebApps.
 
 The **Domain Layer** is designed to be shared with non-technical domain experts and includes easy to read domain models/entities and important business logic/processes written out as policies.
 
@@ -33,7 +33,7 @@ It is recommened that you break clients out into seperate repositiores and build
 A clean archtecture is only as good as the requirements gathering and design process that precedded it. It is important to include non-technical domain experts early and often. This will ensure that the real world problems you are trying model or solve problems for is clearly respresented in the software you are building.
 
 ## Core.Services
-Main entry point. Headless implementation allows you to swap out interfaces between Consoles, Tests, WebApi's and WebApps. Includes Core.Common, Core.Application and Core.Domain Projects and wraps them into a gateway for access by the clients.
+Main entry point. Wraps the Core libraries and creates a gateway for access by the clients.
 
 DependecyInjection is handled by default .Net Core ServiceProvider. Console and Test entry points are provided in the Utilities folder. API client examples are in their respective folders on the root of the project. 
 

@@ -131,28 +131,23 @@ namespace Core.Services
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
 
+            #endregion
+
+            #region Register MediatR Commands, Notifications
+
             // MediatR Notifications
             services.AddMediatR(typeof(Ping));
 
-            #endregion
+            // We only need to register ONE command from the library and MediatR will resolve the rest
+            services.AddMediatR(typeof(CreateAccountCommand)); //<-- Will find the rest of our commands within the Core.Application library
 
-            /* -----------------------------------------------------
-             * REGISTER MEDIATR for CQRS Pattern 
-             * ------------------------------------------------------
-             * MediatR will automatically search your assemblies for IRequest and IRequestHandler implementations
-             * and will build up your library of commands and queries for use throught your project.
-             * 
-             * Note: MediatR should be added LAST. */
-
-            // For WebAPI we need to register each IRequest as a MediatR type into our DI Container:
-            services.AddMediatR(typeof(CreateAccountCommand));
-            services.AddMediatR(typeof(GetAccountListQuery));
+            // If the above does not work then we must add each Command/Query individually
+            //services.AddMediatR(typeof(CreateAccountCommand));
+            //services.AddMediatR(typeof(CloseAccountCommand));
+            //services.AddMediatR(typeof(GetAccountListQuery));
             //services.AddMediatR();
 
-            //Alternatively we use the entire assembly MediatR.Extensions.Microsoft.DependencyInjection package
-            //services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
-
-            services.AddMediatR(typeof(Core.Services.Startup).GetTypeInfo().Assembly);
+            #endregion
 
             #endregion 
 

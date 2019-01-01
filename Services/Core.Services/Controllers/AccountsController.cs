@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Core.Common.Response;
+using Core.Services.ServiceModels;
+using AutoMapper;
 
 namespace Core.Services.Controllers
 {
@@ -19,12 +21,14 @@ namespace Core.Services.Controllers
     public class AccountsController : ControllerBase
     {
         readonly IMediator _mediator;
+        readonly IMapper _mapper; //<-- Instance version of IMapper used only in the Service layer for ServiceModels
 
         // Constructor automatically pulls in configuration via build in dependancy injection
-        public AccountsController(IServiceProvider serviceProvider)//ICoreConfiguration coreConfiguration)
+        public AccountsController(IServiceProvider serviceProvider, IMapper mapper)//ICoreConfiguration coreConfiguration)
         {
             //_serviceProvider = serviceProvider;
             _mediator = serviceProvider.GetService<IMediator>();
+            _mapper = mapper;
         }
 
         // GET: api/accounts
@@ -57,8 +61,11 @@ namespace Core.Services.Controllers
 
         // POST: api/accounts
         [HttpPost]
-        public async Task<AccountViewModel> PostAsync([FromBody] CreateAccountCommand createAccountCommand)
+        public async Task<AccountViewModel> PostAsync([FromBody] CreateAccountServiceModel createAccountServiceModel)
         {
+            //Use AutoMapper insatance to transform ServiceModel into MediatR Request (Configured in Startup)
+            var createAccountCommand = _mapper.Map<CreateAccountCommand>(createAccountServiceModel);
+
             var result = await _mediator.Send(createAccountCommand);
             return (AccountViewModel)result.Object;
         }

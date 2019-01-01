@@ -24,7 +24,7 @@ You can push your containers to an Azure Web App, Service Fabric, Service Fabric
      REST Endpoints: /api
  
 ## Swagger
-Swagger is used extensively to aid in API documentatio, client integration and code generation.
+Swagger is used extensively to aid in API documentation, client integration and code generation.
 
 ## WebHooks
 APIs for integration with 3rd party systems such as Stripe or Event Grid. As well as background processes within your system.

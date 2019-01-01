@@ -155,7 +155,11 @@ I think Jummy Bogard said it best in his contribution to [this article](https://
 > I'm really not a fan of repositories, mainly because they hide the important details of the underlying persistence mechanism. It's why I go for MediatR for commands, too. I can use the full power of the persistence layer, and push all that domain behavior into my aggregate roots. I don't usually want to mock my repositories - I still need to have that integration test with the real thing. Going CQRS meant that we didn't really have a need for repositories any more.
 
 ## ServiceModels
-Service models that are used to accept incoming requests from  client applications. In most cases they will be transformed into the appropriate command or query and may have authorization and authentication details appended to from the service call.
+Service models that are used to accept some incoming requests from  client applications in order to avoid exposing MediatR request objects or to perform tasks requeired to create those objects.
+
+In most cases they will be transformed into the appropriate command or query using AutoMapper instance version (Core library uses static). After transformation manual authorization and authentication details or other details not received from clients will be appended to the Command/Query objects. This could be details such as account data partitions or security details derived from the authentication/authorization processes.
+
+**Note** AutoMapper is initialized seperatly within the Srevices project. The Core project will be a compiled DLL or could be a nuget package in the future and it's AutoMapper settings should have no knowledge of those in the layer above.
 
 **Note:** The Core libraries should have no concept of these models as they only serve the purpose of service to client communication.
 
@@ -186,8 +190,12 @@ Docker is used on all projects/solutions to manage local builds and deploy to mu
 ## Configuration
 We use .Net Cores built in with Docker and Docker compose helping to manage builds for specific enviornments
 
-## AutoMapper
-AutoMapper Mappings are configured within the Core.Startup.AutoMapperConfiguration Class
+## AutoMapper (Static and Instance)
+AutoMapper **Static** Mappings are configured within the Core.Startup.AutoMapperConfiguration Class.
+
+AutoMapper is also configured seperatly using the **Instance** type within the Services project.
+
+**Note:** This is done because the Core library should have no knowledge of AutoMapper configurations in the layer above it. The Core project will be a compiled DLL or could be a Nuget package in the future. 
 
 ## Email
 Use the IEmailService interface to implement your email service provider. The default implementation within this project uses SendGrid.

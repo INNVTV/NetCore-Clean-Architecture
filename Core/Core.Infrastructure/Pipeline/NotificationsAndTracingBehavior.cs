@@ -72,8 +72,13 @@ namespace Core.Infrastructure.Pipeline
                 if(!(response as CommandResponse).isSuccess)
                 {
                     Log.Warning(String.Concat(typeof(TRequest).Name, " attempted execution with issues: " + (response as CommandResponse).Message));
+
+                    // ...Or send a notification...
+                    //var commandFailure = new Ping { Type = typeof(TRequest).Name };
+                    //await _mediatr.Publish(commandFailure);
                 }
             }
+
 
             // ...As well as on specific command types with a specific result scenario:
             if (typeof(TRequest).Name == "CreateAccountCommand")

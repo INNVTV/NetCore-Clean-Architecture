@@ -29,4 +29,8 @@
     <Folder Include="Authorization\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Core.Common\Core.Common.csproj" />
+  </ItemGroup>
+
 </Project>

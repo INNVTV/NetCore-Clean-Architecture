@@ -53,7 +53,7 @@ The Command Query Responsibility Segregation pattern is used for all access to C
 
 When implementing event sourcing you will want to seperate your event store (writes) from your snapshots and projections (reads) in a more robust manner by having background tasks and analytical procedures that can leverage the event logs to create an almost unlimited amount of perspectives on your data. When fully implemented the CQRS Pattern along with Event Sourcing allows us to roll back to any state of our application and build up projections and aggregates of any kind from our event logs in an unlimited way. Azure Data Lake and Data Lake Analytics are strong contenders for just such a solution.
 
-![CQRS-Reads-Writes](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs-reads-writes.png)
+![CQRS-Data-Lake](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/cqrs-data-lake.png)
 
 
 For more on the CQRS pattern: https://martinfowler.com/bliki/CQRS.html

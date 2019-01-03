@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Application.Accounts.Queries.Enums
+namespace Core.Application.Accounts.Enums
 {
     public enum OrderBy
     {

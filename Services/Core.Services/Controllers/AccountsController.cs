@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Core.Common.Response;
 using Core.Services.ServiceModels;
 using AutoMapper;
-using Core.Application.Accounts.Queries.Enums;
+using Core.Application.Accounts.Enums;
 
 namespace Core.Services.Controllers
 {
@@ -25,21 +25,26 @@ namespace Core.Services.Controllers
         readonly IMapper _mapper; //<-- Instance version of IMapper. Used only in the Service layer for ServiceModels
 
         // Constructor automatically pulls in configuration via build in dependancy injection
-        public AccountsController(IServiceProvider serviceProvider, IMapper mapper)//ICoreConfiguration coreConfiguration)
+        public AccountsController(IServiceProvider serviceProvider, IMapper mapper)
         {
-            //_serviceProvider = serviceProvider;
             _mediator = serviceProvider.GetService<IMediator>();
             _mapper = mapper;
         }
 
         // GET: api/accounts
         [HttpGet]
-        public async Task<AccountListViewModel> GetAsync(int page = 1, int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC)
+        public async Task<AccountListViewModel> GetAsync(int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC, string continuationToken = null)
         {
             // We don't use the GetAccountListQuery in the controller method otherwise Swagger tries to use a POST on our GET call
-            var accountListQuery = new GetAccountListQuery { Page = page, PageSize = pageSize, OrderBy = orderBy, OrderDirection = orderDirection };
+            var accountListQuery = new GetAccountListQuery {PageSize = pageSize, OrderBy = orderBy, OrderDirection = orderDirection, ContinuationToken = continuationToken };
             var result = await _mediator.Send(accountListQuery);
             return result;
+
+            //-----------------------------------------------------
+            // TODO: DocumentDB will soon have skip/take
+            // For now we use continuation token
+            // For even more robust query capabilities you should also use Azure Search
+            //-----------------------------------------------------
         }
 
         // GET: api/accounts/{nameKey}

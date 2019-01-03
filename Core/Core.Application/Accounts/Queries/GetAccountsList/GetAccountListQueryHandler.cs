@@ -13,6 +13,7 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using System.Linq;
 using System.Text;
+using Microsoft.Azure.Documents.Linq;
 
 namespace Core.Application.Accounts.Queries
 {
@@ -34,6 +35,12 @@ namespace Core.Application.Accounts.Queries
 
         public async Task<AccountListViewModel> Handle(GetAccountListQuery request, CancellationToken cancellationToken)
         {
+            //-----------------------------------------------------
+            // TODO: DocumentDB will soon have skip/take
+            // For now we use continuation token
+            // For even more robust query capabilities you should also use Azure Search
+            //-----------------------------------------------------
+
             // Prepare our domain model to be returned
             var accountsListViewModel = new AccountListViewModel();
 
@@ -49,29 +56,13 @@ namespace Core.Application.Accounts.Queries
             {
 
                 // Create the query
-                var sqlQuery = new StringBuilder("SELECT * FROM Documents d");
+                var sqlQuery = new StringBuilder(String.Concat(
+                    "SELECT * FROM Documents d ORDER BY d.",
+                    request.OrderBy,
+                    " ",
+                    request.OrderDirection
+                    ));
 
-                //Check for options or fall back to defaults
-                if(!String.IsNullOrEmpty(request.OrderBy.ToString()))
-                {
-                    sqlQuery.Append(" ORDER BY d.");
-                    sqlQuery.Append(request.OrderBy);
-
-                    if(!String.IsNullOrEmpty(request.OrderDirection.ToString()))
-                    {
-                        sqlQuery.Append(" ");
-                        sqlQuery.Append(request.OrderDirection);
-                    }
-                    else
-                    {
-                        sqlQuery.Append(" ASC");
-                    }
-                }
-                else
-                {
-                    sqlQuery.Append(" ORDER BY d.Name ASC");
-                }
-                
                 var sqlSpec = new SqlQuerySpec { QueryText = sqlQuery.ToString() };
 
                 // Generate collection uri
@@ -80,27 +71,36 @@ namespace Core.Application.Accounts.Queries
                 // Generate FeedOptions/ParitionKey
                 var feedOptions = new FeedOptions
                 {
-                    PartitionKey = new PartitionKey(Common.Constants.DocumentType.Account())
+                    PartitionKey = new PartitionKey(Common.Constants.DocumentType.Account()),
+                    MaxItemCount = request.PageSize,
+                    RequestContinuation = request.ContinuationToken
                 };
 
                 // Run query against the document store
-                var result = _documentContext.Client.CreateDocumentQuery<AccountDocumentModel>(
+                var query = _documentContext.Client.CreateDocumentQuery<AccountDocumentModel>(
                     collectionUri,
                     sqlSpec,
                     feedOptions
-                );
+                ).AsDocumentQuery();
 
-                var accountDocuments = result.ToList();
+                var result = await query.ExecuteNextAsync();
 
-                if(accountDocuments != null && accountDocuments.Count > 0)
+                if(query.HasMoreResults)
                 {
-                    foreach (var accountDocument in accountDocuments)
+                    //If there are more results pass back a continuation token
+                    accountsListViewModel.ContinuationToken = result.ResponseContinuation;
+                }
+
+                /*
+                if(result != null && result.Count > 0)
+                {
+                    foreach (var accountDocument in result.ToList())
                     {
                         //Use AutoMapper to transform DocumentModel into Domain Model (Configure via Core.Startup.AutoMapperConfiguration)
                         var account = AutoMapper.Mapper.Map<Account>(accountDocument);
                         accountsListViewModel.Accounts.Add(account);
                     }
-                }
+                }*/
 
                 return accountsListViewModel;
             }

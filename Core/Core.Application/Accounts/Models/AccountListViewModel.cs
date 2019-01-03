@@ -20,5 +20,7 @@ namespace Core.Application.Accounts.Models
 
         public bool EditEnabled { get; set; }
         public bool DeleteEnabled { get; set; }
+
+        public string ContinuationToken { get; set; } //<-- Use for next call. Null on final
     }
 }

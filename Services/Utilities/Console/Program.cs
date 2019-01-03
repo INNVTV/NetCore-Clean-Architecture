@@ -152,8 +152,8 @@ namespace ConsoleApp
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
-                Name = "Account Name 8",
-                Email = "kaz@innvtv.com",
+                Name = "Account Name 1",
+                Email = "john@email.com",
                 FirstName = "John",
                 LastName = "Smith"
             };
@@ -192,7 +192,7 @@ namespace ConsoleApp
                 var createAccountCommand = new CreateAccountCommand()
                 {
                     Name = String.Concat("Account ", i),
-                    Email = "kaz@innvtv.com",
+                    Email = "john@email.com",
                     FirstName = "John",
                     LastName = "Smith"
                 };
@@ -248,24 +248,5 @@ namespace ConsoleApp
             */
             #endregion
         }
-
-        //private static void ConfigureServices(IServiceCollection services)
-        //{
-        //    ILoggerFactory loggerFactory = new LoggerFactory()
-        //        .AddConsole() // Error!
-        //        .AddDebug();
-
-        //    services.AddSingleton(loggerFactory); // Add first my already configured instance
-        //    services.AddLogging(); // Allow ILogger<T>
-
-        //    IConfigurationRoot configuration = GetConfiguration();
-        //    services.AddSingleton<IConfigurationRoot>(configuration);
-
-        //    // Support typed Options
-        //    services.AddOptions();
-        //    services.Configure<MyOptions>(configuration.GetSection("MyOptions")); // Error!
-
-        //    services.AddTransient<Application>();
-        //}
     }
 }

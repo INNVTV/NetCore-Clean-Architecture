@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Core.Common.Response;
 using Core.Services.ServiceModels;
 using AutoMapper;
+using Core.Application.Accounts.Queries.Enums;
 
 namespace Core.Services.Controllers
 {
@@ -33,14 +34,15 @@ namespace Core.Services.Controllers
 
         // GET: api/accounts
         [HttpGet]
-        public async Task<IEnumerable<AccountViewModel>> GetAsync()
+        public async Task<AccountListViewModel> GetAsync(int page = 1, int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC)
         {
-            var accountListQuery = new GetAccountListQuery();
+            // We don't use the GetAccountListQuery in the controller method otherwise Swagger tries to use a POST on our GET call
+            var accountListQuery = new GetAccountListQuery { Page = page, PageSize = pageSize, OrderBy = orderBy, OrderDirection = orderDirection };
             var result = await _mediator.Send(accountListQuery);
             return result;
         }
 
-        // GET: api/accounts/{guid}
+        // GET: api/accounts/{nameKey}
         [HttpGet("{nameKey}", Name = "Get")]
         public async Task<AccountViewModel> GetAsync(string nameKey)
         {

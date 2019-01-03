@@ -133,7 +133,7 @@ namespace Core.Application.Accounts.Commands
                      * --------------------------------------------------------------------------
                      */
 
-                    return new CommandResponse { isSuccess = true };
+                    return new CommandResponse { isSuccess = true, Message = "Account has been closed." };
                 }
                 else
                 {

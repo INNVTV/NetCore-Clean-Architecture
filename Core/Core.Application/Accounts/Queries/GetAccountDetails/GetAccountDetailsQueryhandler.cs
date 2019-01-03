@@ -36,7 +36,7 @@ namespace Core.Application.Accounts.Queries
             {
 
                 // Create the query
-                string sqlQuery = "SELECT * FROM Documents d WHERE d.NameKey ='" + request.NameKey + "'";
+                string sqlQuery = "SELECT * FROM Documents d WHERE d.NameKey ='" + Common.Transformations.NameKey.Transform(request.NameKey) + "'";
                 var sqlSpec = new SqlQuerySpec { QueryText = sqlQuery };
 
                 // Generate collection uri

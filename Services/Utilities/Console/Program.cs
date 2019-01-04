@@ -149,6 +149,7 @@ namespace ConsoleApp
 
             #region CREATE ACCOUNT
             
+            /**/
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
@@ -244,8 +245,8 @@ namespace ConsoleApp
             }
 
             Console.ReadLine();
-            
             */
+            
             #endregion
         }
     }

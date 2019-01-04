@@ -1,17 +1,15 @@
 ﻿using FluentValidation.Results;
-using Core.Application.Accounts.Models;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Domain.Entities;
-using Core.Application.Accounts.Queries;
 using Core.Infrastructure.Configuration;
 using Core.Infrastructure.Persistence.DocumentDatabase;
 using Core.Common.Response;
 using Microsoft.Azure.Documents.Client;
-using Microsoft.Azure.Documents;
 using Core.Infrastructure.Services.Email;
+using Core.Application.Accounts.Models.Documents;
 
 namespace Core.Application.Accounts.Commands
 {
@@ -114,6 +112,13 @@ namespace Core.Application.Accounts.Commands
 
                     var account = AutoMapper.Mapper.Map<Account>(accountDocumentModel);
 
+                    //==========================================================================
+                    // POST COMMAND CHECKLIST 
+                    //=========================================================================
+                    // 1. CACHING: Update cache.
+                    // 2. SEARCH INDEX: Update Search index or send indexer request.
+                    //-----------------------------------------------------------------------
+
                     return new CommandResponse { isSuccess = true, Object = account };
                 }
                 else
@@ -123,8 +128,12 @@ namespace Core.Application.Accounts.Commands
             }
             catch(Exception e)
             {
-                //Handle Exception
-                //throw new CreateException(nameof(accountDocumentModel), accountDocumentModel.Id);
+                // Log our exception.
+                // Use structured logging to capture the full exception object.
+
+                // Handle with custom exception type:
+                // throw new CreateException(nameof(accountDocumentModel), accountDocumentModel.Id);
+
                 return new CommandResponse { Message = e.Message };
             }
 

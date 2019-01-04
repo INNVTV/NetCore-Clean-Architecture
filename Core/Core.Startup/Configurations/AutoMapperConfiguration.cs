@@ -1,8 +1,6 @@
-﻿using Core.Application.Accounts.Models;
+﻿using Core.Application.Accounts.Models.Documents;
+using Core.Application.Accounts.Models.Views;
 using Core.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Core.Startup
 {
@@ -12,7 +10,7 @@ namespace Core.Startup
         {
             AutoMapper.Mapper.Initialize(cfg => {
                 cfg.CreateMap<AccountDocumentModel, Account>();
-                cfg.CreateMap<AccountDocumentModel, AccountListItem>();
+                cfg.CreateMap<AccountDocumentModel, AccountListViewItem>();
                 //cfg.CreateMap<EntityDocumentModel, Entity>();
                 //cfg.CreateMap<EntityDocumentModel, Entity>();
                 //cfg.CreateMap<EntityDocumentModel, Entity>();

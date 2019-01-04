@@ -1,14 +1,15 @@
 ﻿using Core.Application.Accounts.Models;
-using Core.Application.Accounts.Enums;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Application.Accounts.Models.Views;
+using Core.Application.Accounts.Models.Enums;
 
 namespace Core.Application.Accounts.Queries
 {
-    public class GetAccountListQuery : IRequest<AccountListViewModel>
+    public class GetAccountListQuery : IRequest<AccountListResultsViewModel>
     {
         public GetAccountListQuery()
         {

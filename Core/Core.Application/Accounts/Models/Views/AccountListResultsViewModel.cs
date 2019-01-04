@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Application.Accounts.Models
+namespace Core.Application.Accounts.Models.Views
 {
-    public class AccountListViewModel
+    public class AccountListResultsViewModel
     {
-        public AccountListViewModel()
+        public AccountListResultsViewModel()
         {
-            Accounts = new List<AccountListItem>();
+            Accounts = new List<AccountListViewItem>();
             HasMoreResults = false;
             ContinuationToken = null;
             EditEnabled = false;
@@ -17,9 +17,7 @@ namespace Core.Application.Accounts.Models
             Count = 0;
         }
 
-        public List<AccountListItem> Accounts { get; set; }
-
-        
+        public List<AccountListViewItem> Accounts { get; set; }
 
         public bool EditEnabled { get; set; }
         public bool DeleteEnabled { get; set; }

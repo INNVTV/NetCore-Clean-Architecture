@@ -1,4 +1,5 @@
-﻿using Core.Application.Accounts.Models;
+﻿using Core.Application.Accounts.Models.Documents;
+using Core.Application.Accounts.Models.Views;
 using Core.Domain.Entities;
 using Core.Infrastructure.Configuration;
 using Core.Infrastructure.Persistence.DocumentDatabase;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Core.Application.Accounts.Queries
 {
-    public class GetAccountDetailsQueryHandler : IRequestHandler<GetAccountDetailsQuery, AccountViewModel>
+    public class GetAccountDetailsQueryHandler : IRequestHandler<GetAccountDetailsQuery, AccountDetailsViewModel>
     {
         //MediatR will automatically inject dependencies
         private readonly IMediator _mediator;
@@ -30,10 +31,18 @@ namespace Core.Application.Accounts.Queries
             //Log Activity, Check Authorization, Etc...
         }
 
-        public async Task<AccountViewModel> Handle(GetAccountDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<AccountDetailsViewModel> Handle(GetAccountDetailsQuery request, CancellationToken cancellationToken)
         {
             try
             {
+                //==========================================================================
+                // PRE QUERY CHECKLIST 
+                //==========================================================================
+                // 1. CACHING: Check if item exists in cache.
+                //     a. Use MediatR, Caching Library or Caching Routine within Accounts
+                //
+                // NOTE: Redis Multiplexer is already setup in our DI container using IRedisContext
+                //--------------------------------------------------------------------------
 
                 // Create the query
                 string sqlQuery = "SELECT * FROM Documents d WHERE d.NameKey ='" + Common.Transformations.NameKey.Transform(request.NameKey) + "'";
@@ -59,7 +68,16 @@ namespace Core.Application.Accounts.Queries
 
 
                 // Create our ViewModel and transform our document model
-                var accountViewModel = new AccountViewModel();
+                var accountViewModel = new AccountDetailsViewModel();
+
+                //==========================================================================
+                // POST QUERY CHECKLIST 
+                //==========================================================================
+                // 1. CACHING: Update results in cache.
+                //     a. Use MediatR, Caching Library or Caching Routine within Accounts
+                //
+                // NOTE: Redis Multiplexer is already setup in our DI container using IRedisContext
+                //--------------------------------------------------------------------------
 
                 // TODO: Check user role to include data for the view to use
                 accountViewModel.DeleteEnabled = false;
@@ -74,8 +92,11 @@ namespace Core.Application.Accounts.Queries
 
                 return accountViewModel;
             }
-            catch
+            catch(Exception e)
             {
+                // Log our exception.
+                // Use structured logging to capture the full exception object.
+
                 return null;
             }
         }

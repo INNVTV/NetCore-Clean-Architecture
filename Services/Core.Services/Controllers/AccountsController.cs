@@ -13,7 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Core.Common.Response;
 using Core.Services.ServiceModels;
 using AutoMapper;
-using Core.Application.Accounts.Enums;
+using Core.Application.Accounts.Models.Views;
+using Core.Application.Accounts.Models.Enums;
 
 namespace Core.Services.Controllers
 {
@@ -34,7 +35,7 @@ namespace Core.Services.Controllers
         // GET: api/accounts/list
         [Route("list")]
         [HttpGet]
-        public async Task<AccountListViewModel> ListAsync(int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC, string continuationToken = null)
+        public async Task<AccountListResultsViewModel> ListAsync(int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC, string continuationToken = null)
         {
             // We don't use the GetAccountListQuery in the controller method otherwise Swagger tries to use a POST on our GET call
             var accountListQuery = new GetAccountListQuery {PageSize = pageSize, OrderBy = orderBy, OrderDirection = orderDirection, ContinuationToken = continuationToken };
@@ -51,7 +52,7 @@ namespace Core.Services.Controllers
         // GET: api/accounts/search
         [Route("search")]
         [HttpGet]
-        public async Task<AccountListViewModel> SearchAsync(string query, int page, int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC)
+        public async Task<AccountListResultsViewModel> SearchAsync(string query, int page, int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC)
         {
             // We don't use the GetAccountListQuery in the controller method otherwise Swagger tries to use a POST on our GET call
             var accountListQuery = new GetAccountListQuery { PageSize = pageSize, OrderBy = orderBy, OrderDirection = orderDirection };
@@ -65,7 +66,7 @@ namespace Core.Services.Controllers
 
         // GET: api/accounts/{nameKey}
         [HttpGet("{nameKey}", Name = "Get")]
-        public async Task<AccountViewModel> GetAsync(string nameKey)
+        public async Task<AccountDetailsViewModel> GetAsync(string nameKey)
         {
             var accountDetailsQuery = new GetAccountDetailsQuery() { NameKey = nameKey };
             return await _mediator.Send(accountDetailsQuery);

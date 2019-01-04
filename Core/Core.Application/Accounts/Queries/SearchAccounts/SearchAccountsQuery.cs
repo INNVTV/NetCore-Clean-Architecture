@@ -1,5 +1,5 @@
-﻿using Core.Application.Accounts.Enums;
-using Core.Application.Accounts.Models;
+﻿using Core.Application.Accounts.Models.Enums;
+using Core.Application.Accounts.Models.Views;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Core.Application.Accounts.Queries.SearchAccounts
 {
-    public class SearchAccountsQuery : IRequest<AccountSearchViewModel>
+    public class SearchAccountsQuery : IRequest<AccountSearchResultsViewModel>
     {
         public SearchAccountsQuery()
         {

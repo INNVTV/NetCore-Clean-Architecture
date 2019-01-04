@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Application.Accounts.Models
+namespace Core.Application.Accounts.Models.Views
 {
-    public class AccountViewModel
+    public class AccountDetailsViewModel
     {
         public Account Account { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using Core.Application.Accounts.Models;
+﻿using Core.Application.Accounts.Models.Documents;
 using Core.Common.Response;
 using Core.Infrastructure.Configuration;
 using Core.Infrastructure.Persistence.DocumentDatabase;
@@ -122,7 +122,9 @@ namespace Core.Application.Accounts.Commands
                      *  2. Delete all storage data associated with this account.
                      *     (blobs, tables and queues)
                      *     
-                     *  3. Purge all caches that may still hold data associated with te account
+                     *  3. Purge all caches that may still hold data associated with the account
+                     *  
+                     *  4. Update search index or send indexer request
                      *  
                      *  NOTE: This can be done via message queue picked up by a worker proccess
                      *        or by a record checked by a custodal process
@@ -142,7 +144,10 @@ namespace Core.Application.Accounts.Commands
             }
             catch (Exception e)
             {
-                //Handle Exception
+                // Log our exception.
+                // Use structured logging to capture the full exception object.
+
+                // Handle Exception with custom type:
                 //throw new CreateException(nameof(accountDocumentModel), accountDocumentModel.Id);
                 return new CommandResponse { Message = e.Message };
             }

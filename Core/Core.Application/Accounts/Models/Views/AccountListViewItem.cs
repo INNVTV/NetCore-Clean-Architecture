@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Domain.Entities
+namespace Core.Application.Accounts.Models.Views
 {
-    public class Account
+    public class AccountListViewItem
     {
-        public Account()
+        public AccountListViewItem()
         {
-            Users = new List<User>();
         }
 
         public string Id { get; set; }
         public string Name { get; set; }
         public string NameKey { get; set; }
-
-        public ICollection<User> Users { get; private set; }
     }
 }

@@ -1,23 +1,20 @@
-﻿using FluentValidation.Results;
-using Core.Application.Accounts.Models;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Domain.Entities;
-using Core.Application.Accounts.Queries;
-using System.Collections.Generic;
 using Core.Infrastructure.Configuration;
 using Core.Infrastructure.Persistence.DocumentDatabase;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
-using System.Linq;
 using System.Text;
 using Microsoft.Azure.Documents.Linq;
+using Core.Application.Accounts.Models.Views;
+using Core.Application.Accounts.Models.Documents;
 
 namespace Core.Application.Accounts.Queries
 {
-    public class GetAccountListQueryHandler : IRequestHandler<GetAccountListQuery, AccountListViewModel>
+    public class GetAccountListQueryHandler : IRequestHandler<GetAccountListQuery, AccountListResultsViewModel>
     {
         //MediatR will automatically inject  dependencies
         private readonly IMediator _mediator;
@@ -33,16 +30,16 @@ namespace Core.Application.Accounts.Queries
 
         }
 
-        public async Task<AccountListViewModel> Handle(GetAccountListQuery request, CancellationToken cancellationToken)
+        public async Task<AccountListResultsViewModel> Handle(GetAccountListQuery request, CancellationToken cancellationToken)
         {
             //-----------------------------------------------------
             // TODO: DocumentDB will soon have skip/take
             // For now we use continuation token
-            // For even more robust query capabilities you should also use Azure Search
+            // For more robust query capabilities use Azure Search via: SearchAccountsQuery
             //-----------------------------------------------------
 
-            // Prepare our domain model to be returned
-            var accountsListViewModel = new AccountListViewModel();
+            // Prepare our view model to be returned
+            var accountsListViewModel = new AccountListResultsViewModel();
 
             // TODO: Check user role to include data for the view to use
             accountsListViewModel.DeleteEnabled = false;
@@ -96,15 +93,18 @@ namespace Core.Application.Accounts.Queries
                     foreach (var accountDocument in result)
                     {
                         //Use AutoMapper to transform DocumentModel into Domain Model (Configure via Core.Startup.AutoMapperConfiguration)
-                        var account = AutoMapper.Mapper.Map<AccountListItem>(accountDocument);
+                        var account = AutoMapper.Mapper.Map<AccountListViewItem>(accountDocument);
                         accountsListViewModel.Accounts.Add(account);
                     }
                 }
 
                 return accountsListViewModel;
             }
-            catch
+            catch(Exception e)
             {
+                // Log our exception.
+                // Use structured logging to capture the full exception object.
+
                 return null;
             }
 

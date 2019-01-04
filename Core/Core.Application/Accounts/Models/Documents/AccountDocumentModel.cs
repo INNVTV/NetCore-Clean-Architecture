@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Core.Application.Accounts.Models
+namespace Core.Application.Accounts.Models.Documents
 {
     public class AccountDocumentModel
     {

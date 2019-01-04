@@ -17,4 +17,15 @@ namespace Core.Domain.Entities
 
         public ICollection<User> Users { get; private set; }
     }
+
+    public class AccountListItem
+    {
+        public AccountListItem()
+        {
+        }
+
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string NameKey { get; set; }
+    }
 }

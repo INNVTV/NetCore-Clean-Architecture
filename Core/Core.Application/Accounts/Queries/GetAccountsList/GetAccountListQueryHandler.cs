@@ -48,16 +48,12 @@ namespace Core.Application.Accounts.Queries
             accountsListViewModel.DeleteEnabled = false;
             accountsListViewModel.EditEnabled = false;
 
-            // TODO: Add page/row/totals
-            accountsListViewModel.Total = 0;
-            accountsListViewModel.Page = 0;
-
             try
             {
 
                 // Create the query
                 var sqlQuery = new StringBuilder(String.Concat(
-                    "SELECT * FROM Documents d ORDER BY d.",
+                    "SELECT d.id, d.Name, d.NameKey FROM Documents d ORDER BY d.",
                     request.OrderBy,
                     " ",
                     request.OrderDirection
@@ -72,7 +68,7 @@ namespace Core.Application.Accounts.Queries
                 var feedOptions = new FeedOptions
                 {
                     PartitionKey = new PartitionKey(Common.Constants.DocumentType.Account()),
-                    MaxItemCount = request.PageSize,
+                    MaxItemCount = request.PageSize, //<-- This is the page size
                     RequestContinuation = request.ContinuationToken
                 };
 
@@ -81,26 +77,29 @@ namespace Core.Application.Accounts.Queries
                     collectionUri,
                     sqlSpec,
                     feedOptions
-                ).AsDocumentQuery();
+                ).AsDocumentQuery(); //<-- 'AsDocumentQuery' extension method casts the IOrderedQueryable query to an IDocumentQuery
 
-                var result = await query.ExecuteNextAsync();
+                var result = await query.ExecuteNextAsync<AccountDocumentModel>(); //<-- Get the first page of results as AccountDocumentModel(s)
 
-                if(query.HasMoreResults)
+                if (query.HasMoreResults)
                 {
-                    //If there are more results pass back a continuation token
+                    //If there are more results pass back a continuation token so the caller can get the next batch
+                    accountsListViewModel.HasMoreResults = true;
                     accountsListViewModel.ContinuationToken = result.ResponseContinuation;
                 }
 
-                /*
+                
                 if(result != null && result.Count > 0)
                 {
-                    foreach (var accountDocument in result.ToList())
+                    accountsListViewModel.Count = result.Count;
+
+                    foreach (var accountDocument in result)
                     {
                         //Use AutoMapper to transform DocumentModel into Domain Model (Configure via Core.Startup.AutoMapperConfiguration)
-                        var account = AutoMapper.Mapper.Map<Account>(accountDocument);
+                        var account = AutoMapper.Mapper.Map<AccountListItem>(accountDocument);
                         accountsListViewModel.Accounts.Add(account);
                     }
-                }*/
+                }
 
                 return accountsListViewModel;
             }

@@ -17,7 +17,7 @@ using Core.Application.Accounts.Enums;
 
 namespace Core.Services.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/accounts")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -31,9 +31,10 @@ namespace Core.Services.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/accounts
+        // GET: api/accounts/list
+        [Route("list")]
         [HttpGet]
-        public async Task<AccountListViewModel> GetAsync(int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC, string continuationToken = null)
+        public async Task<AccountListViewModel> ListAsync(int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC, string continuationToken = null)
         {
             // We don't use the GetAccountListQuery in the controller method otherwise Swagger tries to use a POST on our GET call
             var accountListQuery = new GetAccountListQuery {PageSize = pageSize, OrderBy = orderBy, OrderDirection = orderDirection, ContinuationToken = continuationToken };
@@ -42,8 +43,23 @@ namespace Core.Services.Controllers
 
             //-----------------------------------------------------
             // TODO: DocumentDB will soon have skip/take
-            // For now we use continuation token
-            // For even more robust query capabilities you should also use Azure Search
+            // For now we use continuation token to get next batch from list
+            // For even more robust query capabilities you should use the 'search' route
+            //-----------------------------------------------------
+        }
+
+        // GET: api/accounts/search
+        [Route("search")]
+        [HttpGet]
+        public async Task<AccountListViewModel> SearchAsync(string query, int page, int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC)
+        {
+            // We don't use the GetAccountListQuery in the controller method otherwise Swagger tries to use a POST on our GET call
+            var accountListQuery = new GetAccountListQuery { PageSize = pageSize, OrderBy = orderBy, OrderDirection = orderDirection };
+            var result = await _mediator.Send(accountListQuery);
+            return result;
+
+            //-----------------------------------------------------
+            // Uses Azure Search
             //-----------------------------------------------------
         }
 

@@ -9,18 +9,23 @@ namespace Core.Application.Accounts.Models
     {
         public AccountListViewModel()
         {
-            Accounts = new List<Account>();
+            Accounts = new List<AccountListItem>();
+            HasMoreResults = false;
+            ContinuationToken = null;
+            EditEnabled = false;
+            DeleteEnabled = false;
+            Count = 0;
         }
 
-        public List<Account> Accounts { get; set; }
+        public List<AccountListItem> Accounts { get; set; }
 
-        public int Total;
-        public int Next;
-        public int Page;
+        
 
         public bool EditEnabled { get; set; }
         public bool DeleteEnabled { get; set; }
 
+        public int Count;
+        public bool HasMoreResults;
         public string ContinuationToken { get; set; } //<-- Use for next call. Null on final
     }
 }

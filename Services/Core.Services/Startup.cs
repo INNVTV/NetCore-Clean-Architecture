@@ -56,7 +56,7 @@ namespace Core.Services
             // File Sink is commented out and can be replaced with Serilogs vast library of available sinks
 
             Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console() //<-- This will give us output to our Kestrel console
+            .WriteTo.Console(theme: Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme.Code) //<-- This will give us output to our Kestrel console
             //.WriteTo.File("_logs/log-.txt", rollingInterval: RollingInterval.Day) //<-- Write our logs to a local text file with rolling interval configuration
             .CreateLogger();
 

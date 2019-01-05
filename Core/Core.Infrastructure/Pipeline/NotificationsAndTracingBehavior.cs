@@ -71,11 +71,7 @@ namespace Core.Infrastructure.Pipeline
             {
                 if(!(response as CommandResponse).isSuccess)
                 {
-                    Log.Warning(String.Concat(typeof(TRequest).Name, " attempted execution with issues: " + (response as CommandResponse).Message));
-
-                    // ...Or send a notification...
-                    //var commandFailure = new Ping { Type = typeof(TRequest).Name };
-                    //await _mediatr.Publish(commandFailure);
+                    Log.Warning("{name} attempted execution with issues: {message}", typeof(TRequest).Name, (response as CommandResponse).Message);
                 }
             }
 
@@ -85,18 +81,15 @@ namespace Core.Infrastructure.Pipeline
             {
                 if (!(response as CommandResponse).isSuccess && (response as CommandResponse).ValidationErrors != null)
                 {
-                    var errors = new StringBuilder();
-                    var last = (response as CommandResponse).ValidationErrors.Last();
-                    foreach (var error in (response as CommandResponse).ValidationErrors)
-                    {
-                        errors.Append(error.ErrorMessage);
-                        if(error != last)
-                        {
-                            errors.Append(", ");
-                        }   
-                    }
+                    
 
-                    Log.Warning(String.Concat(typeof(TRequest).Name, " executed with the following validation issues: " + errors));
+                    // BASIC LOGGING
+                    Log.Warning("{name} executed with the following validation issues: {errors}", typeof(TRequest).Name, (response as CommandResponse).ValidationErrors);
+                    
+                    // STRUCTURED LOGGING:
+                    // Use structured logging to capture the full object, it's properties and associated data:
+                    // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
+                    Log.Warning("{name} executed with the following validation issues: {@errors}", typeof(TRequest).Name, (response as CommandResponse).ValidationErrors);
                 }
             }
 

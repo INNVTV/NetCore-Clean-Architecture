@@ -11,6 +11,7 @@ using System.Text;
 using Microsoft.Azure.Documents.Linq;
 using Core.Application.Accounts.Models.Views;
 using Core.Application.Accounts.Models.Documents;
+using Serilog;
 
 namespace Core.Application.Accounts.Queries
 {
@@ -104,6 +105,8 @@ namespace Core.Application.Accounts.Queries
             {
                 // Log our exception.
                 // Use structured logging to capture the full exception object.
+                // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
+                Log.Error("Error: {@e}", e);
 
                 return null;
             }

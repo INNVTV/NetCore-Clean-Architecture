@@ -137,7 +137,7 @@ This is a helper class found in **Core.Common** that allows us to grouop many ap
 
 The **InitializeCoreConfiguration()** should be called in your main entry point prior to adding the fully initialized CoreConfiguration class into your DI Container. 
 
-## Diagnostics and Logging with Serilog
+## Structured Logging with Serilog
 Core libraries are set up to use the global, statically accessible logger from Serilog which must be set up in the main entrypoint(s) and does not require a DI container.
 
 File Sink is commented out and can be replaced with Serilogs vast library of available sinks and diagnostic tooling.
@@ -145,6 +145,8 @@ File Sink is commented out and can be replaced with Serilogs vast library of ava
 ![Serilog-Kestrel](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/serilog-kestrel.png)
 
 For more info on Serilog visit their [website](https://serilog.net/) or [wiki](https://github.com/serilog/serilog/wiki).
+
+It is recommended that you use *structured logging* and send your logs to a log management system. This will allow you greater flexibility to understand and search your diagnostic data. For more on structured logging read the [Serilog wiki](https://github.com/serilog/serilog/wiki/Structured-Data) on the subject.
 
 ## Why no Repository Pattern?
 I think Jummy Bogard said it best in his contribution to [this article](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design):

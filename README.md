@@ -148,6 +148,10 @@ For more info on Serilog visit their [website](https://serilog.net/) or [wiki](h
 
 It is recommended that you use *structured logging* and send your logs to a log management system. This will allow you greater flexibility to understand and search your diagnostic data. For more on structured logging read the [Serilog wiki](https://github.com/serilog/serilog/wiki/Structured-Data) on the subject.
 
+A list of Serilog sinks: [Provided Sinks](https://github.com/serilog/serilog/wiki/Provided-Sinks)
+
+Log management systems: [Seq](https://getseq.net/), [PaperTrail](https://papertrailapp.com/) and [Stackify](https://stackify.com/retrace-log-management/)
+
 ## Why no Repository Pattern?
 I think Jummy Bogard said it best in his contribution to [this article](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design):
 

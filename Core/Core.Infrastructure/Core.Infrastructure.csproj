@@ -23,10 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ActivityLog\Account\" />
-    <Folder Include="ActivityLog\Platform\" />
     <Folder Include="Caching\" />
-    <Folder Include="Authorization\" />
   </ItemGroup>
 
   <ItemGroup>

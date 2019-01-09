@@ -1,10 +1,11 @@
-﻿using Core.Application.Accounts.Models;
+﻿using Core.Application.Accounts.Commands.CreateAccount;
+using Core.Application.Accounts.Models;
 using Core.Common.Response;
 using MediatR;
 
 namespace Core.Application.Accounts.Commands
 {
-    public class CreateAccountCommand : IRequest<CommandResponse>
+    public class CreateAccountCommand : IRequest<CreateAccountCommandResponse>
     {
         public string Name { get; set; }
 

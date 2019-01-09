@@ -139,7 +139,8 @@ namespace Core.Services
             services.AddMediatR(typeof(Ping));
 
             // We only need to register ONE command from the library and MediatR will resolve the rest
-            services.AddMediatR(typeof(CreateAccountCommand)); //<-- Will find the rest of our commands within the Core.Application library
+            //services.AddMediatR(typeof(CreateAccountCommand)); //<-- Will find the rest of our commands within the Core.Application library
+            services.AddMediatR(typeof(CreateAccountCommand).GetTypeInfo().Assembly); //<-- Will find the rest of our commands within the Core.Application Assembly
 
             // If the above does not work then we must add each Command/Query individually
             //services.AddMediatR(typeof(CreateAccountCommand));

@@ -44,7 +44,7 @@ namespace Core.Application.Accounts.Commands
                 ValidationResult validationResult = validator.Validate(request);
                 if (!validationResult.IsValid)
                 {
-                    return new CommandResponse { Message = "Invalid Input", ValidationErrors = validationResult.Errors };
+                    return new CommandResponse(validationResult.Errors) { Message = "Invalid Input" };
                 }
 
                 //=========================================================================

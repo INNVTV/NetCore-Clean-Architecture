@@ -1,1 +1,0 @@
-﻿Account specific activity logging.

@@ -10,10 +10,14 @@ using Core.Common.Response;
 using Microsoft.Azure.Documents.Client;
 using Core.Infrastructure.Services.Email;
 using Core.Application.Accounts.Models.Documents;
+using Serilog;
+using Core.Application.Accounts.Commands.CreateAccount;
+using Core.Common.Responses;
+using System.Collections.Generic;
 
 namespace Core.Application.Accounts.Commands
 {
-    public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, CommandResponse>
+    public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, CreateAccountCommandResponse>
     {
         //MediatR will automatically inject dependencies
         private readonly IMediator _mediator;
@@ -29,10 +33,10 @@ namespace Core.Application.Accounts.Commands
             _emailService = emailService;
         }
 
-        public async Task<CommandResponse> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        public async Task<CreateAccountCommandResponse> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
-            try
-            {
+            //try
+           // {
                 //==========================================================================
                 // EVENT SOURCING - REFACTORING NOTES
                 //=========================================================================
@@ -51,7 +55,7 @@ namespace Core.Application.Accounts.Commands
                 ValidationResult validationResult = validator.Validate(request);
                 if(!validationResult.IsValid)
                 {
-                    return new CommandResponse { Message = "One or more validation errors occurred.", ValidationErrors = validationResult.Errors };
+                    return new CreateAccountCommandResponse(validationResult.Errors) { Message = "One or more validation errors occurred." };
                 }
 
 
@@ -119,23 +123,31 @@ namespace Core.Application.Accounts.Commands
                     // 2. SEARCH INDEX: Update Search index or send indexer request.
                     //-----------------------------------------------------------------------
 
-                    return new CommandResponse { isSuccess = true, Object = account };
+                    return new CreateAccountCommandResponse { isSuccess = true, Account = account };
                 }
                 else
                 {                  
-                    return new CommandResponse { Message = "Could not save model to document store. Status code: " + result.StatusCode };
+                    return new CreateAccountCommandResponse { Message = "Could not save model to document store. Status code: " + result.StatusCode };
                 }
-            }
-            catch(Exception e)
-            {
+            //}
+            //catch(Exception e)
+            //{
+                //Track the user that ran into the exception (for our structured logs)
+                //var user = new User { Id = Guid.NewGuid(), Name = "John Smith" };
+
                 // Log our exception.
                 // Use structured logging to capture the full exception object.
 
                 // Handle with custom exception type:
                 // throw new CreateException(nameof(accountDocumentModel), accountDocumentModel.Id);
 
-                return new CommandResponse { Message = e.Message };
-            }
+                // STRUCTURED LOGGING
+                // Use structured logging to capture the full object.
+                // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
+                //Log.Information("Request: {name} {@request} {@user}", "CreateAccount", request, user);
+
+                //return new CommandResponse { Message = e.Message };
+            //}
 
         }
     }

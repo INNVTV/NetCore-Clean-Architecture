@@ -21,8 +21,8 @@ namespace Core.Application.Accounts.Commands
             RuleFor(x => x.Name).NotEmpty().WithMessage("Please specify an account name");
             RuleFor(x => x.Name).Length(2, 40).WithMessage("Account name must be bewtween 2-40 characters in length");
             RuleFor(x => x.Email).EmailAddress().WithMessage("Please enter a valid email address");
-            RuleFor(x => x.Name).Must(BeAValidName).WithMessage(x => $"{x.Name} is a reserved name");
-            RuleFor(x => x.Name).Must(NotExist).WithMessage(x => $"{x.Name} already exists");         
+            RuleFor(x => x.Name).Must(BeAValidName).WithMessage(x => $"{x.Name} is a reserved account name");
+            RuleFor(x => x.Name).Must(NotExist).WithMessage(x => $"Account name '{x.Name}' already exists");         
         }
 
         private bool NotExist(string name)

@@ -34,8 +34,9 @@ namespace Core.Infrastructure.Pipeline
             {
                 var name = typeof(TRequest).Name;
 
-                // TODO: Add User/Caller Details, or include in Command
+                // TODO: Add User/Account/Caller Details, or include in Command
                 var user = new User {  Id = Guid.NewGuid(), Name = "John Smith" };
+               
 
                 // Uses Serilog's global, statically accessible logger, is set via Log.Logger in the startup/entrypoint of the host solution/project.
                 // Sinks, enrichers, and minimum logging level are set up in the entry point.

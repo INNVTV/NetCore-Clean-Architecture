@@ -67,11 +67,11 @@ namespace Core.Infrastructure.Pipeline
              //-----------------------------------------------------------
              
             // You can inject pipeline functionality on specific result status...
-            if (typeof(TResponse).Name == "CommandResponse")
+            if (typeof(TResponse).Name == "BaseResponse")
             {
-                if(!(response as CommandResponse).isSuccess)
+                if(!(response as BaseResponse).isSuccess)
                 {
-                    Log.Warning("{name} attempted execution with issues: {message}", typeof(TRequest).Name, (response as CommandResponse).Message);
+                    Log.Warning("{name} attempted execution with issues: {message}", typeof(TRequest).Name, (response as BaseResponse).Message);
                 }
             }
 
@@ -79,17 +79,17 @@ namespace Core.Infrastructure.Pipeline
             // ...As well as on specific command types with a specific result scenario:
             if (typeof(TRequest).Name == "CreateAccountCommand")
             {
-                if (!(response as CommandResponse).isSuccess && (response as CommandResponse).ValidationErrors != null)
+                if (!(response as BaseResponse).isSuccess && (response as BaseResponse).ValidationErrors != null)
                 {
                     
 
                     // BASIC LOGGING
-                    Log.Warning("{name} executed with the following validation issues: {errors}", typeof(TRequest).Name, (response as CommandResponse).ValidationErrors);
+                    Log.Warning("{name} executed with the following validation issues: {errors}", typeof(TRequest).Name, (response as BaseResponse).ValidationErrors);
                     
                     // STRUCTURED LOGGING:
                     // Use structured logging to capture the full object, it's properties and associated data:
                     // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
-                    Log.Warning("{name} executed with the following validation issues: {@errors}", typeof(TRequest).Name, (response as CommandResponse).ValidationErrors);
+                    Log.Warning("{name} executed with the following validation issues: {@errors}", typeof(TRequest).Name, (response as BaseResponse).ValidationErrors);
                 }
             }
 

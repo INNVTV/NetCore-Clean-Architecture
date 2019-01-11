@@ -35,28 +35,31 @@ namespace Core.Application.Accounts.Commands
 
         public async Task<CreateAccountCommandResponse> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
-            //try
-           // {
-                //==========================================================================
-                // EVENT SOURCING - REFACTORING NOTES
-                //=========================================================================
-                // When migrating to Event Sourcing you will no longer be using Document Client to store the new account
-                // Instead you will create a "AccountCreated" event (events are names in the past tense)
-                // THis event will later be used as part of your aggregate to create an Accout "projection" or "aggregate"
-                // You will also be seperating your Write store from your Read store as this is the           
-                //--------------------------------------------------------------------------
+            //try  (Try catch is removed as we have Middleware components  (Core.Infrastructure.Middleware) that capture exceptsions as they bubble up the application pipeline)               
+            //{
+
+            //==========================================================================
+            // EVENT SOURCING - REFACTORING NOTES
+            //=========================================================================
+            // When migrating to Event Sourcing you will no longer be using Document Client to store the new account
+            // Instead you will create a "AccountCreated" event (events are names in the past tense)
+            // THis event will later be used as part of your aggregate to create an Accout "projection" or "aggregate"
+            // You will also be seperating your Write store from your Read store as this is the           
+            //--------------------------------------------------------------------------
 
 
-                //=========================================================================
-                // VALIDATE OUR COMMAND REQUEST USING FLUENT VALIDATION
-                //=========================================================================
+            //=========================================================================
+            // VALIDATE OUR COMMAND REQUEST USING FLUENT VALIDATION  (ValidationExceptions are captured in Core.Infrastructure.Pipeline.ValidationBehavior and then handled in Core.Infrastructure.Middleware.ExceptionsMiddleware )
+            //=========================================================================
 
-                CreateAccountValidator validator = new CreateAccountValidator(_mediator);
+            /*
+            CreateAccountValidator validator = new CreateAccountValidator(_mediator);
                 ValidationResult validationResult = validator.Validate(request);
                 if(!validationResult.IsValid)
                 {
                     return new CreateAccountCommandResponse(validationResult.Errors) { Message = "One or more validation errors occurred." };
                 }
+             */
 
 
                 //=========================================================================
@@ -123,30 +126,31 @@ namespace Core.Application.Accounts.Commands
                     // 2. SEARCH INDEX: Update Search index or send indexer request.
                     //-----------------------------------------------------------------------
 
-                    return new CreateAccountCommandResponse { isSuccess = true, Account = account };
+                    return new CreateAccountCommandResponse { isSuccess = true, Account = account, Message = "Account created." };
                 }
                 else
                 {                  
                     return new CreateAccountCommandResponse { Message = "Could not save model to document store. Status code: " + result.StatusCode };
                 }
-            //}
+
+            //}  (Try catch is removed as we have Middleware components  (Core.Infrastructure.Middleware) that capture exceptsions as they bubble up the application pipeline)
             //catch(Exception e)
             //{
-                //Track the user that ran into the exception (for our structured logs)
-                //var user = new User { Id = Guid.NewGuid(), Name = "John Smith" };
+            //Track the user that ran into the exception (for our structured logs)
+            //var user = new User { Id = Guid.NewGuid(), Name = "John Smith" };
 
-                // Log our exception.
-                // Use structured logging to capture the full exception object.
+            // Log our exception.
+            // Use structured logging to capture the full exception object.
 
-                // Handle with custom exception type:
-                // throw new CreateException(nameof(accountDocumentModel), accountDocumentModel.Id);
+            // Handle with custom exception type:
+            // throw new CreateException(nameof(accountDocumentModel), accountDocumentModel.Id);
 
-                // STRUCTURED LOGGING
-                // Use structured logging to capture the full object.
-                // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
-                //Log.Information("Request: {name} {@request} {@user}", "CreateAccount", request, user);
+            // STRUCTURED LOGGING
+            // Use structured logging to capture the full object.
+            // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
+            //Log.Information("Request: {name} {@request} {@user}", "CreateAccount", request, user);
 
-                //return new CommandResponse { Message = e.Message };
+            //return new CommandResponse { Message = e.Message };
             //}
 
         }

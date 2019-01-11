@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Core.Application.Accounts.Commands
 {
-    public class CloseAccountCommand : IRequest<CommandResponse>
+    public class CloseAccountCommand : IRequest<BaseResponse>
     {
         public string Id { get; set; }
 

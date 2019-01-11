@@ -74,7 +74,7 @@ namespace Core.Services.Controllers
 
         // POST: api/accounts
         [HttpPost]
-        public async Task<CommandResponse> PostAsync(CreateAccountServiceModel createAccountServiceModel)
+        public async Task<BaseResponse> PostAsync(CreateAccountServiceModel createAccountServiceModel)
         {
             //Use AutoMapper instance to transform ServiceModel into MediatR Request (Configured in Startup)
             var createAccountCommand = _mapper.Map<CreateAccountCommand>(createAccountServiceModel);
@@ -91,7 +91,7 @@ namespace Core.Services.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async Task<CommandResponse> Delete(string id)
+        public async Task<BaseResponse> Delete(string id)
         {
             var closeAccountCommand = new CloseAccountCommand() { Id = id };
             return await _mediator.Send(closeAccountCommand);

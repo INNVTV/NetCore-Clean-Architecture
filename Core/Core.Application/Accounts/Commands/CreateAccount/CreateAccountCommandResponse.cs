@@ -9,13 +9,14 @@ using System.Text;
 
 namespace Core.Application.Accounts.Commands.CreateAccount
 {
-    public class CreateAccountCommandResponse : CommandResponse
+    public class CreateAccountCommandResponse : BaseResponse
     {
         public CreateAccountCommandResponse()
             : base()
         {
 
         }
+
         public CreateAccountCommandResponse(IList<ValidationFailure> failures)
             : base(failures)
         {

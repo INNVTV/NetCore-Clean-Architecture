@@ -7,14 +7,14 @@ using System.Text;
 
 namespace Core.Common.Response
 {
-    public class CommandResponse
+    public class BaseResponse
     {
-        public CommandResponse()
+        public BaseResponse()
         {
             isSuccess = false;
         }
 
-        public CommandResponse(IList<ValidationFailure> failures)
+        public BaseResponse(IEnumerable<ValidationFailure> failures)
         {
             isSuccess = false;
 

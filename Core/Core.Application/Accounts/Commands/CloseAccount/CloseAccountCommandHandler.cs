@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Core.Application.Accounts.Commands
 {
-    public class CloseAccountCommandHandler : IRequestHandler<CloseAccountCommand, CommandResponse>
+    public class CloseAccountCommandHandler : IRequestHandler<CloseAccountCommand, BaseResponse>
     {
         //MediatR will automatically inject dependencies
         private readonly IMediator _mediator;
@@ -32,7 +32,7 @@ namespace Core.Application.Accounts.Commands
             _emailService = emailService;
         }
 
-        public async Task<CommandResponse> Handle(CloseAccountCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponse> Handle(CloseAccountCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace Core.Application.Accounts.Commands
                 ValidationResult validationResult = validator.Validate(request);
                 if (!validationResult.IsValid)
                 {
-                    return new CommandResponse(validationResult.Errors) { Message = "Invalid Input" };
+                    return new BaseResponse(validationResult.Errors) { Message = "Invalid Input" };
                 }
 
                 //=========================================================================
@@ -76,7 +76,7 @@ namespace Core.Application.Accounts.Commands
 
                 if (accountDocumentModel == null)
                 {
-                    return new CommandResponse { Message = "Account does not exist." };   
+                    return new BaseResponse { Message = "Account does not exist." };   
                 }
 
 
@@ -135,11 +135,11 @@ namespace Core.Application.Accounts.Commands
                      * --------------------------------------------------------------------------
                      */
 
-                    return new CommandResponse { isSuccess = true, Message = "Account has been closed." };
+                    return new BaseResponse { isSuccess = true, Message = "Account has been closed." };
                 }
                 else
                 {
-                    return new CommandResponse { Message = "Could not delete document. Status code: " + result.StatusCode };
+                    return new BaseResponse { Message = "Could not delete document. Status code: " + result.StatusCode };
                 }
             }
             catch (Exception e)
@@ -149,7 +149,7 @@ namespace Core.Application.Accounts.Commands
 
                 // Handle Exception with custom type:
                 //throw new CreateException(nameof(accountDocumentModel), accountDocumentModel.Id);
-                return new CommandResponse { Message = e.Message };
+                return new BaseResponse { Message = e.Message };
             }
 
         }

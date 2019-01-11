@@ -7,17 +7,17 @@ namespace Core.Infrastructure.Middleware.ExceptionHandling
 {
     //-----------------------------------------------------
     // The following extension method exposes the middleware through IApplicationBuilder:
-    // giving us the ability to use app.UseExceptionHandlingMiddleware() inside of: Startup.Configure(IApplicationBuilder app)
+    // giving us the ability to use app.UseExceptionHandlerMiddleware() inside of: Startup.Configure(IApplicationBuilder app)
     //---------------------------------------------------------
 
-    // Without this extension method you would just call: app.UseMiddleware(typeof(ExceptionHandlingMiddleware)); 
+    // Without this extension method you would just call: app.UseMiddleware(typeof(ExceptionHandlerMiddleware)); 
 
-    public static class ExceptionHandlingMiddlewareExtension
+    public static class ExceptionHandlerMiddlewareExtension
     {
-        public static IApplicationBuilder UseExceptionHandlingMiddleware(
+        public static IApplicationBuilder UseExceptionHandlerMiddleware(
             this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<ExceptionHandlingMiddleware>();
+            return builder.UseMiddleware<ExceptionHandlerMiddleware>();
         }
     }
 }

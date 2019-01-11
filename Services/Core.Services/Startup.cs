@@ -210,7 +210,7 @@ namespace Core.Services
 
             // Exceptions will be caught, logged and json results will be returned to the caller based on exception type.
 
-            app.UseExceptionHandlingMiddleware();
+            app.UseExceptionHandlerMiddleware();
 
             #endregion
 

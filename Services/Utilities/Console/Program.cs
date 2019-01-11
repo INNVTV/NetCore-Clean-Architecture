@@ -215,7 +215,7 @@ namespace ConsoleApp
                 // NOTE:
                 //------------------------------------------------
                 // For MVC/API/Web applications:
-                // Use the Core.Infrastructure.Middleware.ExceptionHandlingMiddleware for MVC applications for proper logging and exception handling in the pipeline
+                // Use the Core.Infrastructure.Middleware.ExceptionHandlerMiddleware for MVC applications for proper logging and exception handling in the pipeline
                 //------------------------------------------------
 
                 Console.ForegroundColor = ConsoleColor.DarkRed;

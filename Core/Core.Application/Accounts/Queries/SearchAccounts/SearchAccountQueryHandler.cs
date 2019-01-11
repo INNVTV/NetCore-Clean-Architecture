@@ -39,7 +39,16 @@ namespace Core.Application.Accounts.Queries
         public async Task<AccountSearchResultsViewModel> Handle(SearchAccountsQuery request, CancellationToken cancellationToken)
         {
             //-----------------------------------------------------
-            // TODO: Set up search either by manual updates through commands or through an indexer.
+            //
+            //  TODO:
+            //  
+            //  1. Set up a search index for "Accounts"
+            //  2. Update index by manual updates through commands or through an automatic indexer.
+            //
+            //  CosmosDB has integrated indexing capabilities with Azure Search.
+            //  Note: Once integrated you will need to set up a good interval for scanning your document store that makes sense for your application.
+            //  It may make sense to include a call to manually run deltas with an API call whenever you run a command that adds, updates or deletes data in your store so that the update is reflected immediatly in your search results.
+            // 
             //-----------------------------------------------------
 
             // Prepare our view model to be returned
@@ -54,20 +63,18 @@ namespace Core.Application.Accounts.Queries
 
             try
             {
-
-                // Create the query
-                
-
+                // Create the query. Pass it to Azure Search. Send results to caller:                
                 return accountsSearchViewModel;
             }
-            catch(Exception e)
+            catch(Exception ex)
             {
-                // Log our exception.
-                // Use structured logging to capture the full exception object.
+                // throw AzureSearchException (if a custom exception type is desired)
+                // ... Will be caught, logged and handled by the ExceptionHandlerMiddleware
 
-                return null;
+                // ...Or pass along as inner exception:
+                throw new Exception("An error occured trying to use the search service", ex);
             }
-
+            
         }
     }
 }

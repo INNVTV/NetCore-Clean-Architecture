@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Core.Infrastructure.Middleware.ExceptionHandling
 {
-    public class ExceptionHandlingMiddleware
+    public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate next;
 
-        public ExceptionHandlingMiddleware(RequestDelegate next)
+        public ExceptionHandlerMiddleware(RequestDelegate next)
         {
             this.next = next;
         }

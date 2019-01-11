@@ -14,6 +14,7 @@ using Serilog;
 using Core.Application.Accounts.Commands.CreateAccount;
 using Core.Common.Responses;
 using System.Collections.Generic;
+using Microsoft.Azure.Documents;
 
 namespace Core.Application.Accounts.Commands
 {
@@ -90,11 +91,25 @@ namespace Core.Application.Accounts.Commands
             // Generate collection uri
             Uri collectionUri = UriFactory.CreateDocumentCollectionUri(_documentContext.Settings.Database, _documentContext.Settings.Collection);
 
-            // Save the document to document store using the IDocumentContext dependency
-            var result = await _documentContext.Client.CreateDocumentAsync(
-                collectionUri,
-                accountDocumentModel
-            );
+            ResourceResponse<Document> result;
+
+            try
+            {
+                // Save the document to document store using the IDocumentContext dependency
+                result = await _documentContext.Client.CreateDocumentAsync(
+                    collectionUri,
+                    accountDocumentModel
+                );
+            }
+            catch (Exception ex)
+            {
+                // throw DocumentStoreException (if a custom exception type is desired)
+                // ... Will be caught, logged and handled by the ExceptionHandlerMiddleware
+
+                // ...Or pass along as inner exception:
+                throw new Exception("An error occured trying to use the document store", ex);
+            }
+            
 
             if(result.StatusCode == System.Net.HttpStatusCode.Created)
             {
@@ -111,7 +126,19 @@ namespace Core.Application.Accounts.Commands
                     HtmlContent = String.Concat("Thank you ", String.Concat(request.FirstName, " ", request.LastName), ",<br>Your account named <b>", request.Name, "</b> has been created!")
                 };
 
-                var emailSent = await _emailService.SendEmail(emailMessage);
+                try
+                {
+                    var emailSent = await _emailService.SendEmail(emailMessage);
+                }
+                catch (Exception ex)
+                {
+                    // throw EmailServiceException (if a custom exception type is desired)
+                    // ... Will be caught, logged and handled by the ExceptionHandlerMiddleware
+
+                    // ...Or pass along as inner exception:
+                    throw new Exception("An error occured trying to use the email service", ex);
+                }
+                
 
 
                 //==========================================================================

@@ -31,7 +31,6 @@ using Core.Services.ServiceModels;
 using AutoMapper;
 using Swashbuckle.AspNetCore.Swagger;
 using Core.Infrastructure.Middleware.ExceptionHandling;
-using FluentValidation.AspNetCore;
 
 namespace Core.Services
 {
@@ -125,7 +124,6 @@ namespace Core.Services
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(NotificationsAndTracingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 
             #endregion
 
@@ -191,10 +189,7 @@ namespace Core.Services
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
-                    options.SerializerSettings.Converters.Add(new StringEnumConverter()))
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateAccountCommand>());
-            // ^  Requires: FluentValidation.AspNetCore nuget package
-            // ^^ Pointing to any command with "RegisterFromAssembly" will get ALL validatin assemblies in that Library;
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
         }
 
@@ -211,6 +206,14 @@ namespace Core.Services
                 app.UseHsts();
             }
 
+            #region Exceptions Middleware
+
+            // Exceptions will be caught, logged and json results will be returned to the caller based on exception type.
+
+            app.UseExceptionHandlingMiddleware();
+
+            #endregion
+
             #region Swagger Middleware
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
@@ -225,15 +228,6 @@ namespace Core.Services
 
             // Generated document describing the endpoints: http://localhost:<port>/swagger/v1/swagger.json
             // The Swagger UI can be found at: http://localhost:<port>/swagger
-
-            #endregion
-
-            #region Exceptions Middleware
-
-            // Exceptions will be caught, logged and json results will be returned to the caller based on exception type
-            // This includes FluentValidation exceptions which we transform into structured validation results
-
-            app.UseExceptionHandlingMiddleware();
 
             #endregion
 

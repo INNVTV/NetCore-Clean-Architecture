@@ -137,6 +137,13 @@ This is a helper class found in **Core.Common** that allows us to grouop many ap
 
 The **InitializeCoreConfiguration()** should be called in your main entry point prior to adding the fully initialized CoreConfiguration class into your DI Container. 
 
+## Middleware for exception handling and logging
+All exceptions should bubble up to the main caller. Projects should enable the middleware for exception handling which allows for logging and handling of all exceptions in one place with the ability to handle specific exception types conditionally.
+
+Exception handling middleware is found here: **Core.Infrastructure.Middleware.ExceptionHandling**
+
+Additional middleware examples are found in the **Core.Infrastructure.Middleware** root.
+
 ## Structured Logging with Serilog
 Core libraries are set up to use the global, statically accessible logger from Serilog which must be set up in the main entrypoint(s) and does not require a DI container.
 

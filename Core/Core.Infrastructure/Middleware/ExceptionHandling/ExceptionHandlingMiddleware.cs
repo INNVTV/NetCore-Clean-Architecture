@@ -35,14 +35,12 @@ namespace Core.Infrastructure.Middleware.ExceptionHandling
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
 
-            if (exception.GetType() == typeof(FluentValidation.ValidationException))
+            if (exception.GetType() == typeof(System.Exception))
             {
-                Log.Information("Validation exception caught {@exception}", exception);
+                Log.Information("Exception caught {@exception}", exception);
 
-                var baseResponse = new BaseResponse((((FluentValidation.ValidationException)exception).Errors));
-
-                var code = HttpStatusCode.BadRequest;
-                var result = JsonConvert.SerializeObject(baseResponse);
+                var code = HttpStatusCode.InternalServerError;
+                var result = JsonConvert.SerializeObject(new { isSuccess = false, exceptionType = exception.GetType().ToString(), message = exception.Message });
 
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)code;

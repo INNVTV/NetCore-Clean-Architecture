@@ -18,7 +18,7 @@ namespace Core.Common.Response
         {
             isSuccess = false;
 
-            ValidationErrors = new List<ValidationError>();
+            ValidationIssues = new List<ValidationIssue>();
 
             var propertyNames = failures
                 .Select(e => e.PropertyName)
@@ -33,8 +33,8 @@ namespace Core.Common.Response
                     .Select(e => e.ErrorMessage)
                     .ToArray();
 
-                var propertyFailure = new ValidationError { PropertyName = propertyName, PropertyErrors = PropertyFailures.ToList() };
-                ValidationErrors.Add(propertyFailure);
+                var propertyFailure = new ValidationIssue { PropertyName = propertyName, PropertyFailures = PropertyFailures.ToList() };
+                ValidationIssues.Add(propertyFailure);
             }
 
         }
@@ -43,8 +43,7 @@ namespace Core.Common.Response
         public string Message { get; set; }
         //public Object Object { get; set; }
 
-        //public IList<ValidationFailure> ValidationErrors;
-        public IList<ValidationError> ValidationErrors;
+        public IList<ValidationIssue> ValidationIssues;
     }
 
     

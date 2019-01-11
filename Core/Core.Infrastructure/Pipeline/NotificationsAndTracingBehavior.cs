@@ -79,17 +79,17 @@ namespace Core.Infrastructure.Pipeline
             // ...As well as on specific command types with a specific result scenario:
             if (typeof(TRequest).Name == "CreateAccountCommand")
             {
-                if (!(response as BaseResponse).isSuccess && (response as BaseResponse).ValidationErrors != null)
+                if (!(response as BaseResponse).isSuccess && (response as BaseResponse).ValidationIssues != null)
                 {
                     
 
                     // BASIC LOGGING
-                    Log.Warning("{name} executed with the following validation issues: {errors}", typeof(TRequest).Name, (response as BaseResponse).ValidationErrors);
+                    Log.Warning("{name} executed with the following validation issues: {errors}", typeof(TRequest).Name, (response as BaseResponse).ValidationIssues);
                     
                     // STRUCTURED LOGGING:
                     // Use structured logging to capture the full object, it's properties and associated data:
                     // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
-                    Log.Warning("{name} executed with the following validation issues: {@errors}", typeof(TRequest).Name, (response as BaseResponse).ValidationErrors);
+                    Log.Warning("{name} executed with the following validation issues: {@errors}", typeof(TRequest).Name, (response as BaseResponse).ValidationIssues);
                 }
             }
 

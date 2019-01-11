@@ -18,6 +18,7 @@ using MediatR.Pipeline;
 using Serilog;
 using Serilog.Sinks;
 using Core.Infrastructure.Notifications.PingPong.Publisher;
+using FluentValidation;
 
 namespace ConsoleApp
 {
@@ -119,8 +120,10 @@ namespace ConsoleApp
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>)); //<-- Includes LoggingBehavior
 
-            // MediatR Notifications
+
+            // MediatR Notifications ---------------------------------------------
             serviceCollection.AddMediatR(typeof(Ping));
+
 
             /* -----------------------------------------------------
              * REGISTER MEDIATR for CQRS Pattern 
@@ -148,35 +151,86 @@ namespace ConsoleApp
             // =======================================
 
             #region CREATE ACCOUNT
+
             
-            /**/
             // Build our CreateAccount Command:
             var createAccountCommand = new CreateAccountCommand()
             {
                 Name = "Account Name 1",
-                Email = "john@email.com",
+                Email = "johnsmith@email.com",
                 FirstName = "John",
                 LastName = "Smith"
             };
 
-            // Send our command to MediatR for processing...
-            var createAccountResponse = mediator.Send(createAccountCommand);
-
-            // Print results:
-            Console.WriteLine("RESULTS:");
-            Console.WriteLine(createAccountResponse.Result.isSuccess);
-            Console.WriteLine(createAccountResponse.Result.Message);
-
-            if (createAccountResponse.Result.isSuccess)
+            
+            try
             {
-                var account = (Account)createAccountResponse.Result.Object;
+                // Send our command to MediatR for processing...
+                var createAccountResponse = mediator.Send(createAccountCommand).Result;
 
+                // Print results:
+                Console.WriteLine("RESULTS:");
+                Console.WriteLine(createAccountResponse.isSuccess);
+                Console.WriteLine(createAccountResponse.Message);
+
+                if(createAccountResponse.ValidationIssues != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("----------------------------------");
+                    Console.WriteLine("VALIDATION FAILURES:");
+                    Console.WriteLine("----------------------------------");
+                    foreach (var property in createAccountResponse.ValidationIssues)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine(property.PropertyName);
+                        foreach(var failure in property.PropertyFailures)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($" > {failure}");
+                        }
+                    }
+
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                }
+
+                if (createAccountResponse.isSuccess)
+                {
+                    var account = createAccountResponse.Account;
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("----------------------------------------");
+                    Console.WriteLine("NEW ACCOUNT:");
+                    Console.WriteLine("----------------------------------------");
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.WriteLine("Id: " + account.Id);
+                    Console.WriteLine("NameKey: " + account.NameKey);
+                    Console.WriteLine("----------------------------------------");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+            catch (Exception ex)
+            {
+                //------------------------------------------------
+                // NOTE:
+                //------------------------------------------------
+                // For MVC/API/Web applications:
+                // Use the Core.Infrastructure.Middleware.ExceptionHandlingMiddleware for MVC applications for proper logging and exception handling in the pipeline
+                //------------------------------------------------
+
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("----------------------------------------");
-                Console.WriteLine("NEW ACCOUNT:");
+                Console.WriteLine(" EXCEPTION CAUGHT");
                 Console.WriteLine("----------------------------------------");
-                Console.WriteLine("Id: " + account.Id);
-                Console.WriteLine("NameKey: " + account.NameKey);
+                Console.WriteLine($" > {ex.Message}");
+                Console.WriteLine($" > {ex.StackTrace}");
+                if(ex.InnerException != null)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($" > {ex.InnerException.StackTrace}");
+                }
                 Console.WriteLine("----------------------------------------");
+                Console.ForegroundColor = ConsoleColor.White;
             }
 
             Console.ReadLine();
@@ -185,7 +239,7 @@ namespace ConsoleApp
 
             #region CREATE BATCH OF ACCOUNTS
             /*
-            int amount = 1;
+            int amount = 3;
 
             for(var i = 1; i <= amount; i++)
             {
@@ -199,12 +253,21 @@ namespace ConsoleApp
                 };
 
                 // Send our command to MediatR for processing...
-                var createAccountResponse = mediator.Send(createAccountCommand);
+                var createAccountResponse = mediator.Send(createAccountCommand).Result;
 
-                if (createAccountResponse.Result.isSuccess)
+                if (createAccountResponse.isSuccess)
                 {
-                    var account = (Account)createAccountResponse.Result.Object;
-                    Console.WriteLine(String.Concat(account.Name, " created."));
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    var account = (Account)createAccountResponse.Account;
+                    Console.WriteLine($" > {account.Name} created");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine($" > Could not create: {createAccountCommand.Name}.");
+                    Console.WriteLine($" > Message: {createAccountResponse.Message}");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
             }
             
@@ -221,8 +284,8 @@ namespace ConsoleApp
             #endregion
 
             #region CLOSE ACCOUNT
-
             /*
+            
             // Build our CreateAccount Command:
             var closeAccountCommand = new CloseAccountCommand()
             {
@@ -230,14 +293,14 @@ namespace ConsoleApp
             };
 
             // Send our command to MediatR for processing...
-            var closeAccountResponse = mediator.Send(closeAccountCommand);
+            var closeAccountResponse = mediator.Send(closeAccountCommand).Result;
 
             // Print results:
             Console.WriteLine("RESULTS:");
-            Console.WriteLine(closeAccountResponse.Result.isSuccess);
-            Console.WriteLine(closeAccountResponse.Result.Message);
+            Console.WriteLine(closeAccountResponse.isSuccess);
+            Console.WriteLine(closeAccountResponse.Message);
 
-            if (closeAccountResponse.Result.isSuccess)
+            if (closeAccountResponse.isSuccess)
             {
                 Console.WriteLine("----------------------------------------");
                 Console.WriteLine("ACCOUNT CLOSED");
@@ -246,7 +309,7 @@ namespace ConsoleApp
 
             Console.ReadLine();
             */
-            
+
             #endregion
         }
     }

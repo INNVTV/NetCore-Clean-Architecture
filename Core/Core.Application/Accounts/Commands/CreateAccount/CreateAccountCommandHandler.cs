@@ -35,7 +35,8 @@ namespace Core.Application.Accounts.Commands
 
         public async Task<CreateAccountCommandResponse> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
-            //try  (Try catch is removed as we have Middleware components  (Core.Infrastructure.Middleware) that capture exceptsions as they bubble up the application pipeline)               
+            //try  NOTE: Try catch is removed as we have Middleware components  (Core.Infrastructure.Middleware) that capture exceptions as they bubble up the application pipeline
+            //           For Console apps and tests: exceptions must be captured at the root
             //{
 
             //==========================================================================
@@ -49,89 +50,91 @@ namespace Core.Application.Accounts.Commands
 
 
             //=========================================================================
-            // VALIDATE OUR COMMAND REQUEST USING FLUENT VALIDATION  (ValidationExceptions are captured in Core.Infrastructure.Pipeline.ValidationBehavior and then handled in Core.Infrastructure.Middleware.ExceptionsMiddleware )
+            // VALIDATE OUR COMMAND REQUEST USING FLUENT VALIDATION 
+            // ValidationExceptions can be captured using Middleware. However it is not as testable or portable outside of the MVC framework
+            // I prefer using manual/granular validation within each command. 
             //=========================================================================
 
-            /*
+            
             CreateAccountValidator validator = new CreateAccountValidator(_mediator);
-                ValidationResult validationResult = validator.Validate(request);
-                if(!validationResult.IsValid)
-                {
-                    return new CreateAccountCommandResponse(validationResult.Errors) { Message = "One or more validation errors occurred." };
-                }
-             */
+            ValidationResult validationResult = validator.Validate(request);
+            if(!validationResult.IsValid)
+            {
+                return new CreateAccountCommandResponse(validationResult.Errors) { Message = "One or more validation errors occurred." };
+            }
+             
 
 
+            //=========================================================================
+            // CREATE AND STORE OUR DOCUMENT MODEL
+            //=========================================================================
+
+            // Create new account Id
+            var id = Guid.NewGuid();
+
+            // Create the Account Document Model
+            var accountDocumentModel = new AccountDocumentModel();
+            accountDocumentModel.Id = id.ToString();
+            accountDocumentModel.Name = request.Name;
+            accountDocumentModel.NameKey = Common.Transformations.NameKey.Transform(request.Name);
+            accountDocumentModel.Active = true;
+            accountDocumentModel.CreatedDate = DateTime.UtcNow;
+
+            accountDocumentModel.Owner.Email = request.Email;
+            accountDocumentModel.Owner.FirstName = request.FirstName;
+            accountDocumentModel.Owner.LastName = request.LastName;
+
+            // Add the ParitionKey to the document
+            accountDocumentModel.DocumentType = Common.Constants.DocumentType.Account();
+
+            // Generate collection uri
+            Uri collectionUri = UriFactory.CreateDocumentCollectionUri(_documentContext.Settings.Database, _documentContext.Settings.Collection);
+
+            // Save the document to document store using the IDocumentContext dependency
+            var result = await _documentContext.Client.CreateDocumentAsync(
+                collectionUri,
+                accountDocumentModel
+            );
+
+            if(result.StatusCode == System.Net.HttpStatusCode.Created)
+            {
+                //==========================================================================
+                // SEND EMAIL 
                 //=========================================================================
-                // CREATE AND STORE OUR DOCUMENT MODEL
-                //=========================================================================
-
-                // Create new account Id
-                var id = Guid.NewGuid();
-
-                // Create the Account Document Model
-                var accountDocumentModel = new AccountDocumentModel();
-                accountDocumentModel.Id = id.ToString();
-                accountDocumentModel.Name = request.Name;
-                accountDocumentModel.NameKey = Common.Transformations.NameKey.Transform(request.Name);
-                accountDocumentModel.Active = true;
-                accountDocumentModel.CreatedDate = DateTime.UtcNow;
-
-                accountDocumentModel.Owner.Email = request.Email;
-                accountDocumentModel.Owner.FirstName = request.FirstName;
-                accountDocumentModel.Owner.LastName = request.LastName;
-
-                // Add the ParitionKey to the document
-                accountDocumentModel.DocumentType = Common.Constants.DocumentType.Account();
-
-                // Generate collection uri
-                Uri collectionUri = UriFactory.CreateDocumentCollectionUri(_documentContext.Settings.Database, _documentContext.Settings.Collection);
-
-                // Save the document to document store using the IDocumentContext dependency
-                var result = await _documentContext.Client.CreateDocumentAsync(
-                    collectionUri,
-                    accountDocumentModel
-                );
-
-                if(result.StatusCode == System.Net.HttpStatusCode.Created)
+                // Send an email to the new account owner using the IEmailService dependency
+                var emailMessage = new EmailMessage
                 {
-                    //==========================================================================
-                    // SEND EMAIL 
-                    //=========================================================================
-                    // Send an email to the new account owner using the IEmailService dependency
-                    var emailMessage = new EmailMessage
-                    {
-                        ToEmail = request.Email,
-                        ToName = String.Concat(request.FirstName, " ", request.LastName),
-                        Subject = "Account created",
-                        TextContent = String.Concat("Thank you ", String.Concat(request.FirstName, " ", request.LastName), "! your account named ", request.Name, " has been created!"),
-                        HtmlContent = String.Concat("Thank you ", String.Concat(request.FirstName, " ", request.LastName), ",<br>Your account named <b>", request.Name, "</b> has been created!")
-                    };
+                    ToEmail = request.Email,
+                    ToName = String.Concat(request.FirstName, " ", request.LastName),
+                    Subject = "Account created",
+                    TextContent = String.Concat("Thank you ", String.Concat(request.FirstName, " ", request.LastName), "! your account named ", request.Name, " has been created!"),
+                    HtmlContent = String.Concat("Thank you ", String.Concat(request.FirstName, " ", request.LastName), ",<br>Your account named <b>", request.Name, "</b> has been created!")
+                };
 
-                    var emailSent = await _emailService.SendEmail(emailMessage);
+                var emailSent = await _emailService.SendEmail(emailMessage);
 
 
-                    //==========================================================================
-                    // AUTOMAPPER 
-                    //=========================================================================
-                    // Create our domain model using AutoMapper to be returned within our response object.
-                    // Add additional mappings into the: Core.Startup.AutoMapperConfiguration class.
+                //==========================================================================
+                // AUTOMAPPER 
+                //=========================================================================
+                // Create our domain model using AutoMapper to be returned within our response object.
+                // Add additional mappings into the: Core.Startup.AutoMapperConfiguration class.
 
-                    var account = AutoMapper.Mapper.Map<Account>(accountDocumentModel);
+                var account = AutoMapper.Mapper.Map<Account>(accountDocumentModel);
 
-                    //==========================================================================
-                    // POST COMMAND CHECKLIST 
-                    //=========================================================================
-                    // 1. CACHING: Update cache.
-                    // 2. SEARCH INDEX: Update Search index or send indexer request.
-                    //-----------------------------------------------------------------------
+                //==========================================================================
+                // POST COMMAND CHECKLIST 
+                //=========================================================================
+                // 1. CACHING: Update cache.
+                // 2. SEARCH INDEX: Update Search index or send indexer request.
+                //-----------------------------------------------------------------------
 
-                    return new CreateAccountCommandResponse { isSuccess = true, Account = account, Message = "Account created." };
-                }
-                else
-                {                  
-                    return new CreateAccountCommandResponse { Message = "Could not save model to document store. Status code: " + result.StatusCode };
-                }
+                return new CreateAccountCommandResponse { isSuccess = true, Account = account, Message = "Account created." };
+            }
+            else
+            {                  
+                return new CreateAccountCommandResponse { Message = "Could not save model to document store. Status code: " + result.StatusCode };
+            }
 
             //}  (Try catch is removed as we have Middleware components  (Core.Infrastructure.Middleware) that capture exceptsions as they bubble up the application pipeline)
             //catch(Exception e)

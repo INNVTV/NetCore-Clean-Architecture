@@ -106,8 +106,15 @@ namespace Core.Application.Accounts.Commands
                 // throw DocumentStoreException (if a custom exception type is desired)
                 // ... Will be caught, logged and handled by the ExceptionHandlerMiddleware
 
+                // Pass exception up the chain:
+                throw ex;
+
                 // ...Or pass along as inner exception:
-                throw new Exception("An error occured trying to use the document store", ex);
+                //throw new Exception("An error occured trying to use the document store", ex);
+            }
+            finally
+            {
+                // Close any open connections, etc...
             }
             
 
@@ -135,12 +142,17 @@ namespace Core.Application.Accounts.Commands
                     // throw EmailServiceException (if a custom exception type is desired)
                     // ... Will be caught, logged and handled by the ExceptionHandlerMiddleware
 
+                    // Pass the exception up the chain:
+                    throw ex;
+
                     // ...Or pass along as inner exception:
-                    throw new Exception("An error occured trying to use the email service", ex);
+                    //throw new Exception("An error occured trying to use the email service", ex);
+                }
+                finally
+                {
+                    // Use alternate communication method...
                 }
                 
-
-
                 //==========================================================================
                 // AUTOMAPPER 
                 //=========================================================================
@@ -162,27 +174,6 @@ namespace Core.Application.Accounts.Commands
             {                  
                 return new CreateAccountCommandResponse { Message = "Could not save model to document store. Status code: " + result.StatusCode };
             }
-
-            //}  (Try catch is removed as we have Middleware components  (Core.Infrastructure.Middleware) that capture exceptsions as they bubble up the application pipeline)
-            //catch(Exception e)
-            //{
-            //Track the user that ran into the exception (for our structured logs)
-            //var user = new User { Id = Guid.NewGuid(), Name = "John Smith" };
-
-            // Log our exception.
-            // Use structured logging to capture the full exception object.
-
-            // Handle with custom exception type:
-            // throw new CreateException(nameof(accountDocumentModel), accountDocumentModel.Id);
-
-            // STRUCTURED LOGGING
-            // Use structured logging to capture the full object.
-            // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
-            //Log.Information("Request: {name} {@request} {@user}", "CreateAccount", request, user);
-
-            //return new CommandResponse { Message = e.Message };
-            //}
-
         }
     }
 }

@@ -34,10 +34,17 @@ namespace Core.Infrastructure.Middleware.ExceptionHandling
 
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
+            // Hande exceptions conditionally by type:
 
-            if (exception.GetType() == typeof(System.Exception))
+            if (exception.GetType() == typeof(ArgumentException))
             {
-                Log.Information("Exception caught {@exception}", exception);
+                //Track the user that ran into the exception (for our structured logs)
+                var user = new User { Id = Guid.NewGuid(), Name = "John Smith" };
+
+                // Log our exception using Serilog.
+                // Use structured logging to capture the full exception object.
+                // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
+                Log.Error("Argument exception caught {@user} {@exception}", user, exception);
 
                 var code = HttpStatusCode.InternalServerError;
                 var result = JsonConvert.SerializeObject(new { isSuccess = false, exceptionType = exception.GetType().ToString(), message = exception.Message });
@@ -54,6 +61,7 @@ namespace Core.Infrastructure.Middleware.ExceptionHandling
 
                 // Log our exception using Serilog.
                 // Use structured logging to capture the full exception object.
+                // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
                 Log.Error("Exception caught {@user} {@exception}", user, exception);
 
                 var code = HttpStatusCode.InternalServerError;

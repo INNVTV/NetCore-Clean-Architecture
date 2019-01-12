@@ -146,6 +146,13 @@ Exception handling middleware is found here: **Core.Infrastructure.Middleware.Ex
 
 Additional middleware examples can be found in the **Core.Infrastructure.Middleware** root.
 
+Associated extension method allows for registration in **Startup.Configuration()** via **app.UseExceptionHandlerMiddleware();**:
+
+    `public void Configure(IApplicationBuilder app)
+	{
+		app.UseExceptionHandlerMiddleware();
+	}`
+
 ## Structured Logging with Serilog
 Core libraries are set up to use the global, statically accessible logger from Serilog which must be set up in the main entrypoint(s) and does not require a DI container.
 
@@ -202,7 +209,7 @@ CosmosDB has integrated indexing capabilities with Azure Search.
 Note: Once integrated you will need to set up a good interval for scanning your document store that makes sense for your application. It may make sense to include a call to manually run deltas with an API call whenever you run a command that adds, updates or deletes data in your store so that the update is reflected immediatly in your search results.
 
 ## REST APIs and Swagger
-UI client(s) that connect to CoreServices via REST APIs. Swagger is used extensively to aid in API documentatio, client integration and code generation.
+UI client(s) that connect to CoreServices via REST APIs. Swagger is used extensively to aid in API documentation, client integration and code generation.
 
 Generated document describing the endpoints: **http://localhost:<port>/swagger/v1/swagger.json**
 

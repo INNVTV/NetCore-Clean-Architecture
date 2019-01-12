@@ -1,0 +1,33 @@
+﻿@page
+@model RazorPages.Pages.Accounts.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Account</h1>
+
+@if(Model.validationIssues != null)
+{
+    <div class="alert alert-danger">
+        Please correct the validation issues below.
+    </div>
+}
+
+<form method="post">
+
+
+    <label>Name:</label>
+    <input class="form form-control" type="text" asp-for="@Model.createAccountServiceModel.Name" />
+
+    <label>Email:</label>
+    <input class="form form-control" type="text" asp-for="@Model.createAccountServiceModel.Email" />
+
+
+
+    <hr />
+
+    <button asp-page-handler="Post" class="btn btn-primary">Submit</button>
+
+</form>
+
+

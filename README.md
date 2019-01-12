@@ -211,10 +211,10 @@ Note: Once integrated you will need to set up a good interval for scanning your 
 ## REST APIs and Swagger
 UI client(s) that connect to CoreServices via REST APIs. Swagger is used extensively to aid in API documentation, client integration and code generation.
 
-![NSwag](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/nswag.png)
-
 ## NSwagStudio
 Use [NSwag Studio](https://github.com/RSuter/NSwag/wiki/NSwagStudio) to generate client code and models. When using with .Net Core you may need to [update your publish configuration](https://github.com/RSuter/NSwag/wiki/Assembly-loading#net-core) to ensure all referenced DLLs are output. 
+
+![NSwag](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/nswag.png)
 
 Generated document describing the endpoints: **http://localhost:<port>/swagger/v1/swagger.json**
 

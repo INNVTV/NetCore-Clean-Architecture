@@ -15,9 +15,11 @@ using Core.Services.ServiceModels;
 using AutoMapper;
 using Core.Application.Accounts.Models.Views;
 using Core.Application.Accounts.Models.Enums;
+using Core.Application.Accounts.Commands.CreateAccount;
 
 namespace Core.Services.Controllers
 {
+    
     [Route("api/accounts")]
     [ApiController]
     public class AccountsController : ControllerBase
@@ -25,17 +27,15 @@ namespace Core.Services.Controllers
         readonly IMediator _mediator;
         readonly IMapper _mapper; //<-- Instance version of IMapper. Used only in the Service layer for ServiceModels
 
-        // Constructor automatically pulls in configuration via build in dependancy injection
         public AccountsController(IServiceProvider serviceProvider, IMapper mapper)
         {
             _mediator = serviceProvider.GetService<IMediator>();
             _mapper = mapper;
         }
 
-        // GET: api/accounts/list
         [Route("list")]
         [HttpGet]
-        public async Task<AccountListResultsViewModel> ListAsync(int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC, string continuationToken = null)
+        public async Task<AccountListResultsViewModel> List(int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC, string continuationToken = null)
         {
             // We don't use the GetAccountListQuery in the controller method otherwise Swagger tries to use a POST on our GET call
             var accountListQuery = new GetAccountListQuery {PageSize = pageSize, OrderBy = orderBy, OrderDirection = orderDirection, ContinuationToken = continuationToken };
@@ -49,10 +49,9 @@ namespace Core.Services.Controllers
             //-----------------------------------------------------
         }
 
-        // GET: api/accounts/search
         [Route("search")]
         [HttpGet]
-        public async Task<AccountListResultsViewModel> SearchAsync(string query, int page, int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC)
+        public async Task<AccountListResultsViewModel> Search(string query, int page, int pageSize = 20, OrderBy orderBy = OrderBy.Name, OrderDirection orderDirection = OrderDirection.ASC)
         {
             // We don't use the GetAccountListQuery in the controller method otherwise Swagger tries to use a POST on our GET call
             var accountListQuery = new GetAccountListQuery { PageSize = pageSize, OrderBy = orderBy, OrderDirection = orderDirection };
@@ -64,17 +63,17 @@ namespace Core.Services.Controllers
             //-----------------------------------------------------
         }
 
-        // GET: api/accounts/{nameKey}
-        [HttpGet("{nameKey}", Name = "Get")]
-        public async Task<AccountDetailsViewModel> GetAsync(string nameKey)
+        [Route("details/{nameKey}")]
+        [HttpGet]
+        public async Task<AccountDetailsViewModel> Details(string nameKey)
         {
             var accountDetailsQuery = new GetAccountDetailsQuery() { NameKey = nameKey };
             return await _mediator.Send(accountDetailsQuery);
         }
 
-        // POST: api/accounts
+        [Route("create")]
         [HttpPost]
-        public async Task<BaseResponse> PostAsync(CreateAccountServiceModel createAccountServiceModel)
+        public async Task<CreateAccountCommandResponse> Post(CreateAccountServiceModel createAccountServiceModel)
         {
             //Use AutoMapper instance to transform ServiceModel into MediatR Request (Configured in Startup)
             var createAccountCommand = _mapper.Map<CreateAccountCommand>(createAccountServiceModel);
@@ -83,14 +82,14 @@ namespace Core.Services.Controllers
             return result;
         }
 
-        // PUT: api/accounts/{guid}
-        [HttpPut("{id}")]
+        [Route("update")]
+        [HttpPut]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [Route("delete")]
+        [HttpDelete]
         public async Task<BaseResponse> Delete(string id)
         {
             var closeAccountCommand = new CloseAccountCommand() { Id = id };

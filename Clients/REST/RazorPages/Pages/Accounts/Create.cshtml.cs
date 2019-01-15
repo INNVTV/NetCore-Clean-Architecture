@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using RazorPages.CoreServices;
 
 namespace RazorPages.Pages.Accounts
@@ -11,25 +13,53 @@ namespace RazorPages.Pages.Accounts
     public class CreateModel : PageModel
     {
         [BindProperty]
-        public CreateAccountServiceModel createAccountServiceModel {get; set;}
+        public CreateAccountServiceModel NewAccount {get; set;}
 
         [BindProperty]
-        public List<RazorPages.CoreServices.ValidationIssue> validationIssues { get; set; }
+        public CreateAccountCommandResponse CreateAccountResponse { get; set; }
+
+        private string baseUrl { get; set; }
+
+        public CreateModel(IConfiguration configuration)
+        {
+            baseUrl = configuration.GetSection("CoreServices").GetSection("BaseUrl").Value;
+        }
 
         public void OnGet()
         {
-            validationIssues = null;
-            createAccountServiceModel = new CreateAccountServiceModel();
+            CreateAccountResponse = null;
+            NewAccount = new CreateAccountServiceModel();
         }
 
-        public void OnPost()
+        public async Task<IActionResult> OnPost()
         {
+            var client = new AccountsClient(baseUrl);
+            var CreateAccountResponse = await client.CreateAsync(NewAccount);
 
-            var coreServicesClient = new CoreServices.Client("", new System.Net.Http.HttpClient());
 
-            
-            var name = createAccountServiceModel.Name;
-            var email = createAccountServiceModel.Email;
+            // Using HttpClient without OpenAPI/Swagger:
+            //HttpClient client = new HttpClient();
+            //HttpResponseMessage response = await client.PostAsJsonAsync(
+            //baseUrl + "/api/accounts", NewAccount);
+
+
+            if (!CreateAccountResponse.IsSuccess.Value)
+            {
+                return Page();
+            }
+            else
+            {
+                return RedirectToPage("Index");
+            }       
+        }
+
+        public async Task<IActionResult> OnPostClear()
+        {
+            //ValidationIssues = null;
+            //NewAccount = null;
+
+            return RedirectToPage("Create");
+            //return Page();
         }
     }
 }

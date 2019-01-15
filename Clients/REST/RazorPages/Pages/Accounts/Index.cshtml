@@ -6,5 +6,18 @@
 
 <h1>Accounts</h1>
 
+@if(Model.AccountListView.Count == 0)
+{
+    <p>No accounts yet.</p>
+}
+else
+{
+    foreach (var account in Model.AccountListView.Accounts)
+    {
+
+    }
+}
+
+<hr />
 
 <a class="btn btn-primary" asp-page="Create">Create Account</a>

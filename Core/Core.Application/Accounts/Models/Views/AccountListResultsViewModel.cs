@@ -1,10 +1,12 @@
 ﻿using Core.Domain.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Core.Application.Accounts.Models.Views
 {
+    [JsonObject(Title="AccountList")] //<-- Update name for OpenAPI/Swagger 
     public class AccountListResultsViewModel
     {
         public AccountListResultsViewModel()

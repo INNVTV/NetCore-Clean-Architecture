@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,32 +13,37 @@ namespace Core.Services.WebHooks
     [ApiController]
     public class ExampleWebhook : ControllerBase
     {
-        [HttpGet]
-        public ActionResult Get()
-        {
-            return Ok();
-        }
-
         [HttpPost]
         public ActionResult Post(ExampleWebhookEvent exampleWebhookEvent)
         {
             //------------------------------------
-            // Sample POST call:
+            // Sample POST call: /webhooks/example
             //------------------------------------
             // Content-Type: application/json
-            // REQUEST BODY:{"Id":"1234","Type":"Example"}
+            // REQUEST BODY:{"isSuccess":"True", "Id":"1234","Type":"Example"}
             //--------------------------------------
 
             // Unpack and process the ExampleWebhookEvent...
+            Log.Information("Example webhook called {@exampleWebhookEvent}.", exampleWebhookEvent);
+
 
             //Return our response...
-            return Ok();
+            if(exampleWebhookEvent.isSuccess)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+            
         }
     }
 
     public class ExampleWebhookEvent
     {
-        public string Id { get; set; }
+        public bool isSuccess { get; set; }
+        public int Id { get; set; }
         public string Type { get; set; }
     }
 }

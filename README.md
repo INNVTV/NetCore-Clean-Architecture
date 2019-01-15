@@ -208,11 +208,11 @@ CosmosDB has integrated indexing capabilities with Azure Search.
 
 Note: Once integrated you will need to set up a good interval for scanning your document store that makes sense for your application. It may make sense to include a call to manually run deltas with an API call whenever you run a command that adds, updates or deletes data in your store so that the update is reflected immediatly in your search results.
 
-## REST APIs and Swagger
-UI client(s) that connect to CoreServices via REST APIs. Swagger is used extensively to aid in API documentation, client integration and code generation.
+## OpenAPI and Swagger
+CoreServices exposes REST endpoints using OpenAPI Standards. Swagger is used extensively to aid in API documentation, client integration and code generation.
 
 ### NSwagStudio
-Use [NSwag Studio](https://github.com/RSuter/NSwag/wiki/NSwagStudio) to generate client code and models. When using with .Net Core you may need to [update your publish configuration](https://github.com/RSuter/NSwag/wiki/Assembly-loading#net-core) to ensure all referenced DLLs are output. 
+You can use [NSwag Studio](https://github.com/RSuter/NSwag/wiki/NSwagStudio) to generate client code and models. When using with .Net Core you may need to [update your publish configuration](https://github.com/RSuter/NSwag/wiki/Assembly-loading#net-core) to ensure all referenced DLLs are output. 
 
 ![NSwag](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/nswag.png)
 
@@ -221,6 +221,12 @@ Generated document describing the endpoints: **http://localhost:<port>/swagger/v
 The Swagger UI can be found at: **http://localhost:<port>/swagger**
 
 ![Swagger-UI](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/swagger-ui.png)
+
+**Note:** On a production application you should create a class library for your Swagger clients to use. These should be versioned and made available as a Nuget package (public or private).
+
+**Note:** Save your NSwag settings! Our are located in the "CoreServices" folder for each REST client as well as in the [Utilities](Service/Utilities) folder.
+
+For more details on the OpenAPI implementation used check out the detailed [ReadMe](Service/Utilities/README.md) file.
 
 ## Webhooks
 Simple webhooks to help integrate with 3rd party service providers as well as background tasks/processes.

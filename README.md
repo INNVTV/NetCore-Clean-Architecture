@@ -226,7 +226,7 @@ The Swagger UI can be found at: **http://localhost:<port>/swagger**
 
 **Note:** Save your NSwag settings! Our are located in the "CoreServices" folder for each REST client as well as in the [Utilities](https://github.com/INNVTV/NetCore-Clean-Architecture/tree/master/Services/Utilities/OpenAPI) folder.
 
-For more details on the OpenAPI implementation used check out the detailed [ReadMe](Utilities/OpenAPI/README.md) file.
+For more details on the OpenAPI implementation used check out the detailed [ReadMe](https://github.com/INNVTV/NetCore-Clean-Architecture/tree/master/Services/Utilities/OpenAPI/README.md) file.
 
 ## Webhooks
 Simple webhooks to help integrate with 3rd party service providers as well as background tasks/processes.

@@ -43,7 +43,7 @@ namespace RazorPages.Pages.Accounts
         public async Task<IActionResult> OnGetNext()
         {
             var client = new AccountsClient(baseUrl);
-            var response = await client.ListAsync(2, OrderBy.CreatedDate, OrderDirection.DESC, AccountListView.ContinuationToken);
+            var response = await client.ListAsync(10, OrderBy.CreatedDate, OrderDirection.DESC, AccountListView.ContinuationToken);
 
 
             AccountListView = response;

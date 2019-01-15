@@ -4,22 +4,31 @@
     ViewData["Title"] = "Details";
 }
 
-@if(!String.IsNullOrEmpty(Model.Message))
+@if (!String.IsNullOrEmpty(Model.Error))
 {
-    <div class="alert alert-danger">@Model.Message</div>
+    <div class="alert alert-danger">@Model.Error</div>
 }
+else if (!String.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-success">@Model.Message</div>
+    <a class="btn btn-primary" asp-page="Index">OK</a>
+}
+else
+{
+    <h1>@Model.AccountDetails.Account.Name</h1>
+    <h3>@Model.AccountDetails.Account.NameKey</h3>
+    <small>@Model.AccountDetails.Account.Id</small>
 
-<h1>@Model.AccountDetails.Account.Name</h1>
-<h3>@Model.AccountDetails.Account.NameKey</h3>
-<small>@Model.AccountDetails.Account.Id</small>
+    <hr />
 
-<hr />
+    <form asp-page="Details" method="post" typeof="@Model.AccountDetails">
 
-<form asp-page="Details" method="post">
 
-    @if (Model.AccountDetails.DeleteEnabled.Value)
-    {
-        <button class="btn btn-danger" asp-page-handler="Delete">Close account</button>
-    }
+        @if (Model.AccountDetails.DeleteEnabled.Value)
+        {
+            <button class="btn btn-danger" asp-page-handler="Delete" asp-route-id="@Model.AccountDetails.Account.Id">Close account</button>
+        }
 
-</form>
+    </form>
+
+}

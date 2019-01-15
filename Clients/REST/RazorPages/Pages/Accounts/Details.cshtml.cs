@@ -15,6 +15,9 @@ namespace RazorPages.Pages.Accounts
         public AccountDetailsViewModel AccountDetails { get; set; }
 
         [BindProperty]
+        public string Error { get; set; }
+
+        [BindProperty]
         public string Message { get; set; }
 
         private string NameKey { get; set; }
@@ -36,26 +39,28 @@ namespace RazorPages.Pages.Accounts
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDelete()
+        public async Task<IActionResult> OnPostDelete(string id)
         {
             try
             {
                 var client = new AccountsClient(baseUrl);
-                var results = await client.DeleteAsync(AccountDetails.Account.Id);
+                var results = await client.DeleteAsync(id);
 
                 if (results.IsSuccess.Value == true)
                 {
-                    return RedirectToPage("Index");
+                    Message = "Account closed";
+                    return Page();
+                    //return RedirectToPage("Index");
                 }
                 else
                 {
-                    Message = results.Message;
+                    Error = results.Message;
                     return Page();
                 }
             }
             catch(Exception ex)
             {
-                Message = $"An error occured: { ex.Message }";
+                Error = $"An error occured: { ex.Message }";
                 return Page();
             }
         }

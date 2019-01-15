@@ -18,11 +18,27 @@ namespace Core.Application.Accounts.Commands
         {
             _mediator = mediator;
 
-            RuleFor(x => x.Name).NotEmpty().WithMessage("Please specify an account name");
-            RuleFor(x => x.Name).Length(2, 40).WithMessage("Account name must be bewtween 2-40 characters in length");
+            // Email
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Please include an email address");
             RuleFor(x => x.Email).EmailAddress().WithMessage("Please enter a valid email address");
-            RuleFor(x => x.Name).Must(BeAValidName).WithMessage(x => $"{x.Name} is a reserved account name");
-            RuleFor(x => x.Name).Must(NotExist).WithMessage(x => $"Account name '{x.Name}' already exists");         
+
+            // Account Name
+            RuleFor(x => x.Name).NotEmpty().WithMessage("Please include an account name");
+
+            RuleFor(x => x.Name)
+                .Length(2, 40)
+                .When(x => !String.IsNullOrEmpty(x.Name))
+                .WithMessage("Account name must be bewtween 2-40 characters in length");
+
+            RuleFor(x => x.Name)
+                .Must(BeAValidName)
+                .When(x => !String.IsNullOrEmpty(x.Name))
+                .WithMessage(x => $"{x.Name} is a reserved account name");
+
+            RuleFor(x => x.Name)
+                .Must(NotExist)
+                .When(x => !String.IsNullOrEmpty(x.Name))
+                .WithMessage(x => $"Account name '{x.Name}' already exists");         
         }
 
         private bool NotExist(string name)

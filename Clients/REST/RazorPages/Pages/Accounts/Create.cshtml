@@ -10,35 +10,144 @@
 
     <form method="post">
 
+        <div class="form-group">
+            <label>Account Name:</label>
+            <input class="form form-control" type="text" asp-for="@Model.NewAccount.Name" />
+        </div>
 
-        <label>Name:</label>
-        <input class="form form-control" type="text" asp-for="@Model.NewAccount.Name" />
+        <div class="form-group">
+            <label>First Name:</label>
+            <input class="form form-control" type="text" asp-for="@Model.NewAccount.FirstName" />
+        </div>
 
-        <label>Email:</label>
-        <input class="form form-control" type="text" asp-for="@Model.NewAccount.Email" />
+        <div class="form-group">
+            <label>Last Name:</label>
+            <input class="form form-control" type="text" asp-for="@Model.NewAccount.LastName" />
+        </div>
+
+        <div class="form-group">
+            <label>Email:</label>
+            <input class="form form-control" type="text" asp-for="@Model.NewAccount.Email" />
+        </div>
 
         <hr />
 
         <a href="/Accounts" class="btn btn-success">Cancel</a>
         <button asp-page-handler="Post" class="btn btn-primary">Submit</button>
         <button asp-page-handler="Clear" class="btn btn-default">Clear</button>
+
     </form>
-}
-else if (Model.CreateAccountResponse != null && Model.CreateAccountResponse.IsSuccess == false)
-{
-    <div class="alert alert-danger">
-        @Model.CreateAccountResponse.Message
-    </div>
 }
 else
 {
-    <div class="alert alert-success">
-        Account created!
-    </div>
+    if (Model.CreateAccountResponse.IsSuccess == false)
+    {
+        <div class="alert alert-danger">
+            @Model.CreateAccountResponse.Message
+        </div>
 
-    <a href="/Accounts" class="btn btn-primary">Back to list</a>
-    <a href="/Create" class="btn btn-success">Create another</a>
+        <form method="post">
+
+            @if (Model.CreateAccountResponse.ValidationIssues.Count > 0)
+            {
+
+            <div class="form-group">
+
+                @if (Model.CreateAccountResponse.ValidationIssues.FirstOrDefault(v => v.PropertyName == "Name") != null)
+                {
+                    <b class="text-danger">Account Name:</b><br />
+                    foreach (var validationIssue in Model.CreateAccountResponse.ValidationIssues.First(v => v.PropertyName == "Name").PropertyFailures)
+                    {                       
+                        <small class="text-danger">@validationIssue</small>
+                    }
+                    <input class="form form-control border-danger" type="text" asp-for="@Model.NewAccount.Name" />
+                }
+                else
+                {
+                    <label>Account Name:</label>
+                    <input class="form form-control" type="text" asp-for="@Model.NewAccount.Name" />
+                }
+            </div>
+
+
+                <div class="form-group">
+
+
+                    @if (Model.CreateAccountResponse.ValidationIssues.FirstOrDefault(v => v.PropertyName == "FirstName") != null)
+                    {
+                        <b class="text-danger">First Name:</b><br />
+                        foreach (var validationIssue in Model.CreateAccountResponse.ValidationIssues.First(v => v.PropertyName == "FirstName").PropertyFailures)
+                        {
+
+                            <small class="text-danger">@validationIssue</small>
+                        }
+                        <input class="form form-control border-danger" type="text" asp-for="@Model.NewAccount.FirstName" />
+                    }
+                    else
+                    {
+                        <label>First Name:</label>
+                        <input class="form form-control" type="text" asp-for="@Model.NewAccount.FirstName" />
+                    }
+                </div>
+
+
+                <div class="form-group">
+                    @if (Model.CreateAccountResponse.ValidationIssues.FirstOrDefault(v => v.PropertyName == "LastName") != null)
+                    {
+                        <b class="text-danger">Last Name:</b><br />
+                        foreach (var validationIssue in Model.CreateAccountResponse.ValidationIssues.First(v => v.PropertyName == "LastName").PropertyFailures)
+                        {
+                            <small class="text-danger">@validationIssue</small>
+                        }
+                        <input class="form form-control border-danger" type="text" asp-for="@Model.NewAccount.LastName" />
+                    }
+                    else
+                    {
+                        <label>Last Name:</label>
+                        <input class="form form-control" type="text" asp-for="@Model.NewAccount.LastName" />
+                    }
+                </div>
+
+
+                <div class="form-group">
+                    @if (Model.CreateAccountResponse.ValidationIssues.FirstOrDefault(v => v.PropertyName == "Email") != null)
+                    {
+                        <b class="text-danger">Email:</b><br />
+                        foreach (var validationIssue in Model.CreateAccountResponse.ValidationIssues.First(v => v.PropertyName == "Email").PropertyFailures)
+                        {
+                            <small class="text-danger">@validationIssue</small>
+                        }
+                            <input class="form form-control border-danger" type="text" asp-for="@Model.NewAccount.Email" />
+                        }
+                        else
+                        {
+                            <label>Email:</label>
+                            <input class="form form-control" type="text" asp-for="@Model.NewAccount.Email" />
+                        }
+                </div>
+
+            }
+
+            <hr />
+
+            <a href="/Accounts" class="btn btn-success">Cancel</a>
+            <button asp-page-handler="Post" class="btn btn-primary">Submit</button>
+            <button asp-page-handler="Clear" class="btn btn-default">Clear</button>
+
+        </form>
+        
+    }
+    else if (Model.CreateAccountResponse.IsSuccess == true)
+    {
+        <div class="alert alert-success">
+            Account created!
+        </div>
+
+        <a href="/Accounts" class="btn btn-primary">Back to list</a>
+        <a href="/Create" class="btn btn-success">Create another</a>
+    }
 }
+
 
 
 

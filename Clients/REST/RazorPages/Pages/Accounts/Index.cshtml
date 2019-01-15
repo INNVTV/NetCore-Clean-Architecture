@@ -15,9 +15,8 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Created</th>
                 <th scope="col">Account Name</th>
-                <th scope="col">Last</th>
+                <th scope="col">Created</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -25,10 +24,12 @@ else
             @foreach (var account in Model.AccountListView.Accounts)
             {
             <tr>
-                <td>@account.CreatedDate.Value.ToLocalTime().ToString("MM/dd/yyyy hh:mm tt")</td>
                 <th scope="row">@account.Name</th>
-                <td></td>
-                <td><a asp-page="details" asp-route-nameKey="@account.NameKey" class="btn btn-sm btn-outline-primary">Details</a></td>
+                <td>@account.CreatedDate.Value.ToLocalTime().ToString("MM/dd/yyyy hh:mm tt")</td>
+                <td style="text-align:right">
+                    <a class="btn btn-sm btn-outline-primary" asp-page="details" asp-route-nameKey="@account.NameKey">Details</a>
+                </td>
+
             </tr>
             }
         </tbody>

@@ -168,6 +168,19 @@ A list of Serilog sinks: [Provided Sinks](https://github.com/serilog/serilog/wik
 
 Log management systems: [Seq](https://getseq.net/), [PaperTrail](https://papertrailapp.com/) and [Stackify](https://stackify.com/retrace-log-management/)
 
+## Event Sourcing Hybrid with Activity Logging
+
+In addition to diagnostics logging from Serilog found in the Performance and Logging Pipleines you should consider implementing application activity logging.
+
+These are used for human readable logs for platform and account admins to view in their respective portals and can be focused on user activity that focuses on the domain and not the infrastructure.
+
+While it is tempting to add this to a Pipeline Behavior - considering the fact that you will want to run authentication/authorization checks (see: authentication/authorization below), manage role allowances and log user details with the activity - this could be better suited to the Service layer or a middleware component where you are closer to the user request and can use this as a gateway to the Commands/Queries in the Application layer below. This also allows you to be more flexible in how you address activity logs as you can check for successes or failures on the Commands/Queries made and decide if certain requests are worth logging. You may also want to diferentiate between Account and Platform users and store activities in seperate logs.
+
+#### Paritioning
+This event data can be stored in a flat table structure and duplicated/partitioned to be represented/ordered in a number of ways such as **ByTime**, **ByActivity**, **ByUser**, **ByAccount** or **ByEntity**
+
+While this is not a full event sourcing solution. It get's you very close and offers much of the same benefits.
+
 ## Why no Repository Pattern?
 I think Jummy Bogard said it best in his contribution to [this article](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design):
 
@@ -250,16 +263,6 @@ View models that are returned from Query methods will include UI related values 
 
 ## Service-to-service Communication
 Examples of clients accessing the service layer are shown in both REST and gRPC flavors.
-
-## Activity Logging
-
-In addition to diagnostics logging from Serilog found in the Performance and Logging Pipleines you should consider implementing application activity logging.
-
-These are used for human readable logs for platform and account admins to view in their respective portals and can be focused on user activity that focuses on the domain and not the infrastructure.
-
-While it is tempting to add this to a Pipeline Behavior - considering the fact that you will want to run authentication/authorization checks (see: authentication/authorization below), manage role allowances and log user details with the activity - this could be better suited to the Service layer where you are closer to the user request and can use this as a gateway to the Commands/Queries in the Application layer below. This also allows you to be more flexible in how you address activity logs as you can check for successes or failures on the Commands/Queries made and decide if certain requests are worth logging. YOu may also want to diferentiate between Account and Platform users and store activities in seperate logs.
-
-Regardless  - command objects include commented out regions should you desire to include user details for activity logging as a pipeline behavior.
 
 ## Authentication/Authorization
 Authorization is left open. .Net Core Identity or Azure Active Directory (including the B2C variant) should all be considered.

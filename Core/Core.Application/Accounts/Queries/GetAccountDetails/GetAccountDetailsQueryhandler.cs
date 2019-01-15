@@ -91,8 +91,8 @@ namespace Core.Application.Accounts.Queries
             //--------------------------------------------------------------------------
 
             // TODO: Check user role to include data for the view to use
-            accountViewModel.DeleteEnabled = false;
-            accountViewModel.EditEnabled = false;
+            accountViewModel.DeleteEnabled = true;
+            accountViewModel.EditEnabled = true;
 
             if(accountDocumentModel != null)
             {

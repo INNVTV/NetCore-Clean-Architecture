@@ -47,8 +47,10 @@ namespace Core.Application.Accounts.Queries
             accountsListViewModel.EditEnabled = false;
 
             // Create the query
+            // NOTE: we are specifying properties to minimize query size
+
             var sqlQuery = new StringBuilder(String.Concat(
-                "SELECT d.id, d.Name, d.NameKey FROM Documents d ORDER BY d.",
+                "SELECT d.id, d.Name, d.NameKey, d.CreatedDate FROM Documents d ORDER BY d.",
                 request.OrderBy,
                 " ",
                 request.OrderDirection

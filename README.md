@@ -210,7 +210,7 @@ Note: Once integrated you will need to set up a good interval for scanning your 
 
 ## OpenAPI and Swagger
 ![OpenAPI](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/openapi-logo.png)
-CoreServices exposes REST endpoints using [OpenAPI Initiative](https://www.openapis.org/) standards and practices. Swagger is used extensively to aid in API documentation, client integration and code generation.
+CoreServices exposes REST endpoints using [OpenAPI Initiative](https://www.openapis.org/) standards and practices. [Swagger](https://swagger.io/) is used extensively to aid in API documentation, client integration and code generation.
 
 ### NSwagStudio
 You can use [NSwag Studio](https://github.com/RSuter/NSwag/wiki/NSwagStudio) to generate client code and models. When using with .Net Core you may need to [update your publish configuration](https://github.com/RSuter/NSwag/wiki/Assembly-loading#net-core) to ensure all referenced DLLs are output. 
@@ -223,11 +223,15 @@ The Swagger UI can be found at: **http://localhost:<port>/swagger**
 
 ![Swagger-UI](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/swagger-ui.png)
 
-**Note:** On a production application you should create a class library for your Swagger clients to use. This can be automated as part of your build system, a shared project or a versioned Nuget package (public or private).
-
 **Note:** Save your NSwag settings! Our are located in the "CoreServices" folder for each REST client as well as in the [Utilities](https://github.com/INNVTV/NetCore-Clean-Architecture/tree/master/Services/Utilities/OpenAPI) folder.
 
 For more details on the OpenAPI implementation used check out the detailed [ReadMe](https://github.com/INNVTV/NetCore-Clean-Architecture/tree/master/Services/Utilities/OpenAPI/README.md) file.
+
+### Client SDKs
+Default implementation uses class outputs from NSwag generator. On a production application you should consider a class library (generated or custom) for your Swagger clients to use. This can be automated as part of your build system, a shared project or a versioned Nuget package (public or private).
+
+### API Versioning and Lifecycle Management
+A proper API versioning strategy should be implemented. Tools such as [Swagger Hub](https://app.swaggerhub.com/help/apis/versioning) or [Azure API Management](https://azure.microsoft.com/en-us/services/api-management/) are good considerations and offer additional services such as gateways, analysis and security.
 
 ## Webhooks
 Simple webhooks to help integrate with 3rd party service providers as well as background tasks/processes.

@@ -6,16 +6,33 @@
 
 <h1>Accounts</h1>
 
-@if(Model.AccountListView.Count == 0)
+@if (Model.AccountListView.Count == 0)
 {
     <p>No accounts yet.</p>
 }
 else
 {
-    foreach (var account in Model.AccountListView.Accounts)
-    {
-
-    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Created</th>
+                <th scope="col">Account Name</th>
+                <th scope="col">Last</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var account in Model.AccountListView.Accounts)
+            {
+            <tr>
+                <td>@account.CreatedDate.Value.ToLocalTime().ToString("MM/dd/yyyy hh:mm tt")</td>
+                <th scope="row">@account.Name</th>
+                <td></td>
+                <td><a asp-page="details" asp-route-nameKey="@account.NameKey" class="btn btn-sm btn-outline-primary">Details</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
 }
 
 <hr />

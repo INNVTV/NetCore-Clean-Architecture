@@ -4,5 +4,22 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details @Model.NameKey</h1>
+@if(!String.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-danger">@Model.Message</div>
+}
 
+<h1>@Model.AccountDetails.Account.Name</h1>
+<h3>@Model.AccountDetails.Account.NameKey</h3>
+<small>@Model.AccountDetails.Account.Id</small>
+
+<hr />
+
+<form asp-page="Details" method="post">
+
+    @if (Model.AccountDetails.DeleteEnabled.Value)
+    {
+        <button class="btn btn-danger" asp-page-handler="Delete">Close account</button>
+    }
+
+</form>

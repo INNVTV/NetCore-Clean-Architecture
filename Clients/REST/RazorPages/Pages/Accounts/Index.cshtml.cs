@@ -25,7 +25,7 @@ namespace RazorPages.Pages.Accounts
         public async Task<IActionResult> OnGet()
         {
             var client = new AccountsClient(baseUrl);
-            var response = await client.ListAsync(2, OrderBy.CreatedDate, OrderDirection.DESC, "");
+            var response = await client.ListAsync(10, OrderBy.CreatedDate, OrderDirection.DESC, "");
 
             if(response != null)
             {

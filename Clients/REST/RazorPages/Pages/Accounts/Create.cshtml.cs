@@ -34,7 +34,7 @@ namespace RazorPages.Pages.Accounts
         public async Task<IActionResult> OnPost()
         {
             var client = new AccountsClient(baseUrl);
-            var CreateAccountResponse = await client.CreateAsync(NewAccount);
+            CreateAccountResponse = await client.CreateAsync(NewAccount);
 
 
             // Using HttpClient without OpenAPI/Swagger:

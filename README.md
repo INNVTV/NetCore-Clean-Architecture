@@ -209,6 +209,7 @@ CosmosDB has integrated indexing capabilities with Azure Search.
 Note: Once integrated you will need to set up a good interval for scanning your document store that makes sense for your application. It may make sense to include a call to manually run deltas with an API call whenever you run a command that adds, updates or deletes data in your store so that the update is reflected immediatly in your search results.
 
 ## OpenAPI and Swagger
+![OpenAPI](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/openapi-logo.png)
 CoreServices exposes REST endpoints using OpenAPI Standards. Swagger is used extensively to aid in API documentation, client integration and code generation.
 
 ### NSwagStudio

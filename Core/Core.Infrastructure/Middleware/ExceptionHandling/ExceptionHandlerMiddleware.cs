@@ -46,7 +46,7 @@ namespace Core.Infrastructure.Middleware.ExceptionHandling
                 // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
                 Log.Error("Argument exception caught {@user} {@exception}", user, exception);
 
-                var code = HttpStatusCode.InternalServerError;
+                var code = HttpStatusCode.OK; //<-- we do not respond with "InternalServerError" - but rather with isSuccess = false with exception message (this also avoids issues with OpenAPI/Swagger throwing an exception due to server response codes).
                 var result = JsonConvert.SerializeObject(new { isSuccess = false, exceptionType = exception.GetType().ToString(), message = exception.Message });
 
                 context.Response.ContentType = "application/json";
@@ -65,7 +65,7 @@ namespace Core.Infrastructure.Middleware.ExceptionHandling
                 Log.Error("Exception caught {@user} {@exception}", user, exception);
 
                 //var code = HttpStatusCode.InternalServerError;
-                var code = HttpStatusCode.InternalServerError;
+                var code = HttpStatusCode.OK; //<-- we do not respond with "InternalServerError" - but rather with isSuccess = false with exception message (this also avoids issues with OpenAPI/Swagger throwing an exception due to server response codes).
                 //var result = JsonConvert.SerializeObject(exception, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore } );
                 var result = JsonConvert.SerializeObject( new { isSuccess = false, exceptionType = exception.GetType().ToString(), message = exception.Message });
 

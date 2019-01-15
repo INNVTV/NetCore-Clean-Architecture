@@ -11,6 +11,7 @@ namespace RazorPages.Pages.Accounts
 {
     public class IndexModel : PageModel
     {
+        [BindProperty]
         public AccountListResultsViewModel AccountListView { get; set; }
 
         private string baseUrl { get; set; }
@@ -18,25 +19,36 @@ namespace RazorPages.Pages.Accounts
         public IndexModel(IConfiguration configuration)
         {
             baseUrl = configuration.GetSection("CoreServices").GetSection("BaseUrl").Value;
+            AccountListView = new AccountListResultsViewModel();
         }
 
-        public async void OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var client = new AccountsClient(baseUrl);
             var response = await client.ListAsync(2, OrderBy.CreatedDate, OrderDirection.DESC, "");
 
-            
-            AccountListView = response;
+            if(response != null)
+            {
+                AccountListView = response;
+            }
+            else
+            {
+                AccountListView.Count = 0;
+            }
+
+            return Page();
 
         }
 
-        public async void OnGetNext()
+        public async Task<IActionResult> OnGetNext()
         {
             var client = new AccountsClient(baseUrl);
             var response = await client.ListAsync(2, OrderBy.CreatedDate, OrderDirection.DESC, AccountListView.ContinuationToken);
 
 
             AccountListView = response;
+
+            return Page();
 
         }
     }

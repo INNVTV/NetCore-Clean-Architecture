@@ -46,37 +46,37 @@ namespace Core.Application.Accounts.Queries
             accountsListViewModel.DeleteEnabled = false;
             accountsListViewModel.EditEnabled = false;
 
+            // Create the query
+            var sqlQuery = new StringBuilder(String.Concat(
+                "SELECT d.id, d.Name, d.NameKey FROM Documents d ORDER BY d.",
+                request.OrderBy,
+                " ",
+                request.OrderDirection
+                ));
+
+            var sqlSpec = new SqlQuerySpec { QueryText = sqlQuery.ToString() };
+
+            // Generate collection uri
+            Uri collectionUri = UriFactory.CreateDocumentCollectionUri(_documentContext.Settings.Database, _documentContext.Settings.Collection);
+
+            // Generate FeedOptions/ParitionKey
+            var feedOptions = new FeedOptions
+            {
+                PartitionKey = new PartitionKey(Common.Constants.DocumentType.Account()),
+                MaxItemCount = request.PageSize, //<-- This is the page size
+                RequestContinuation = request.ContinuationToken
+            };
+
             try
             {
-
-                // Create the query
-                var sqlQuery = new StringBuilder(String.Concat(
-                    "SELECT d.id, d.Name, d.NameKey FROM Documents d ORDER BY d.",
-                    request.OrderBy,
-                    " ",
-                    request.OrderDirection
-                    ));
-
-                var sqlSpec = new SqlQuerySpec { QueryText = sqlQuery.ToString() };
-
-                // Generate collection uri
-                Uri collectionUri = UriFactory.CreateDocumentCollectionUri(_documentContext.Settings.Database, _documentContext.Settings.Collection);
-
-                // Generate FeedOptions/ParitionKey
-                var feedOptions = new FeedOptions
-                {
-                    PartitionKey = new PartitionKey(Common.Constants.DocumentType.Account()),
-                    MaxItemCount = request.PageSize, //<-- This is the page size
-                    RequestContinuation = request.ContinuationToken
-                };
-
-                // Run query against the document store
+                // Create the document query
                 var query = _documentContext.Client.CreateDocumentQuery<AccountDocumentModel>(
                     collectionUri,
                     sqlSpec,
                     feedOptions
                 ).AsDocumentQuery(); //<-- 'AsDocumentQuery' extension method casts the IOrderedQueryable query to an IDocumentQuery
 
+                // Run query against the document store
                 var result = await query.ExecuteNextAsync<AccountDocumentModel>(); //<-- Get the first page of results as AccountDocumentModel(s)
 
                 if (query.HasMoreResults)
@@ -86,8 +86,7 @@ namespace Core.Application.Accounts.Queries
                     accountsListViewModel.ContinuationToken = result.ResponseContinuation;
                 }
 
-                
-                if(result != null && result.Count > 0)
+                if (result != null && result.Count > 0)
                 {
                     accountsListViewModel.Count = result.Count;
 
@@ -98,18 +97,16 @@ namespace Core.Application.Accounts.Queries
                         accountsListViewModel.Accounts.Add(account);
                     }
                 }
-
-                return accountsListViewModel;
             }
-            catch(Exception e)
+            catch(Exception ex)
             {
-                // Log our exception.
-                // Use structured logging to capture the full exception object.
-                // Serilog provides the @ destructuring operator to help preserve object structure for our logs.
-                Log.Error("Error: {@e}", e);
-
-                return null;
+                // Log the exception
+                Log.Warning("There was an issue accessing the document store {@ex}", ex);
             }
+            
+
+            return accountsListViewModel;
+
 
         }
     }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Services.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)] //<-- We do not publish our Infrastructure Methods to our OpenAPI/Swagger documentation
     [Route("api/[controller]")]
     [ApiController]
     public class InfrastructureController : ControllerBase

@@ -148,10 +148,10 @@ Additional middleware examples can be found in the **Core.Infrastructure.Middlew
 
 Associated extension method allows for registration in **Startup.Configuration()** via **app.UseExceptionHandlerMiddleware();**:
 
-    `public void Configure(IApplicationBuilder app)
+    public void Configure(IApplicationBuilder app)
 	{
 		app.UseExceptionHandlerMiddleware();
-	}`
+	}
 
 ## Structured Logging with Serilog
 Core libraries are set up to use the global, statically accessible logger from Serilog which must be set up in the main entrypoint(s) and does not require a DI container.
@@ -298,18 +298,3 @@ This allows for an even greater seperation of concerns and the ability to scale/
 Here is an example of such a soluton using a variety of microservices as well as an admin portal with a Razor View:
 
 ![Microservices](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/microservices.png)
-
-
-# TODO
-
- * TODO: Pong 2 on success only
-
- * TODO: Console Cleaner Methods for Debug Methods
- * TODO: Resolve continuation tokens in MediatR
- * TODO: Incorporate Unit of Work?
-
- * TODO: View Accounts, Details
-
- * TODO: Add Dependency Creation into Core.Startup
-
- * TODO: Restore AppSettings to GitHub

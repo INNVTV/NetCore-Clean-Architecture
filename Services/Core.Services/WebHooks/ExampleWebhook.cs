@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Core.Services.WebHooks
 {
+    [ApiExplorerSettings(IgnoreApi = true)] //<-- We do not publish our Webhooks to our OpenAPI/Swagger documentation
     [Route("webhooks/example")]
     [ApiController]
     public class ExampleWebhook : ControllerBase

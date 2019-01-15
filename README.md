@@ -224,9 +224,9 @@ The Swagger UI can be found at: **http://localhost:<port>/swagger**
 
 **Note:** On a production application you should create a class library for your Swagger clients to use. These should be versioned and made available as a Nuget package (public or private).
 
-**Note:** Save your NSwag settings! Our are located in the "CoreServices" folder for each REST client as well as in the [Utilities](Service/Utilities) folder.
+**Note:** Save your NSwag settings! Our are located in the "CoreServices" folder for each REST client as well as in the [Utilities](https://github.com/INNVTV/NetCore-Clean-Architecture/tree/master/Services/Utilities/OpenAPI) folder.
 
-For more details on the OpenAPI implementation used check out the detailed [ReadMe](Service/Utilities/README.md) file.
+For more details on the OpenAPI implementation used check out the detailed [ReadMe](Utilities/OpenAPI/README.md) file.
 
 ## Webhooks
 Simple webhooks to help integrate with 3rd party service providers as well as background tasks/processes.

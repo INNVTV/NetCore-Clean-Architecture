@@ -43,7 +43,8 @@ namespace CustodialProcessor
             #endregion
 
 
-            while (true)
+            var runContinuously = true;
+            while (runContinuously)
             {
 
                 #region Process tasks
@@ -62,8 +63,6 @@ namespace CustodialProcessor
                 Console.WriteLine("Tasks completed!");
 
                 #endregion
-
-
 
                 Thread.Sleep(intervalMilliseconds);
                 Console.WriteLine($"Custodian sleeping for { intervalMilliseconds.ToString("N0") } milliseconds...");

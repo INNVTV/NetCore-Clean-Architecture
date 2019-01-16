@@ -10,15 +10,15 @@
   },
   "codeGenerators": {
     "swaggerToTypeScriptClient": {
-      "className": "{controller}Client",
+      "className": "{controller}Service",
       "moduleName": "",
       "namespace": "",
       "typeScriptVersion": 2.7,
-      "template": "Fetch",
+      "template": "Angular",
       "promiseType": "Promise",
       "httpClass": "HttpClient",
       "useSingletonProvider": false,
-      "injectionTokenType": "OpaqueToken",
+      "injectionTokenType": "InjectionToken",
       "rxJsVersion": 6.0,
       "dateTimeType": "Date",
       "nullValue": "Undefined",
@@ -60,7 +60,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": null
+      "output": "core.services.generated.ts"
     }
   }
 }

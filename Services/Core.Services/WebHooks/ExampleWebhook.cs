@@ -21,30 +21,22 @@ namespace Core.Services.WebHooks
             // Sample POST call: /webhooks/example
             //------------------------------------
             // Content-Type: application/json
-            // REQUEST BODY:{"isSuccess":"True", "Id":"1234","Type":"Example"}
+            // REQUEST BODY:{"Requester":"CustodialProcessor", "Id":"123456","Type":"CloseInactiveAccounts"}
             //--------------------------------------
 
             // Unpack and process the ExampleWebhookEvent...
-            Log.Information("Example webhook called {@exampleWebhookEvent}.", exampleWebhookEvent);
+            Log.Information("Webhook called {@exampleWebhookEvent}.", exampleWebhookEvent);
 
 
             //Return our response...
-            if(exampleWebhookEvent.isSuccess)
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
-            
+            return Ok();
         }
     }
 
     public class ExampleWebhookEvent
     {
-        public bool isSuccess { get; set; }
+        public string Requester { get; set; }
         public int Id { get; set; }
-        public string Type { get; set; }
+        public string Action { get; set; }
     }
 }

@@ -15,13 +15,10 @@ Mediator Design Pattern is implemented using the MediatR library:
     dotnet add package MediatR
 
 ### Cross-Cutting Concerns
-Cross-cutting concerns such as logging, authorization and caching are handled by Mediatr
+Cross-cutting concerns such as logging, authorization and caching are handled by Mediatr or Middleware
 
 ### Logging
-Logging is handled by the ICoreLogging interface. Uses partitioned logging inside of Azure Table Storage. We log by Time, Activity and Account. This implementation can be used as an example for adding additional dimensions.
-
-Logging is built into all Command related methods via MediatR
-
+Logging is handled by the static and globally available Serilog instance.
 
 # The Domain Layer
 

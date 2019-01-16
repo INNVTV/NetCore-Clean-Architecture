@@ -1,5 +1,5 @@
 # .Net Core Clean Architecture
-.Net Core starter project for clean architecture showcasing use of the CQRS pattern, MediatR for cross-cutting concerns, service communications with REST APIs using Swagger, FluentValidation, AutoMapper, CosmosDB for data and Table Storage for logging.
+.Net Core starter project for clean architectures and microservices showcasing use of the CQRS pattern, MediatR and custom middleware for cross-cutting concerns, service communications with gRPC & REST APIs using OpenAPI/Swagger, FluentValidation, AutoMapper, CosmosDB for data and Serilog for logging and Table Storage for hybrid event sourcing patterns.
 
 Based on [Jason Taylor's talk on Clean Architecture](https://www.youtube.com/watch?v=_lwCVE_XgqI) with a lot of inspiration from Eric Evans classic book on [Domain-Driven Design](https://www.amazon.com/gp/product/0321125215) and of course the absolutely beutiful work of Jimmy Board and his [MediatR](https://github.com/jbogard/MediatR) project.
 

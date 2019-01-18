@@ -1,0 +1,36 @@
+﻿syntax = "proto3";
+
+// (Optional) Namespace definition
+option csharp_namespace = "Shared.GrpcClientLibrary";
+
+// The account service definition
+service BackgroundServices{
+	rpc CustodialTask(CustodialTaskRequest) returns (CustodialTaskResponse) {}
+	rpc WorkerTask(WorkerTaskRequest) returns (WorkerTaskResponse) {}
+}
+
+
+// The request message containing CustodialTask details
+message CustodialTaskRequest {
+	int32 id = 1;
+}
+
+
+// The response message containing results of the CustodialTask command
+message CustodialTaskResponse {
+	bool isSuccess = 1;
+	string message = 2;
+}
+
+
+// The request message containing WorkerTask details
+message WorkerTaskRequest {
+	int32 id = 1;
+}
+
+
+// The response message containing results of the WorkerTask command
+message WorkerTaskResponse {
+	bool isSuccess = 1;
+	string message = 2;
+}

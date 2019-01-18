@@ -16,7 +16,8 @@ namespace Core.Services.GrpcServer
             var server = new Grpc.Core.Server
             {
                 Services = {
-                    AccountServices.BindService(new AccountServicesImplementation(serviceProvider, mapper))
+                    AccountServices.BindService(new AccountServicesImplementation(serviceProvider, mapper)),
+                    BackgroundServices.BindService(new BackgroundServicesImplementation())
                 },
                 Ports = { new Grpc.Core.ServerPort("localhost", port, Grpc.Core.ServerCredentials.Insecure) }
             };

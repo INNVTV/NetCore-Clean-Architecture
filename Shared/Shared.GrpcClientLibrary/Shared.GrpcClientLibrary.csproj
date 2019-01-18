@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="accounts.proto" />
+    <None Remove="background.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProtoBuf Include="background.proto" />
     <ProtoBuf Include="accounts.proto" />
   </ItemGroup>
 

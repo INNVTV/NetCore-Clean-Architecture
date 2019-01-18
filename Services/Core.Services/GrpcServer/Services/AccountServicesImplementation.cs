@@ -26,7 +26,7 @@ namespace Core.Services.RPC.Services
 
         public override async Task<CreateAccountResponse> CreateAccount(CreateAccountRequest createAccountRequest, ServerCallContext context)
         {
-            Log.Information("CreateAccount Grpc Service Called {@createAccountRequest}", createAccountRequest);
+            Log.Information("CreateAccount called via gRPC remote service {@createAccountRequest}", createAccountRequest);
 
             //Use AutoMapper instance to transform GrpcRequest into MediatR Request (Configured in Startup)
             var createAccountCommand = _mapper.Map<CreateAccountCommand>(createAccountRequest);
@@ -41,7 +41,7 @@ namespace Core.Services.RPC.Services
 
         public override async Task<CloseAccountResponse> CloseAccount(CloseAccountRequest closeAccountRequest, ServerCallContext context)
         {
-            Log.Information("CloseAccount Grpc Service Called {@closeAccountRequest}", closeAccountRequest);
+            Log.Information("CloseAccount called via gRPC remote service {@closeAccountRequest}", closeAccountRequest);
 
             var closeAccountCommand = _mapper.Map<CreateAccountCommand>(closeAccountRequest);
             var result = await _mediator.Send(closeAccountCommand);
@@ -52,7 +52,7 @@ namespace Core.Services.RPC.Services
 
         public override async Task<GetAccountListResponse> GetAccountList(GetAccountListRequest getAccountListRequest, ServerCallContext context)
         {
-            Log.Information("CreateAccount Grpc Service Called {@getAccountListRequest}", getAccountListRequest);
+            Log.Information("CreateAccount called via gRPC remote service {@getAccountListRequest}", getAccountListRequest);
 
             // We don't use the GetAccountListQuery in the controller method otherwise Swagger tries to use a POST on our GET call
             var accountListQuery = _mapper.Map<GetAccountListQuery>(getAccountListRequest);

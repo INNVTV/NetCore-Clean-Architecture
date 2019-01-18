@@ -283,7 +283,7 @@ Set your .proto file properties to use the following Build Action:
 
 Once you add ths project to either the client or server solutions as a dependancy you will be able to use the service definition like you would any C# class.
 
-**Note:** On a production project you will want to version control this library and include it as a package via Nuget, a compiled DLL or other such mechanism
+**Note:** On a production project you will want to version control this library and include it as a package via Nuget, a compiled DLL or other such mechanism.
 
 ## Authentication/Authorization
 Authorization is left open. .Net Core Identity or Azure Active Directory (including the B2C variant) should all be considered.
@@ -297,9 +297,10 @@ Docker is used on all projects/solutions to manage local builds and deploy to mu
 We use .Net Cores built in with Docker and Docker compose helping to manage builds for specific enviornments
 
 ## AutoMapper (Static and Instance)
-AutoMapper **Static** Mappings are configured within the Core.Startup.AutoMapperConfiguration Class.
+![automapper-logo](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/automapper-logo.png)
+AutoMapper **Static** Mappings for domain objects are configured within the Core.Startup.AutoMapperConfiguration Class.
 
-AutoMapper is also configured seperatly using the **Instance** type within the Services project.
+AutoMapper is also configured seperatly using the **Instance** type within the Services project (within Startup) to handle service/RPC models.
 
 **Note:** This is done because the Core library should have no knowledge of AutoMapper configurations in the layer above it. The Core project will be a compiled DLL or could be a Nuget package in the future. 
 

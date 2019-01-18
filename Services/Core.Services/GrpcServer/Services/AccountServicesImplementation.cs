@@ -43,21 +43,40 @@ namespace Core.Services.RPC.Services
         {
             Log.Information("CloseAccount called via gRPC remote service {@closeAccountRequest}", closeAccountRequest);
 
-            var closeAccountCommand = _mapper.Map<CreateAccountCommand>(closeAccountRequest);
+            var closeAccountCommand = _mapper.Map<CloseAccountCommand>(closeAccountRequest);
             var result = await _mediator.Send(closeAccountCommand);
 
-            return _mapper.Map<CloseAccountResponse>(result);
+            CloseAccountResponse closeAccountResponse = _mapper.Map<CloseAccountResponse>(result);
+
+            return closeAccountResponse;
 
         }
 
         public override async Task<GetAccountListResponse> GetAccountList(GetAccountListRequest getAccountListRequest, ServerCallContext context)
         {
-            Log.Information("CreateAccount called via gRPC remote service {@getAccountListRequest}", getAccountListRequest);
+            Log.Information("GetAccountListRequest called via gRPC remote service {@getAccountListRequest}", getAccountListRequest);
 
             // We don't use the GetAccountListQuery in the controller method otherwise Swagger tries to use a POST on our GET call
             var accountListQuery = _mapper.Map<GetAccountListQuery>(getAccountListRequest);
             var result = await _mediator.Send(accountListQuery);
-            return _mapper.Map<GetAccountListResponse>(result);
+
+            var getAccountListResponse = new GetAccountListResponse
+            {
+                Count = result.Count,
+                HasMoreResults = result.HasMoreResults
+            };
+
+            if(result.ContinuationToken != null)
+            {
+                getAccountListRequest.ContinuationToken = result.ContinuationToken;
+            }
+
+            foreach(var account in result.Accounts)
+            {
+                getAccountListResponse.Accounts.Add(_mapper.Map<GetAccountListResponse.Types.Account>(account));
+            }
+            
+            return getAccountListResponse;
 
             //-----------------------------------------------------
             // TODO: DocumentDB will soon have skip/take

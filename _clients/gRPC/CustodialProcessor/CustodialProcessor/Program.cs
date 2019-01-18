@@ -44,7 +44,6 @@ namespace CustodialProcessor
 
             #endregion
 
-            int accountNumber = 0;
 
             var runContinuously = true;
             while (runContinuously)
@@ -52,42 +51,24 @@ namespace CustodialProcessor
 
                 #region Process tasks
 
-                accountNumber++;
-                Console.WriteLine($"Custodian creating: 'Account { accountNumber }'...");
-
+                Console.WriteLine("Custodial tasks processing...");
 
                 Channel channel = new Channel(grpcEndpoint, ChannelCredentials.Insecure);
 
-                var createAccountRequest = new Shared.GrpcClientLibrary.CreateAccountRequest
+                var custodialTaskRequest = new Shared.GrpcClientLibrary.CustodialTaskRequest
                 {
-                    Name = $"Account {accountNumber}",
-                    FirstName = "John",
-                    LastName = "Smith",
-                    Email = "kaz@innvtv.com"
+                    Id = 12345678
                 };
 
-                var accountClient = new Shared.GrpcClientLibrary.AccountServices.AccountServicesClient(channel);
+                var client = new Shared.GrpcClientLibrary.BackgroundServices.BackgroundServicesClient(channel);
 
-                var createAccountResponse = accountClient.CreateAccount(createAccountRequest);
+                var response = client.CustodialTask(custodialTaskRequest);
 
-                if (createAccountResponse.IsSuccess)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Message: { createAccountResponse.Message }");
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Message: { createAccountResponse.Message }");
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
+                Console.WriteLine($"Respnse: { response }.");
 
                 //Shut down the channel
                 channel.ShutdownAsync().Wait();
-
-
-                Console.WriteLine("Task completed!");
+                Console.WriteLine("Tasks completed! gRPC channel shutdown.");
 
                 #endregion
 

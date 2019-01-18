@@ -87,48 +87,18 @@ namespace BackgroundWorker
 
                 Console.WriteLine("Worker processing tasks...");
 
-                Console.WriteLine("1. Getting top 20 accounts...");
-
                 Channel channel = new Channel(grpcEndpoint, ChannelCredentials.Insecure);
 
-                var getAccountListRequest = new Shared.GrpcClientLibrary.GetAccountListRequest
+                var workerTaskRequest = new Shared.GrpcClientLibrary.WorkerTaskRequest
                 {
-                    PageSize = 20,
-                    OrderBy = Shared.GrpcClientLibrary.GetAccountListRequest.Types.OrderBy.NameKey,
-                    OrderDirection = Shared.GrpcClientLibrary.GetAccountListRequest.Types.OrderDirection.Desc,
-                    ContinuationToken = ""
+                    Id = 12345678
                 };
 
-                var accountClient = new Shared.GrpcClientLibrary.AccountServices.AccountServicesClient(channel);
+                var client = new Shared.GrpcClientLibrary.BackgroundServices.BackgroundServicesClient(channel);
 
-                var getAccountListResponse = accountClient.GetAccountList(getAccountListRequest);
+                var response = client.WorkerTask(workerTaskRequest);
 
-                Console.WriteLine($"Found { getAccountListResponse.Count } accounts.");
-
-                if(getAccountListResponse.Count > 0)
-                {
-                    Console.WriteLine("2. Closing all accounts retrieved...");
-
-                    foreach (var account in getAccountListResponse.Accounts)
-                    {
-                        Console.WriteLine($"Deleting: { account.Name } ({account.Id}).");
-
-                        var closeAccountResult = accountClient.CloseAccount(new Shared.GrpcClientLibrary.CloseAccountRequest { Id = account.Id });
-
-                        if (closeAccountResult.IsSuccess)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine($"Message: { closeAccountResult.Message }");
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"Message: { closeAccountResult.Message }");
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                    }
-                }
+                Console.WriteLine($"Respnse: { response }.");
 
                 //Shut down the channel
                 channel.ShutdownAsync().Wait();
@@ -136,11 +106,11 @@ namespace BackgroundWorker
 
                 #endregion
 
-                //Delete message from queue or send issues/exceptions to log for retry or manual processing
+                // Delete message from queue or send issues/exceptions to log for retry or manual processing
             }
             else
             {
-                // increase backoff (up to max) until we start getting messages
+                // Increase backoff (up to max) until we start getting messages
                 if(currentInterval < intervalMax)
                 {
                     currentInterval = currentInterval + intervalStep;

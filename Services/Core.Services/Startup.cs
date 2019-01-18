@@ -176,7 +176,7 @@ namespace Core.Services
                 cfg.CreateMap<BaseResponse, Shared.GrpcClientLibrary.CloseAccountResponse>();
 
                 cfg.CreateMap<Shared.GrpcClientLibrary.GetAccountListRequest, GetAccountListQuery>();
-                cfg.CreateMap<AccountListResultsViewModel, Shared.GrpcClientLibrary.GetAccountListResponse>();
+                cfg.CreateMap<AccountListViewItem, Shared.GrpcClientLibrary.GetAccountListResponse.Types.Account>();
             });
 
             var mapper = config.CreateMapper();

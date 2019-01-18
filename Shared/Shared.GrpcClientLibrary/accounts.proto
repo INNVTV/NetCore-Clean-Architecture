@@ -44,9 +44,9 @@ message CloseAccountResponse {
 message GetAccountListRequest {
 
 	enum OrderBy {
-		CreatedDate = 0;
-		Name = 1;
-		NameKey = 2;
+		CREATEDDATE = 0;
+		NAME = 1;
+		NAMEKEY = 2;
 	}
 
 	enum OrderDirection {
@@ -55,8 +55,8 @@ message GetAccountListRequest {
 	}
 
 	int32 pageSize = 1;
-	OrderBy orderBy = 2;
-	OrderDirection orderDirection = 3;
+	OrderBy orderBy = 2; 
+	OrderDirection orderDirection = 3; 
 	string continuationToken = 4;
 }
 

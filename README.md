@@ -264,6 +264,7 @@ In most cases they will be transformed into the appropriate command or query usi
 View models that are returned from Query methods will include UI related values such as "EditEnabled" and "DeleteEnabled"
 
 ## gRPC Remote Services
+![gRPC-Logo](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/grpc-logo.png)
 gRPC is used for service-to-service communication, background processing requests and custodial duties.
 
 ### Service Definitions (Shared Client Library)

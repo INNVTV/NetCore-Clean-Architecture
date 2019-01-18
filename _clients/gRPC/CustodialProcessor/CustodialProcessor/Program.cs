@@ -50,7 +50,7 @@ namespace CustodialProcessor
             {
 
                 #region Process tasks
-
+                
                 Console.WriteLine("Custodial tasks processing...");
 
                 Channel channel = new Channel(grpcEndpoint, ChannelCredentials.Insecure);
@@ -69,7 +69,7 @@ namespace CustodialProcessor
                 //Shut down the channel
                 channel.ShutdownAsync().Wait();
                 Console.WriteLine("Tasks completed! gRPC channel shutdown.");
-
+                
                 #endregion
 
                 Thread.Sleep(intervalMilliseconds);

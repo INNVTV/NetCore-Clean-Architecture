@@ -64,8 +64,7 @@ namespace Core.Services
             //.WriteTo.File("_logs/log-.txt", rollingInterval: RollingInterval.Day) //<-- Write our logs to a local text file with rolling interval configuration
             .CreateLogger();
 
-            Log.Information("The global logger has been configured.");
-            Log.Information("Hello, Serilog!");
+            Log.Information("The global/static Serilog logger has been configured.");
 
             #endregion
 
@@ -208,6 +207,7 @@ namespace Core.Services
             //Start the gRPC Server:
             GrpcServer.ServerInitializer.Initialize(Int32.Parse(Configuration.GetSection("gRPC").GetSection("Port").Value), services.BuildServiceProvider(), mapper);
 
+            Log.Information("Startup tasks complete.");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

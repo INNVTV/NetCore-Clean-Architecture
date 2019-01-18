@@ -63,13 +63,9 @@ namespace Core.Services.RPC.Services
             var getAccountListResponse = new GetAccountListResponse
             {
                 Count = result.Count,
-                HasMoreResults = result.HasMoreResults
+                HasMoreResults = result.HasMoreResults,
+                ContinuationToken = result.ContinuationToken
             };
-
-            if(result.ContinuationToken != null)
-            {
-                getAccountListRequest.ContinuationToken = result.ContinuationToken;
-            }
 
             foreach(var account in result.Accounts)
             {

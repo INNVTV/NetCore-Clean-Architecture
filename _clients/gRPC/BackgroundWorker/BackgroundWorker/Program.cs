@@ -22,6 +22,7 @@ namespace BackgroundWorker
         {
             Console.WriteLine("Worker started.");
 
+
             #region Load Configuration
 
             var configuration = new ConfigurationBuilder()
@@ -58,6 +59,9 @@ namespace BackgroundWorker
             Console.WriteLine("--------------------------");
 
             #endregion
+
+
+
 
             currentInterval = intervalMin;
 

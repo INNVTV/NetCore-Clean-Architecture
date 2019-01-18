@@ -13,7 +13,7 @@ namespace Core.Application.Accounts.Models.Views
         {
             Accounts = new List<AccountListViewItem>();
             HasMoreResults = false;
-            ContinuationToken = null;
+            ContinuationToken = "";
             EditEnabled = false;
             DeleteEnabled = false;
             Count = 0;

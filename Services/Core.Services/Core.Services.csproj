@@ -10,6 +10,12 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="8.1.2" />
+    <PackageReference Include="Google.Protobuf" Version="3.6.1" />
+    <PackageReference Include="Grpc" Version="1.18.0" />
+    <PackageReference Include="Grpc.Tools" Version="1.18.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="MediatR" Version="6.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -31,15 +37,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="RPC\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.Application\Core.Application.csproj" />
     <ProjectReference Include="..\..\Core\Core.Common\Core.Common.csproj" />
     <ProjectReference Include="..\..\Core\Core.Domain\Core.Domain.csproj" />
     <ProjectReference Include="..\..\Core\Core.Infrastructure\Core.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Core\Core.Startup\Core.Startup.csproj" />
+    <ProjectReference Include="..\..\Shared\Shared.GrpcClientLibrary\Shared.GrpcClientLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>

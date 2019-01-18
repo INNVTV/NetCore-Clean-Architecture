@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Grpc.Core;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -43,6 +44,7 @@ namespace CustodialProcessor
 
             #endregion
 
+            int accountNumber = 0;
 
             var runContinuously = true;
             while (runContinuously)
@@ -50,18 +52,42 @@ namespace CustodialProcessor
 
                 #region Process tasks
 
-                Console.WriteLine("Custodian processing tasks...");
-
-                var uri = $"{grpcEndpoint}/webhooks/example";
-                var data = new { Requester = "Custodian", Id = "123456", Action = "CloseExpiredAccounts" };
-                var json = JsonConvert.SerializeObject(data);
-
-                var httpClient = new HttpClient();
-                var response = httpClient.PostAsync(uri, new StringContent(json, Encoding.UTF8, "application/json")).Result;
+                accountNumber++;
+                Console.WriteLine($"Custodian creating: 'Account { accountNumber }'...");
 
 
-                Console.WriteLine($" > { response.StatusCode }");
-                Console.WriteLine("Tasks completed!");
+                Channel channel = new Channel(grpcEndpoint, ChannelCredentials.Insecure);
+
+                var createAccountRequest = new Shared.GrpcClientLibrary.CreateAccountRequest
+                {
+                    Name = $"Account {accountNumber}",
+                    FirstName = "John",
+                    LastName = "Smith",
+                    Email = "kaz@innvtv.com"
+                };
+
+                var accountClient = new Shared.GrpcClientLibrary.AccountServices.AccountServicesClient(channel);
+
+                var createAccountResponse = accountClient.CreateAccount(createAccountRequest);
+
+                if (createAccountResponse.IsSuccess)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Message: { createAccountResponse.Message }");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Message: { createAccountResponse.Message }");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+                //Shut down the channel
+                channel.ShutdownAsync().Wait();
+
+
+                Console.WriteLine("Task completed!");
 
                 #endregion
 

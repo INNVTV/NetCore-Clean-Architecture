@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Grpc.Core;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -86,16 +87,52 @@ namespace BackgroundWorker
 
                 Console.WriteLine("Worker processing tasks...");
 
-                var uri = $"{grpcEndpoint}/webhooks/example";
-                var data = new { Requester = "Worker", Id = "123456", Action = "SendAccountWarningMessage" };
-                var json = JsonConvert.SerializeObject(data);
+                Console.WriteLine("1. Getting top 20 accounts...");
 
-                var httpClient = new HttpClient();
-                var response = httpClient.PostAsync(uri, new StringContent(json, Encoding.UTF8, "application/json")).Result;
+                Channel channel = new Channel(grpcEndpoint, ChannelCredentials.Insecure);
 
+                var getAccountListRequest = new Shared.GrpcClientLibrary.GetAccountListRequest
+                {
+                    PageSize = 20,
+                    OrderBy = Shared.GrpcClientLibrary.GetAccountListRequest.Types.OrderBy.NameKey,
+                    OrderDirection = Shared.GrpcClientLibrary.GetAccountListRequest.Types.OrderDirection.Desc,
+                    ContinuationToken = ""
+                };
 
-                Console.WriteLine($" > { response.StatusCode }");
-                Console.WriteLine("Tasks completed!");
+                var accountClient = new Shared.GrpcClientLibrary.AccountServices.AccountServicesClient(channel);
+
+                var getAccountListResponse = accountClient.GetAccountList(getAccountListRequest);
+
+                Console.WriteLine($"Found { getAccountListResponse.Count } accounts.");
+
+                if(getAccountListResponse.Count > 0)
+                {
+                    Console.WriteLine("2. Closing all accounts retrieved...");
+
+                    foreach (var account in getAccountListResponse.Accounts)
+                    {
+                        Console.WriteLine($"Deleting: { account.Name } ({account.Id}).");
+
+                        var closeAccountResult = accountClient.CloseAccount(new Shared.GrpcClientLibrary.CloseAccountRequest { Id = account.Id });
+
+                        if (closeAccountResult.IsSuccess)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"Message: { closeAccountResult.Message }");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"Message: { closeAccountResult.Message }");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                    }
+                }
+
+                //Shut down the channel
+                channel.ShutdownAsync().Wait();
+                Console.WriteLine("Tasks completed! gRPC channel shutdown.");
 
                 #endregion
 

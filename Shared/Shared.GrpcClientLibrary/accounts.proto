@@ -1,0 +1,76 @@
+﻿syntax = "proto3";
+
+// (Optional) Namespace definition
+option csharp_namespace = "Shared.GrpcClientLibrary";
+
+// The account service definition
+service AccountServices{
+	rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {}
+	rpc CloseAccount(CloseAccountRequest) returns (CloseAccountResponse) {}
+	rpc GetAccountList(GetAccountListRequest) returns (GetAccountListResponse) {}
+}
+
+
+// The request message containing CreateAccount details
+message CreateAccountRequest {
+	string name = 1;
+	string firstName = 2;
+	string lastName = 3;
+	string email = 4;
+}
+
+
+// The response message containing results of the CreateAccount command
+message CreateAccountResponse {
+	bool isSuccess = 1;
+	string message = 2;
+}
+
+
+// The request message containing CloseAccount details
+message CloseAccountRequest {
+	string id = 1;
+}
+
+
+// The response message containing results of the CloseAccount command
+message CloseAccountResponse {
+	bool isSuccess = 1;
+	string message = 2;
+}
+
+
+// The request message containing CreateAccount details
+message GetAccountListRequest {
+
+	enum OrderBy {
+		CreatedDate = 0;
+		Name = 1;
+		NameKey = 2;
+	}
+
+	enum OrderDirection {
+		ASC = 0;
+		DESC = 1;
+	}
+
+	int32 pageSize = 1;
+	OrderBy orderBy = 2;
+	OrderDirection orderDirection = 3;
+	string continuationToken = 4;
+}
+
+message GetAccountListResponse {
+
+	message Account {
+		string id = 1;
+		string name = 2;
+		string nameKey = 3;
+	}
+
+	int32 count = 1;
+	bool hasMoreResults = 2;
+	string continuationToken = 3;
+
+	repeated Account accounts = 4;
+}

@@ -31,6 +31,9 @@ using Core.Services.ServiceModels;
 using AutoMapper;
 using Swashbuckle.AspNetCore.Swagger;
 using Core.Infrastructure.Middleware.ExceptionHandling;
+using Core.Application.Accounts.Commands.CreateAccount;
+using Core.Common.Response;
+using Core.Application.Accounts.Models.Views;
 
 namespace Core.Services
 {
@@ -161,8 +164,19 @@ namespace Core.Services
              * --------------------------------------*/
 
             var config = new MapperConfiguration(cfg => {
-                //cfg.AddProfile<AppProfile>();
+
+                //Service Models
                 cfg.CreateMap<CreateAccountServiceModel, CreateAccountCommand>();
+
+                //GrpcProtobuffer Messages:
+                cfg.CreateMap<Shared.GrpcClientLibrary.CreateAccountRequest, CreateAccountCommand>();
+                cfg.CreateMap<CreateAccountCommandResponse, Shared.GrpcClientLibrary.CreateAccountResponse>();
+
+                cfg.CreateMap<Shared.GrpcClientLibrary.CloseAccountRequest, CloseAccountCommand>();
+                cfg.CreateMap<BaseResponse, Shared.GrpcClientLibrary.CloseAccountResponse>();
+
+                cfg.CreateMap<Shared.GrpcClientLibrary.GetAccountListRequest, GetAccountListQuery>();
+                cfg.CreateMap<AccountListResultsViewModel, Shared.GrpcClientLibrary.GetAccountListResponse>();
             });
 
             var mapper = config.CreateMapper();
@@ -190,6 +204,9 @@ namespace Core.Services
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options =>
                     options.SerializerSettings.Converters.Add(new StringEnumConverter()));
+
+            //Start the gRPC Server:
+            GrpcServer.ServerInitializer.Initialize(Int32.Parse(Configuration.GetSection("gRPC").GetSection("Port").Value), services.BuildServiceProvider(), mapper);
 
         }
 

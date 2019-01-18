@@ -41,6 +41,8 @@ More details can be found in the [ReadMe](CoreServices/README.md) doc for the Co
 
 **Note:** You can also to develop a more UI centric entry point (Such as a Razor Pages project). This can facilitate building something like an admin portal. This removes the need to build out a seperate web client that needs to autheticate to a REST API for certain scenarios where you may not need a service layer. You may still choose to deploy a seperate set of CoreServices for acces by other clients with only REST endpoints in place. This can also be part of your Razor solution or a seperate project/deployment. These other instances could be focused on only reads, or may only allow a certain subset of commands to run.
 
+#### Service-to-service Communication
+Examples of clients accessing the service layer are provided using the following technologies: **OpenAPI/REST**, **Webhooks** and **gRPC Remote Services**.
  
 ## CQRS Pattern and Event Sourcing
 The Command Query Responsibility Segregation pattern is used for all access to Core. The [MediatR](https://www.nuget.org/packages/MediatR) Nuget package is used for in-process messaging.
@@ -261,8 +263,26 @@ In most cases they will be transformed into the appropriate command or query usi
 ## ViewModels
 View models that are returned from Query methods will include UI related values such as "EditEnabled" and "DeleteEnabled"
 
-## Service-to-service Communication
-Examples of clients accessing the service layer are shown in both REST and gRPC flavors.
+## gRPC Remote Services
+gRPC is used for service-to-service communication, background processing requests and custodial duties.
+
+### Service Definitions (Shared Client Library)
+The shared client library **Shared/Shared.GrpcClientLibrary** includes the .proto files that define the gRPC services and request/response messages.
+
+#### Generating the Protocol Buffer
+Protobuffer generation is built into the Visual Studio when you use the following libraries:
+
+    Google.Protobuf
+    Grpc
+    Grpc.Tools
+
+Set your .proto file properties to use the following Build Action:
+
+![grpc-1](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/grpc-1.png)
+
+Once you add ths project to either the client or server solutions as a dependancy you will be able to use the service definition like you would any C# class.
+
+**Note:** On a production project you will want to version control this library and include it as a package via Nuget, a compiled DLL or other such mechanism
 
 ## Authentication/Authorization
 Authorization is left open. .Net Core Identity or Azure Active Directory (including the B2C variant) should all be considered.

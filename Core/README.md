@@ -50,6 +50,3 @@ An ICoreConfiguration interface is used to encapsulate many applcation related s
 **Core.Startup:** Set of routines that must be called by consumers of Core in order to initialize all configurations. We do this to simplify startup on services/clients. This avoids having to copy/paste startup routines to various Main and Startup methods. They are all encapsulated here and can run with a single line of code from Startup or Main.
 
 **Note:** Startup is it's own library to avoid circular reference issues.
-
-### AutoMapper
-AutoMapper Mappings are configured within the Core.Startup.AutoMapperConfiguration Class

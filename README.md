@@ -307,10 +307,13 @@ AutoMapper is also configured seperatly using the **Instance** type within the S
 ## Email
 Use the IEmailService interface to implement your email service provider. The default implementation within this project uses SendGrid.
 
-## Tests
+## Unit Testing
 ![xunit-logo](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/xunit-logo.png)
 
-Testing projects are in the "Test" folder on the root. An XUnit project is used for each class library in the Core namespace.
+Basic unit tests are located in the "Test" folder and use XUnit. An XUnit project is used for each class library in the Core namespace.
+
+## Integration Testing
+**Core.Application** is designed to use many external resource. A fully fleshed out set of integration and system tests shoudld be developed alongside your implementation within your build and release pipleline. 
 
 ## Recommended Deployment Scenario
 

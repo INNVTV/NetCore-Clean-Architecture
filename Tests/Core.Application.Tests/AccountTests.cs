@@ -6,9 +6,8 @@ namespace Core.Application.Tests
     public class AccountTests
     {
         [Fact]
-        public void Create_Accounts()
+        public void Manage_Accounts()
         {
-           
         }
     }
 }

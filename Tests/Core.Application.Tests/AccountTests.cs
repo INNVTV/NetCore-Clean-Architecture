@@ -3,12 +3,12 @@ using Xunit;
 
 namespace Core.Application.Tests
 {
-    public class UnitTest1
+    public class AccountTests
     {
         [Fact]
-        public void Test1()
+        public void Create_Accounts()
         {
-
+           
         }
     }
 }

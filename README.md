@@ -32,6 +32,10 @@ It is recommened that you break clients out into seperate repositiores and build
 # Domain Driven Design
 A clean archtecture is only as good as the requirements gathering and design process that precedded it. It is important to include non-technical domain experts early and often. This will ensure that the real world problems you are trying model or solve problems for is clearly respresented in the software you are building.
 
+# Tests
+![xunit-logo](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/_docs/imgs/xunit-logo.png)
+Testing projects are in the "Test" folder on the root. An XUnit project is used for each class library in the Core namespace.
+
 ## Core.Services
 Main entry point. Wraps the Core libraries and creates a gateway for access by the clients.
 

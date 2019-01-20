@@ -74,19 +74,14 @@ namespace Core.Application.Accounts.Commands
             var id = Guid.NewGuid();
 
             // Create the Account Document Model
-            var accountDocumentModel = new AccountDocumentModel();
-            accountDocumentModel.Id = id.ToString();
-            accountDocumentModel.Name = request.Name;
-            accountDocumentModel.NameKey = Common.Transformations.NameKey.Transform(request.Name);
-            accountDocumentModel.Active = true;
-            accountDocumentModel.CreatedDate = DateTime.UtcNow;
+            var accountDocumentModel = new AccountDocumentModel(request.Name);
 
             accountDocumentModel.Owner.Email = request.Email;
             accountDocumentModel.Owner.FirstName = request.FirstName;
             accountDocumentModel.Owner.LastName = request.LastName;
 
-            // Add the ParitionKey to the document
-            accountDocumentModel.DocumentType = Common.Constants.DocumentType.Account();
+            // Add the ParitionKey to the document (Moved to document constructor)
+            //accountDocumentModel.DocumentType = Common.Constants.DocumentType.Account();
 
             // Generate collection uri
             Uri collectionUri = UriFactory.CreateDocumentCollectionUri(_documentContext.Settings.Database, _documentContext.Settings.Collection);

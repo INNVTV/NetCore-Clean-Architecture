@@ -7,9 +7,20 @@ namespace Core.Application.Accounts.Models.Documents
 {
     public class AccountDocumentModel
     {
-        public AccountDocumentModel()
+        public AccountDocumentModel(string name)
         {
+            // Set our document partitioning property
+            DocumentType = Common.Constants.DocumentType.Account();
+           
+            //Create our Id
+            Id = Guid.NewGuid().ToString();
+            
+            Name = name;
+            NameKey = Common.Transformations.NameKey.Transform(name);
+            CreatedDate = DateTime.UtcNow;
+
             Owner = new Owner();
+            Active = true;
         }
 
         [JsonProperty(PropertyName = "id")] //<-- Required for all Documents

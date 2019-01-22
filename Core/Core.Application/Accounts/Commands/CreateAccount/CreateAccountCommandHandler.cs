@@ -70,9 +70,6 @@ namespace Core.Application.Accounts.Commands
             // CREATE AND STORE OUR DOCUMENT MODEL
             //=========================================================================
 
-            // Create new account Id
-            var id = Guid.NewGuid();
-
             // Create the Account Document Model
             var accountDocumentModel = new AccountDocumentModel(request.Name);
 

@@ -44,4 +44,4 @@ When pushing to production these can/should be overriden by Application Settings
 
 You can also link the value to an Azure KeyVault instance for full encryption:
 
-![AppSettingsVault](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/CoreServices/_docs/imgs/app-settings-vault.png)
+![AppSettingsVault](https://github.com/INNVTV/NetCore-Clean-Architecture/blob/master/Services/_docs/imgs/app-settings-vault.png)

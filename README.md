@@ -37,7 +37,7 @@ Main entry point. Wraps the Core libraries and creates a gateway for access by t
 
 DependecyInjection is handled by default .Net Core ServiceProvider. Console and Test entry points are provided in the Utilities folder. API client examples are in their respective folders on the root of the project. 
 
-More details can be found in the [ReadMe](CoreServices/README.md) doc for the CoreServices solution.
+More details can be found in the [ReadMe](Services/README.md) doc for the CoreServices solution.
 
 **Note:** You can also to develop a more UI centric entry point (Such as a Razor Pages project). This can facilitate building something like an admin portal. This removes the need to build out a seperate web client that needs to autheticate to a REST API for certain scenarios where you may not need a service layer. You may still choose to deploy a seperate set of CoreServices for acces by other clients with only REST endpoints in place. This can also be part of your Razor solution or a seperate project/deployment. These other instances could be focused on only reads, or may only allow a certain subset of commands to run.
 
